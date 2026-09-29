@@ -34,11 +34,16 @@ For each reference, the reviewer:
 
 1. Opens the task artifact at `anchor_sha`.
 2. Reads the task context containing the extracted reference.
-3. Opens the referenced path at the same commit.
+3. Opens the path at the same commit. For `exists_at_anchor = 1`, this is
+   `resolved_path` when it is available and otherwise the literal `code_path`;
+   for `exists_at_anchor = 0`, it is the literal `code_path`.
 4. Records a classification and a short factual evidence note.
 
 The classification is based on the repository state at the anchor commit, not
-the repository's current default branch.
+the repository's current default branch. `code_path` preserves the text
+extracted from the task, whereas `resolved_path` is the repository path found
+by SpecMine's resolver. They may differ, particularly when a task uses a
+basename or a path relative to a subproject.
 
 ## Classification taxonomy
 
