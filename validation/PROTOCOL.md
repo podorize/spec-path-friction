@@ -28,6 +28,23 @@ The sample is stored locally in `data/interim/validation_workbook_pilot.csv`.
 It is not committed because it contains public repository identifiers that
 should remain private during double-anonymous review.
 
+## Blinded human-review materials
+
+The script `src/consolidate_validation_evidence.py` produces three local,
+uncommitted files:
+
+- `validation_evidence_pilot.csv`, the project lead's evidence table, which
+  joins the sampled references to exploratory LLM triage;
+- `validation_human_blinded_pilot.csv`, shuffled deterministically and stripped
+  of `task_done`, `exists_at_anchor`, `validation_group`, and all LLM labels;
+- `validation_blinding_key_pilot.csv`, the private mapping used only after
+  review to reconnect human labels to the sample strata.
+
+The blinded workbook is the only file sent to a human reviewer. The reviewer
+receives the taxonomy and audit procedure, but not the LLM labels. LLM triage
+is retained only to prioritize discussion and compare exploratory judgments;
+it is not a reference standard.
+
 ## Audit procedure
 
 For each reference, the reviewer:
