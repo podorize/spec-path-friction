@@ -1,0 +1,2 @@
+2026-10-13T14:28:51.297819Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for zsh: Snapshot command timed out for zsh
+2026-10-13T14:28:52.938421Z  WARN codex_http_client::custom_ca: encountered errors while loading native root certificates native_root_error_count=1

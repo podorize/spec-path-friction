@@ -1,0 +1,1224 @@
+review_id,reference_id,repo_name,artifact_path,code_path,resolved_path,task_url,anchor_path_url,task_context,validation_group,task_done,exists_at_anchor,human_classification,human_evidence_note,human_access_issue,llm_classification,llm_confidence,llm_evidence_quote,llm_rationale,agreement,collapsed_human,collapsed_llm,collapsed_agreement
+H004,230767,rustyrazorblade/easy-db-lab,openspec/changes/archive/2026-05-20-rename-install-yaml-to-config-yaml/tasks.md,WorkloadEndToEndTest.kt,,https://github.com/rustyrazorblade/easy-db-lab/blob/d2923ebabd683feb4bac848f9ef223a6d0024f28/openspec/changes/archive/2026-05-20-rename-install-yaml-to-config-yaml/tasks.md,https://github.com/rustyrazorblade/easy-db-lab/blob/d2923ebabd683feb4bac848f9ef223a6d0024f28/WorkloadEndToEndTest.kt,"## 1. Add constant
+
+- [x] 1.1 Add `CONFIG_FILE = ""config.yaml""` to `Constants.kt` (in an appropriate nested object, e.g. `Constants.Workload`)
+
+## 2. Rename classpath resources
+
+- [x] 2.1 Rename `src/main/resources/.../install/clickhouse/install.yaml` → `config.yaml`
+- [x] 2.2 Rename `src/main/resources/.../install/presto/install.yaml` → `config.yaml`
+
+## 3. Update production code
+
+- [x] 3.1 Replace `""install.yaml""` literal in `InstallTemplateResolver.kt` with `Constants.Workload.CONFIG_FILE`
+- [x] 3.2 Replace `""install.yaml""` literal in `WorkloadRunnerCommandFactory.kt` with the constant
+- [x] 3.3 Replace `""install.yaml""` literal in `WorkloadInstallCommand.kt` with the constant
+- [x] 3.4 Replace `""install.yaml""` literal in `BaseInstallCommand.kt` with the constant
+- [x] 3.5 Replace `""install.yaml""` literal in `WorkloadRunnerCommand.kt` with the constant
+- [x] 3.6 Replace `""install.yaml""` literal in `WorkloadHookExecutor.kt` with the constant
+- [x] 3.7 Replace `""install.yaml""` literal in `CommandLineParser.kt` with the constant
+
+## 4. Update tests
+
+- [x] 4.1 Update `WorkloadRunnerCommandFactoryTest.kt` — rename `install.yaml` to `config.yaml` in temp dir setup
+- [x] 4.2 Update `WorkloadRunnerCommandTest.kt` — rename `install.yaml` references
+- [x] 4.3 Update `WorkloadHookExecutorTest.kt` — rename `install.yaml` references
+- [x] 4.4 Update `InstallTemplateResolverTest.kt` — rename `install.yaml` references
+- [x] 4.5 Update `WorkloadEndToEndTest.kt` — rename `install.yaml` references
+
+## 5. Update documentation and specs
+
+- [x] 5.1 Update `openspec/specs/install-command/spec.md` to reference `config.yaml` throughout
+- [x] 5.2 Update `docs/` user documentation that mentions `install.yaml`
+
+## 6. Verify
+
+- [x] 6.1 Run `./gradlew test` — all tests pass
+",completed + missing,1,0,confirmed_missing_problematic,"O repositório e a tarefa estão acessíveis, mas o caminho no commit retornou HTTP 404. O contexto trata Literal path `WorkloadEndToEndTest.kt` como arquivo existente a ser atualizado ou usado, portanto a ausência é problemática.",,ambiguous_reference,0.93,4.5 Update `WorkloadEndToEndTest.kt` — rename `install.yaml` references,"A tarefa pede atualizar um teste, mas cita apenas o nome do arquivo, sem diretório. A resolução literal falhou; o contexto não confirma se o arquivo existe em outro caminho.",False,problematic_missing,non_file_or_ambiguous,False
+H017,3428,8bitnyan/controlai,openspec/changes/archive/2026-05-24-add-controlai-web-pipeline-ux/tasks.md,packages/shared-types/src/node-types.ts,,https://github.com/8bitnyan/controlai/blob/01ec4116388c4a06442097ab44452daba1c6992f/openspec/changes/archive/2026-05-24-add-controlai-web-pipeline-ux/tasks.md,https://github.com/8bitnyan/controlai/blob/01ec4116388c4a06442097ab44452daba1c6992f/packages/shared-types/src/node-types.ts,"[Context around occurrence 1]
+- [ ] 3.1 Create `apps/web/components/canvas/connection-rules.ts` defining `CONNECTION_MATRIX` as a `Record<NodeType, NodeType[]>` constant per the design.md connection matrix.
+- [ ] 3.2 Implement `isValidConnection(connection: Connection, nodes: Node[]): boolean` that looks up source node type and checks if target node type is in `CONNECTION_MATRIX[sourceType]`.
+- [ ] 3.3 Pass `isValidConnection` to the `<ReactFlow>` component's `isValidConnection` prop.
+- [ ] 3.4 Add a toast notification (`sonner`) when an invalid connection is attempted: ""Cannot connect {sourceType} → {targetType}"".
+- [ ] 3.5 Write Vitest unit tests for `connection-rules.ts`: all valid matrix connections return true; all invalid pairs return false.
+
+## 4. NodeConfig persistence
+
+- [ ] 4.1 Finalize `NodeConfig` Prisma model in `packages/db/prisma/schema.prisma` (id, siteGroupId, version, nodes Json, edges Json, isActive, appliedAt, appliedHash, createdAt, updatedAt).
+- [ ] 4.2 Run `pnpm prisma migrate dev --name add_node_config` to create the migration.
+- [ ] 4.3 Create `packages/api/src/routers/nodeConfig.ts` with procedures:
+  - `nodeConfig.load({ siteGroupId })` — returns the active NodeConfig (isActive=true), or null.
+  - `nodeConfig.save({ siteGroupId, nodes, edges })` — upsert draft (isActive=false, version incremented).
+  - `nodeConfig.listVersions({ siteGroupId })` — list version metadata (no nodes/edges).
+  - `nodeConfig.setActive({ nodeConfigId })` — mark one version as active (clears others).
+- [ ] 4.4 Add `nodeConfig` router to `packages/api/src/root.ts` appRouter.
+- [ ] 4.5 Define Zod schemas for `NodeData` (per node type) in `packages/shared-types/src/node-types.ts`; use discriminated union on `type` field.
+- [ ] 4.6 Write Vitest tests for `nodeConfig` router: save increments version; setActive clears previous active; load returns null on empty.
+
+## 5. Undo/redo and autosave
+
+- [ ] 5.1 Install Zustand: `pnpm add zustand --filter apps/web`.
+- [ ] 5.2 Create `apps/web/stores/canvas-store.ts` with Zustand store managing: `nodes`, `edges`, `history` (past/future stacks, max 50), `isDirty`, `lastSaved`.
+- [ ] 5.3 Implement `undo()` and `redo()` actions in the store that push/pop from history stacks and update `nodes` + `edges`.
+- [ ] 5.4 Wire keyboard shortcuts: `Cmd/Ctrl+Z` → undo, `Cmd/Ctrl+Shift+Z` → redo via `useHotkeys` or `useKeydown` effect in `canvas.tsx`.
+- [ ] 5.5 Add undo/redo buttons to the canvas toolbar above `<ReactFlow>`.
+- [ ] 5.6 Implement autosave: `useEffect` that debounces 30 s after `isDirty` becomes true, calls `nodeConfig.save` mutation, sets `isDirty = false` on success.
+- [ ] 5.7 Display ""Unsaved changes"" / ""Saved {time}"" status indicator in the canvas toolbar.
+
+## 6. Apply orchestration
+
+- [ ] 6.1 Create `packages/api/src/routers/apply.ts` with procedures:
+  - `apply.preview({ siteGroupId })` — loads active NodeConfig, fetches current daemon state, synthesizes ordered Op list per design.md algorithm, returns `Plan { planId, ops: Op[], planHash }`. Stores plan in-memory (or Redis with 10-min TTL).
+  - `apply.commit({ siteGroupId, planId })` — validates planId not stale (re-computes hash), executes ops serially, polls `/v1/status` after each op with 30 s timeout, returns `Result { ops: OpResult[], success: boolean }`.",open + missing,0,0,ambiguous_reference,"O repositório e a tarefa estão acessíveis, mas o caminho no commit retornou HTTP 404 e o contexto aponta para uma referência diferente ou insuficientemente específica. Não é seguro determinar a semântica da ausência.",,confirmed_missing_problematic,0.82,4.5 Define Zod schemas for `NodeData` (per node type) in `packages/shared-types/src/node-types.ts`; use discriminated union on `type` field.,"A tarefa exige definir esquemas nesse caminho específico. O caminho não foi localizado no commit-âncora, e a instrução não indica criação explícita.",False,non_file_or_ambiguous,problematic_missing,False
+H018,412581,nutnut123qq/FTES-Academic-Operating-System,openspec/changes/rest-fetch-gamification/tasks.md,GamificationViews.java,,https://github.com/nutnut123qq/FTES-Academic-Operating-System/blob/7dab192e75d26f29b619d9104503c744d45dad55/openspec/changes/rest-fetch-gamification/tasks.md,https://github.com/nutnut123qq/FTES-Academic-Operating-System/blob/7dab192e75d26f29b619d9104503c744d45dad55/GamificationViews.java,"## 1. Gamification REST types
+
+- [ ] 1.1 Create `src/modules/api/rest/gamification/types.ts` with request/response interfaces inferred from backend `GamificationViews.java` and admin inline records. Rename colliding `PageView`, `LeaderboardEntry`, and `LeaderboardView` to `Gamification*`.
+
+## 2. Gamification REST client
+
+- [ ] 2.1 Create `src/modules/api/rest/gamification/gamification.ts` exporting REST functions for non-GraphQL endpoints in `GamificationController` and all endpoints in `GamificationAdminController`.
+- [ ] 2.2 Create `src/modules/api/rest/gamification/index.ts` barrel re-exporting types and functions.
+- [ ] 2.3 Update `src/modules/api/rest/index.ts` to add `export * from ""./gamification""`.
+
+### Endpoint mapping
+
+**GraphQL-covered — BỎ QUA (ghi trong design.md):**
+- `GET /api/v1/gamification/me/progression` → `userXp` / `userAchievements`
+- `GET /api/v1/gamification/rewards/pools` → `rewards` / `myRewardWallet`
+
+**REST-only — implement in `gamification.ts`: User**
+- `getMyXpHistory`, `getMyStreak`, `useStreakFreeze`, `getMyGoals`, `putGoal`, `getMyBadges`, `getUserGamificationSummary`, `getGamificationLeaderboard`, `claimRewardPool`, `getMyMastery`, `getMyMasteryForSubject`
+
+**REST-only — implement in `gamification.ts`: Admin**
+- `listXpRules`, `upsertXpRule`, `listSeasons`, `createSeason`, `closeSeason`, `listRewardPools`, `upsertRewardPool`, `listRewardPoolItems`, `addRewardPoolItem`, `deleteRewardPoolItem`, `validateRewardPool`, `adjustXp`
+
+## 3. SWR mutation wrappers
+
+- [ ] 3.1 Create `usePostUseStreakFreezeSwr.ts`
+- [ ] 3.2 Create `usePostPutGoalSwr.ts`
+- [ ] 3.3 Create `usePostClaimRewardPoolSwr.ts`
+- [ ] 3.4 Create `usePostUpsertXpRuleSwr.ts`
+- [ ] 3.5 Create `usePostCreateSeasonSwr.ts`
+- [ ] 3.6 Create `usePostCloseSeasonSwr.ts`
+- [ ] 3.7 Create `usePostUpsertRewardPoolSwr.ts`
+- [ ] 3.8 Create `usePostAddRewardPoolItemSwr.ts`
+- [ ] 3.9 Create `usePostDeleteRewardPoolItemSwr.ts`
+- [ ] 3.10 Create `usePostAdjustXpSwr.ts`
+- [ ] 3.11 Update `src/hooks/swr/api/rest/mutations/index.ts` to re-export all new mutation hooks.
+
+## 4. SWR query wrappers
+
+- [ ] 4.1 Create `useGetMyXpHistorySwr.ts`
+- [ ] 4.2 Create `useGetMyStreakSwr.ts`
+- [ ] 4.3 Create `useGetMyGoalsSwr.ts`
+- [ ] 4.4 Create `useGetMyBadgesSwr.ts`
+- [ ] 4.5 Create `useGetUserGamificationSummarySwr.ts`
+- [ ] 4.6 Create `useGetGamificationLeaderboardSwr.ts`
+- [ ] 4.7 Create `useGetMyMasterySwr.ts`
+- [ ] 4.8 Create `useGetMyMasteryForSubjectSwr.ts`
+- [ ] 4.9 Create `useGetXpRulesSwr.ts`
+- [ ] 4.10 Create `useGetSeasonsSwr.ts`
+- [ ] 4.11 Create `useGetRewardPoolsSwr.ts`
+- [ ] 4.12 Create `useGetRewardPoolItemsSwr.ts`
+- [ ] 4.13 Create `useGetValidateRewardPoolSwr.ts`
+- [ ] 4.14 Update `src/hooks/swr/api/rest/queries/index.ts` to re-export all new query hooks.
+
+## 5. Verification
+
+- [ ] 5.1 Run `npx tsc --noEmit` and fix type errors.
+- [ ] 5.2 Run `npm run build` (webpack) and ensure a green build.
+",open + missing,0,0,inaccessible_or_invalid,"Não foi possível recuperar a tarefa necessária para a revisão no commit indicado: o artefato da tarefa retornou HTTP 404. Sem esse contexto, a semântica da referência não pode ser confirmada.",Task URL HTTP 404; Path-at-commit URL HTTP 404.,ambiguous_reference,0.9,Create `src/modules/api/rest/gamification/types.ts` with request/response interfaces inferred from backend `GamificationViews.java`,"The reference names a backend source file without a directory. The task uses it as a source for new types, but the record does not establish its location or whether it exists at the anchor.",False,inaccessible,non_file_or_ambiguous,False
+H019,341486,francoislg/clack,openspec/changes/archive/2026-06-02-localize-trivia-reveal-leaderboard-labels/tasks.md,i18n/t.js,,https://github.com/francoislg/clack/blob/d9181d1d01e5103ce6b22636c63863d227d8f9aa/openspec/changes/archive/2026-06-02-localize-trivia-reveal-leaderboard-labels/tasks.md,https://github.com/francoislg/clack/blob/d9181d1d01e5103ce6b22636c63863d227d8f9aa/i18n/t.js,"## 1. Dictionary keys
+
+- [x] 1.1 Add `leaderboard.*` keys to `en` in `src/plugins/trivia/i18n/strings.ts`: `this_round` = ""This Round"", `current_season` = ""Current Season"", `all_time` = ""All Time"", `first_place` = ""First place"", `second_place` = ""Second place"", `third_place` = ""Third place"", `participation` = ""Participation"". English values MUST equal today's literals.
+- [x] 1.2 Add the corresponding `fr` values: `Ce tour`, `Saison en cours`, `Cumulatif`, `Première place`, `Deuxième place`, `Troisième place` (omit `participation` to fall back to EN, since it is identical).
+
+## 2. Reveal-prompt builder
+
+- [x] 2.1 In `src/plugins/trivia/prompts/scheduledPrompts.ts`, convert `PROCESS_REVEAL_INSTRUCTIONS` from a top-level `const` into `buildProcessRevealInstructions()` that interpolates the `leaderboard.*` labels (via the module translator `t` from `i18n/t.js`) into the LEADERBOARD TABLE row-label clauses (`This Round`, `Current Season`, `All Time`, seasons-off labels).
+- [x] 2.2 Localize the SEASON FINALE LAYOUT labels from the same keys: podium `First place` / `Second place` / `Third place` and the `Participation:` tail. Leave transition/closer/all-time-intro free prose untouched (LANGUAGE directive handles them).
+- [x] 2.3 Replace the literal label cells inside the worked table and podium examples with the translated values so a non-English workspace's examples match the instruction text (Claude cannot anchor on English example cells). Add an explicit ""label cells are pre-localized — use exactly as written"" note.
+- [x] 2.4 Confirm the medal glyphs, `String(...)` value cells, em-dash `""—""`, names-header `"" ""`, and `displayName` cells are NOT routed through the dictionary.
+
+## 3. Wire the translator through
+
+- [x] 3.1 The reveal prompt resolves labels via the module-level plugin translator (`t` from `i18n/t.js`, wired to `sdk.t` by `setTriviaT` at init) rather than a threaded parameter — matches the existing `renderHint`/`hintButton` pattern. `buildGameSpecs` calls `buildProcessRevealInstructions()` at reconcile time (post-init), so no signature change and no `index.ts` change were needed. (`setTriviaT(sdk.t)` at `index.ts:59` runs before `buildGameSpecs` at `index.ts:180`.)
+- [x] 3.2 Update `src/plugins/trivia/domain/buildGameSpecs.ts` to import and call `buildProcessRevealInstructions()` in place of the removed `PROCESS_REVEAL_INSTRUCTIONS` const.
+
+## 4. Tests
+
+- [x] 4.1 Added a prompt-builder test asserting that with a FR translator the built reveal prompt contains the French labels (`Saison en cours`, `Cumulatif`, `Ce tour`, `Première/Deuxième/Troisième place`) in both the instruction directives and the worked examples, and does NOT contain the English label-cell forms.
+- [x] 4.2 Added a test asserting that with the default EN-fallback translator the built prompt carries the English labels (`This Round`, `Current Season`, `All Time`, `First place`) and no French leaks.
+- [x] 4.3 Updated the two existing test files (`scheduledPrompts.test.ts`, `seasons.test.ts`) that imported the removed const to import `buildProcessRevealInstructions` and bind a local `const PROCESS_REVEAL_INSTRUCTIONS = buildProcessRevealInstructions()` (EN-fallback), so all prior structural assertions pass unchanged.
+
+## 5. Verify
+
+- [x] 5.1 `npx tsc --noEmit` clean; `npx oxlint` and `npx oxfmt --check` clean on changed files; `npm test` green (5140 passed).
+- [x] 5.2 Run `graphify update .` to keep the graph current after code changes.
+",completed + missing,1,0,confirmed_missing_problematic,"O repositório e a tarefa estão acessíveis, mas o caminho no commit retornou HTTP 404. O contexto trata Literal path `i18n/t.js` como arquivo existente a ser atualizado ou usado, portanto a ausência é problemática.",,ambiguous_reference,0.88,via the module translator `t` from `i18n/t.js`,"O contexto trata `i18n/t.js` como módulo importado, mas não fornece seu caminho completo nem confirma sua presença no commit-âncora. A ausência do caminho literal não basta para indicar problema.",False,problematic_missing,non_file_or_ambiguous,False
+H027,349764,GTuritto/compendium,openspec/changes/phase-3-wiki-generation/tasks.md,compendium/wiki/page.py,,https://github.com/GTuritto/compendium/blob/e0e290b0928e54aea8b9888d80a0da07a2f63b91/openspec/changes/phase-3-wiki-generation/tasks.md,https://github.com/GTuritto/compendium/blob/e0e290b0928e54aea8b9888d80a0da07a2f63b91/compendium/wiki/page.py,"# Tasks — phase-3-wiki-generation
+
+Implements Phase 3 of `docs/COMPENDIUM_BUILD.md`. No schema migration: the
+`wiki_pages`, `wiki_pages_topics`, `wiki_page_revisions`, and
+`corpus_revisions` tables exist from Phase 1.
+
+## 1. Page model
+
+- [x] 1.1 `compendium/wiki/page.py`: a `Page` model and the field contract per kind (`concept`, `topic`, `source`)
+- [x] 1.2 Frontmatter (de)serialization: read and write Markdown with a YAML frontmatter block
+- [x] 1.3 `compendium/wiki/slug.py`: deterministic slug generation (the 7 rules), with collision suffixing
+- [x] 1.4 Normalized-body content hash (the 5-step rule)
+
+## 2. Lint
+
+- [x] 2.1 `compendium/wiki/lint.py`: the 8 per-page rules (required fields, types, slug, id, content hash, kind-specific fields, aliases, non-empty body)
+- [x] 2.2 The 5 cross-reference rules (topic-ids-resolve, parent-topic-resolves, source-id-resolves, no-cycle-in-topic-tree, alias-uniqueness)
+- [x] 2.3 `compendium lint` CLI subcommand: run the rules over the whole vault, report errors and warnings
+
+## 3. Vault writer and revisions
+
+- [x] 3.1 Extend `compendium/db/repository.py`: insert/update `wiki_pages`, insert `wiki_page_revisions`, set `current_revision_id`, `wiki_pages_topics` membership, `get_wiki_page_by_slug`, ensure a current `corpus_revisions` row
+- [x] 3.2 `compendium/wiki/vault.py`: write a `Page` to `vault/{concepts,topics,sources}/`, lint before write (block on errors), insert the `wiki_pages` row and a `wiki_page_revisions` snapshot
+
+## 4. Source pages
+
+- [x] 4.1 `compendium/wiki/source_page.py`: build a deterministic `source` page body from the `sources` row and its chunks (metadata block + section outline with chunk citations)
+- [x] 4.2 Hook source-page generation into `compendium/ingest/pipeline.py` (generated after a source is stored)
+- [x] 4.3 `compendium pages build` CLI subcommand: backfill `source` pages for sources that lack one
+
+## 5. Synthesis
+
+- [x] 5.1 `compendium/wiki/synth.py`: an OpenAI-compatible synthesis client (from `SYNTHESIS_ENDPOINT`/`SYNTHESIS_MODEL`) and an injectable stub synthesizer
+- [x] 5.2 Chunk gathering: case-insensitive `ILIKE` match of the concept title and aliases against `chunks.body`, capped
+- [x] 5.3 Concept/topic synthesis: gather chunks, prompt the LLM, produce a page body with a `## Grounding` section citing chunks
+- [x] 5.4 `compendium synth concept ""<name>""` and `compendium synth topic ""<name>""` CLI subcommands
+
+## 6. Tests and acceptance
+
+- [x] 6.1 Unit tests: slug rules, content hash (frontmatter-only change is stable), frontmatter round-trip, lint rules
+- [x] 6.2 Integration tests (`compendium_test` DB): source page generation, vault write + revision row, concept synthesis with the stub
+- [x] 6.3 Append the Phase 3 smoke section to `tests/manual/smoke_test.md`; run it
+- [x] 6.4 **Acceptance:** for three ingested sources, a `source` page is written to `vault/sources/`, passes `compendium lint`, and has a `wiki_page_revisions` row; triggering synthesis for one `concept` produces a page that lint-passes and cites at least two chunks across at least two sources. `uv run pytest` passes
+",completed + missing,1,0,expected_absence_create,"O repositório e a tarefa estão acessíveis, e o contexto instrui explicitamente criar ou implementar Literal path `compendium/wiki/page.py`. O caminho no commit retorna HTTP 404, consistente com a ausência antes da implementação.",,ambiguous_reference,0.82,"- [x] 1.1 `compendium/wiki/page.py`: a `Page` model and the field contract per kind (`concept`, `topic`, `source`)","A tarefa associa um modelo ao caminho, mas não diz explicitamente que o arquivo deve ser criado ou que já existia. A ausência no commit-âncora não resolve essa dúvida.",False,expected_absence,non_file_or_ambiguous,False
+H030,59666,ccradle/findABed,openspec/changes/archive/2026-03-28-self-service-password-management/tasks.md,UserController.java,,https://github.com/ccradle/findABed/blob/cae90f33b6d2ecdd2c65a5bc79f601153553e25a/openspec/changes/archive/2026-03-28-self-service-password-management/tasks.md,https://github.com/ccradle/findABed/blob/cae90f33b6d2ecdd2c65a5bc79f601153553e25a/UserController.java,"## Tasks
+
+### Setup
+
+- [x] T-0: Create branch `feature/self-service-password-management` from `main` in the **code repo** (`finding-a-bed-tonight`). IMPORTANT: branch the code repo, NOT the docs repo (`findABed`).
+
+### Database
+
+- [x] T-1: Create Flyway migration — add `password_changed_at TIMESTAMPTZ` column to `users` table, default NULL (existing users have no change history)
+
+### Backend — Password Change
+
+- [x] T-2: Add `PUT /api/v1/auth/password` endpoint — verify current password, validate new password (min 12 chars), update hash, set `password_changed_at`. Return 409 for SSO-only users (REQ-PWD-1 through REQ-PWD-3, REQ-PWD-10). Remove ""Email and password cannot be changed"" comment from `UserController.java`
+- [x] T-3: Update `JwtService.validateToken()` — check `iat` against user's `password_changed_at`; reject tokens issued before last password change (REQ-PWD-4, REQ-PWD-5)
+- [x] T-4: Add rate limiting on password change endpoint — 5 attempts per 15 minutes via bucket4j (REQ-PWD-6)
+- [x] T-5: Write `PasswordChangeIntegrationTest.java` — successful change, wrong current password, weak new password, old token rejected after change, SSO-only user returns 409
+
+### Backend — Admin Reset
+
+- [x] T-6: Add `POST /api/v1/users/{id}/reset-password` endpoint — COC_ADMIN/PLATFORM_ADMIN only, same-tenant enforcement, password validation, JWT invalidation (REQ-ARST-1 through REQ-ARST-4)
+- [x] T-7: Write `AdminPasswordResetTest.java` — successful reset, cross-tenant denied (404), coordinator denied (403)
+
+### Frontend — Change Password UI
+
+- [x] T-8: Create `ChangePasswordModal.tsx` — current password, new password, confirm, client-side validation, submit to PUT endpoint (REQ-PWD-7)
+- [x] T-9: Add ""Change Password"" option in user profile dropdown or settings — hide for SSO-only users (REQ-PWD-7, REQ-PWD-9)
+- [x] T-10: On success, clear tokens from localStorage and redirect to login with message (REQ-PWD-8)
+- [x] T-11: Add i18n keys for password change form (en.json + es.json)
+
+### Frontend — Admin Reset UI
+
+- [x] T-12: Add ""Reset Password"" button per user row in Admin panel Users tab — hide for SSO-only users (REQ-ARST-5, REQ-ARST-7)
+- [x] T-13: Create reset password modal — new password + confirm, submit to POST endpoint
+- [x] T-14: Add i18n keys for admin reset (en.json + es.json)
+
+### MCP-Ready API Design
+
+- [x] T-15: Add `@Operation` annotations with semantic descriptions to both endpoints — password change and admin reset must be discoverable by AI agents (REQ-MCP-1 through REQ-MCP-3)
+
+### Observability
+
+- [x] T-16: Add Micrometer metrics — `fabt.auth.password_change.count` (tag: success/failure), `fabt.auth.password_reset.count` (tag: admin_role), `fabt.auth.token_invalidated.count` (tag: reason=password_change|admin_reset)
+- [x] T-17: Add rate limiting on admin reset endpoint — 10 attempts per 15 minutes per admin (prevent mass reset attack with compromised admin credentials)
+
+### Testing
+
+- [x] T-18: Write Playwright tests — change password flow (login, change, verify old token rejected, login with new password)
+- [x] T-19: Write Playwright tests — admin reset flow (admin resets coordinator, coordinator must re-login)
+- [x] T-20: Run full test suite — all green (128 passed, 0 failures)
+- [x] T-21: Run OWASP ZAP scan — verify new auth endpoints don't introduce findings (116 PASS, 0 FAIL, 2 WARN — same as baseline, no new findings)
+
+### Documentation
+
+- [x] T-22: Update `docs/runbook.md` — password management procedures, metric monitoring, suspicious reset activity alerts
+- [x] T-23: Update README Project Status — add password management to completed features
+- [x] T-24: Update `docs/government-adoption-guide.md` — credential management posture for city procurement
+- [x] T-25: Update `docs/WCAG-ACR.md` if new forms require accessibility review (password inputs, modal focus management)
+
+### Demo Screenshots
+
+- [x] T-26: Recapture Admin panel Users tab screenshot (new Reset Password button)
+- [x] T-27: Capture new Change Password modal screenshot for demo walkthrough
+- [x] T-28: Update `findABed/demo/index.html` — add new card for Change Password modal with narrative caption, update screenshot count badge (18→19), update Admin Users tab caption to mention password reset capability
+- [x] T-29: Update `findABed/demo/capture-screenshots.spec.ts` if needed to capture the new Change Password modal screenshot
+
+### Verification
+
+- [x] T-30: CI green on all jobs
+- [x] T-31: Merge to main, tag
+",completed + missing,1,0,confirmed_missing_problematic,"O repositório e a tarefa estão acessíveis, mas o caminho no commit retornou HTTP 404. O contexto trata Literal path `UserController.java` como arquivo existente a ser atualizado ou usado, portanto a ausência é problemática.",,ambiguous_reference,0.88,"Remove ""Email and password cannot be changed"" comment from `UserController.java`","A tarefa pede alterar um arquivo existente, mas fornece apenas o nome, sem diretório. O caminho literal não foi localizado; o contexto não permite determinar se o arquivo está ausente.",False,problematic_missing,non_file_or_ambiguous,False
+H035,367078,JosefKatic/nixos-system,openspec/changes/quickshell-matugen-shell/tasks.md,~/.config/gtk-4.0/gtk.css,,https://github.com/JosefKatic/nixos-system/blob/3cb92c819ca4069dd4dbdd6c5be09cdfa6d88cfe/openspec/changes/quickshell-matugen-shell/tasks.md,https://github.com/JosefKatic/nixos-system/blob/3cb92c819ca4069dd4dbdd6c5be09cdfa6d88cfe/~/.config/gtk-4.0/gtk.css,"## 1. Module Scaffold
+
+- [x] 1.1 Create `modules/home/user/desktop/wayland/quickshell/default.nix` with `enable`, `wallpaperDir`, and `persist` options
+- [ ] 1.2 Add the quickshell module to `modules/home/user/desktop/wayland/default.nix` (or equivalent entry)
+- [ ] 1.3 Add `quickshell` flake input pin to `flake.nix` (already present — verify it's exposed to home-manager module args)
+
+## 2. Writable Theme Dirs
+
+- [x] 2.1 In the quickshell module, add a `home.activation` script that creates `~/.config/matugen/` and `~/.config/quickshell/colors/` if absent (affected: `modules/home/user/desktop/wayland/quickshell/default.nix`)
+- [x] 2.2 Ensure `~/.config/matugen/` and `~/.config/quickshell/colors/` are NOT declared in `home.file` or `xdg.configFile` anywhere in the module
+- [x] 2.3 Add impermanence warning: if `home.persistence` is defined but `quickshell.persist` is false, emit `lib.warn`
+- [x] 2.4 When `quickshell.persist = true`, add `~/.config/matugen` and `~/.config/quickshell/colors` to `home.persistence` (affected: `modules/home/user/desktop/wayland/quickshell/default.nix`)
+
+## 3. Quickshell QML Config
+
+- [ ] 3.1 Create skeleton QML shell config at `modules/home/user/desktop/wayland/quickshell/config/shell.qml` (bar + notification area as minimal shell)
+- [ ] 3.2 Add color import convention in QML: read token files from `~/.config/quickshell/colors/colors.json` (or matugen output format)
+- [x] 3.3 Install QML sources via `home.file` as store symlinks in the module (e.g., `~/.config/quickshell/shell.qml`)
+- [ ] 3.4 Bundle a default wallpaper in the module (small image in `modules/home/user/desktop/wayland/quickshell/assets/default-wallpaper.jpg`)
+- [x] 3.5 In the activation script (2.1), run `matugen image <default-wallpaper>` if `~/.config/quickshell/colors/` is empty
+
+## 4. Wallpaper Picker Component
+
+- [ ] 4.1 Create `modules/home/user/desktop/wayland/quickshell/config/wallpaper-picker.qml` that lists images from `wallpaperDir`
+- [ ] 4.2 On image selection: set wallpaper via `swaybg` (or `swww`) and run `matugen image <path>` as a subprocess
+- [ ] 4.3 After matugen writes colors, signal quickshell to hot-reload (use quickshell IPC or file watcher on the colors dir)
+- [ ] 4.4 Wire picker into the shell (keybind or bar button to open picker overlay)
+
+## 5. Theme Module Integration
+
+- [ ] 5.1 Audit `modules/home/user/theme/default.nix` — ensure it does not manage `~/.config/matugen/` paths that would conflict (affected: `modules/home/user/theme/default.nix`)
+- [ ] 5.2 Remove or gate any `home.file` entries for matugen output dirs in the existing theme module
+
+## 6. Host Enablement — alcedo
+
+- [ ] 6.1 Enable quickshell module in `config/home/alcedo/joka/` — set `wallpaperDir` and `persist` as appropriate
+- [ ] 6.2 Disable caelestia-shell in `config/home/alcedo/joka/` (or relevant desktop module)
+- [ ] 6.3 Deploy with `nh home switch .` on alcedo and verify: bar visible, wallpaper picker works, matugen writes colors, quickshell reloads
+
+## 7. Host Enablement — hirundo
+
+- [ ] 7.1 Enable quickshell module in `config/home/hirundo/joka/` — set `persist = true` (hirundo uses impermanence if applicable)
+- [ ] 7.2 Disable caelestia-shell on hirundo
+- [ ] 7.3 Deploy with `nh home switch .` on hirundo and verify full theming pipeline
+
+## 8. App Theming — GTK4
+
+- [ ] 8.1 In `modules/home/user/desktop/gtk.nix`, remove any color values sourced from `config.theme.colorscheme.colors` that apply to GTK4
+- [ ] 8.2 Ensure `~/.config/gtk-4.0/gtk.css` is NOT declared in `home.file` or `xdg.configFile` (leave unmanaged)
+- [ ] 8.3 Add `~/.config/gtk-4.0/gtk.css` creation to the quickshell module activation script (run matugen GTK4 template on first boot if absent)
+- [ ] 8.4 Add `~/.config/gtk-4.0` to `home.persistence` when `quickshell.persist = true` (affected: `modules/home/user/desktop/wayland/quickshell/default.nix`)
+- [ ] 8.5 In the wallpaper picker script, after matugen writes `gtk.css`, send a GTK4 reload signal: toggle `gsettings set org.gnome.desktop.interface gtk-theme` (set to a dummy value then back) to force running GTK4 windows to re-read `gtk.css` live
+
+## 9. App Theming — Qt
+
+- [ ] 9.1 In `modules/home/user/desktop/qt.nix`, configure qt5ct/qt6ct to use color scheme path `~/.config/qt5ct/colors/matugen.conf` / `~/.config/qt6ct/colors/matugen.conf` via managed `qt5ct.conf` / `qt6ct.conf`
+- [ ] 9.2 Ensure the color scheme files themselves (`~/.config/qt5ct/colors/matugen.conf`, `~/.config/qt6ct/colors/matugen.conf`) are NOT store-managed
+- [ ] 9.3 Add matugen Qt template output to the wallpaper picker script
+- [ ] 9.4 After writing Qt color scheme files, emit a D-Bus signal to trigger palette reload in running Qt apps: `qdbus org.kde.KWin /KWin reconfigure` or send `org.freedesktop.appearance` color-scheme property change via `gdbus`
+- [ ] 9.5 Add `~/.config/qt5ct/colors` and `~/.config/qt6ct/colors` to `home.persistence` when `quickshell.persist = true`
+
+## 10. App Theming — Kitty
+
+- [ ] 10.1 In `modules/home/user/desktop/programs/emulators/kitty/default.nix`, remove all `foreground`/`background`/cursor/color palette settings sourced from `config.theme.colorscheme.colors`
+- [ ] 10.2 Add `extraConfig = ""include ~/.config/kitty/colors.conf"";` to the kitty home-manager config so kitty reads runtime colors
+- [ ] 10.3 Ensure `~/.config/kitty/colors.conf` is NOT declared in `xdg.configFile` (leave unmanaged)
+- [ ] 10.4 Add `~/.config/kitty/colors.conf` to the activation script to generate from default wallpaper on first boot
+- [ ] 10.5 In the wallpaper picker script, after matugen runs, call `kitty @ set-colors ~/.config/kitty/colors.conf` (or `kitten themes --reload-in=all`) to hot-reload running kitty instances
+- [ ] 10.6 Add `~/.config/kitty/colors.conf` to `home.persistence` when `quickshell.persist = true`
+
+## 11. Cleanup
+
+- [ ] 11.1 Run `nix fmt` across all changed files
+- [ ] 11.2 Run `nix flake check` and resolve any evaluation errors
+- [ ] 11.3 Evaluate removing `caelestia-shell` flake input from `flake.nix` if no other host uses it
+",open + missing,0,0,non_file_reference,"O repositório e a tarefa estão acessíveis, mas Literal path `~/.config/gtk-4.0/gtk.css` denota um padrão, diretório, caminho externo/de usuário, biblioteca, identificador ou referência documental, não um arquivo único do repositório. O HTTP 404 não caracteriza problema de arquivo ausente.",,expected_absence_create,0.98,8.3 Add `~/.config/gtk-4.0/gtk.css` creation to the quickshell module activation script (run matugen GTK4 template on first boot if absent),A tarefa pede explicitamente que o script de ativação crie gtk.css caso esteja ausente. A não resolução do caminho no commit-âncora é compatível com essa criação planejada.,False,non_file_or_ambiguous,expected_absence,False
+H042,165995,JNZader/ghagga,openspec/changes/archive/2026-03-07-ghagga-v2-rewrite/tasks.md,packages/core/src/memory/context.ts,packages/core/src/memory/context.ts,https://github.com/JNZader/ghagga/blob/ed0e320ca7cb443ceb085c5fb1162904629557d5/openspec/changes/archive/2026-03-07-ghagga-v2-rewrite/tasks.md,https://github.com/JNZader/ghagga/blob/ed0e320ca7cb443ceb085c5fb1162904629557d5/packages/core/src/memory/context.ts,"[Context around occurrence 1]
+- [x] 3.7 Write integration test for runner.ts verifying parallel execution and graceful degradation when tools are missing — covered in 3.6 parsers.test.ts + runner.test.ts
+
+## Phase 4: Core Review Engine (`packages/core/src/`)
+
+- [x] 4.1 Create `packages/core/src/agents/prompts.ts` — All v1 prompts rescued: simple, 5 workflow specialists, synthesis, consensus stances, static analysis context, memory context, stack hints
+- [x] 4.2 Create `packages/core/src/utils/stack-detect.ts` — Stack detection from file extensions with review hints
+- [x] 4.3 Create `packages/core/src/utils/diff.ts` — Diff parsing, truncation by token budget, file filtering by glob patterns
+- [x] 4.4 Create `packages/core/src/utils/token-budget.ts` — Model-aware token budget allocation
+- [x] 4.5 Create `packages/core/src/providers/index.ts` — Vercel AI SDK provider factory (OpenAI, Anthropic, Google, Mistral)
+- [x] 4.6 Create `packages/core/src/providers/fallback.ts` — Fallback chain with retry on 5xx
+- [x] 4.7 Create `packages/core/src/agents/simple.ts` — Simple review with structured response parsing
+- [x] 4.8 Create `packages/core/src/agents/workflow.ts` — 5-specialist parallel workflow with synthesis
+- [x] 4.9 Create `packages/core/src/agents/consensus.ts` — Multi-model voting with weighted recommendation
+- [x] 4.10 Create `packages/core/src/memory/search.ts` — tsvector full-text search scoped by project
+- [x] 4.11 Create `packages/core/src/memory/persist.ts` — Observation extraction, deduplication, topic_key upserts
+- [x] 4.12 Create `packages/core/src/memory/context.ts` — Format observations as markdown for prompt injection
+- [x] 4.13 Create `packages/core/src/memory/privacy.ts` — Privacy stripping (API keys, secrets → [REDACTED])
+- [x] 4.14 Create `packages/core/src/pipeline.ts` — Main orchestrator: validate → static analysis → memory → agent → persist → return
+- [x] 4.15 Create `packages/core/src/index.ts` — Public API exports
+- [x] 4.16 Write unit tests for prompts.ts (verify prompt construction with all optional sections) — 20 tests
+- [x] 4.17 Write unit tests for simple.ts, workflow.ts, consensus.ts using mocked AI SDK responses — 17 simple parser + 13 fallback tests
+- [x] 4.18 Write unit tests for pipeline.ts end-to-end with mocked tools and providers — 21 tests (validation, mode dispatch, graceful degradation, memory, result assembly)
+- [x] 4.19 Write unit tests for memory search, persist, context, privacy modules — 21 tests (15 privacy + 6 context)
+
+## Phase 5: Server Application (`apps/server/`)
+
+- [x] 5.1 Create `apps/server/src/github/client.ts` — GitHub API client: fetchPRDiff, postComment, verifyWebhookSignature (HMAC-SHA256 + timingSafeEqual), getInstallationToken (manual JWT RS256)
+- [x] 5.2 Create `apps/server/src/middleware/auth.ts` — Hono middleware: verify GitHub PAT, resolve installation access, type-safe context
+- [x] 5.3 Create `apps/server/src/inngest/client.ts` — Inngest client with typed event schemas
+- [x] 5.4 Create `apps/server/src/inngest/review.ts` — Durable function: fetch-context → run-review → save-review → post-comment (formatted markdown)",completed + exists,1,1,confirmed_exists,"Literal path `packages/core/src/memory/context.ts` foi verificado no commit indicado: o artefato da tarefa e o caminho no commit retornaram HTTP 200, e o conteúdo do arquivo foi recuperado.",,expected_absence_create,0.99,- [x] 4.12 Create `packages/core/src/memory/context.ts` — Format observations as markdown for prompt injection,"A tarefa pede explicitamente a criação desse arquivo; pela regra de precedência, essa categoria se aplica mesmo com o caminho localizado no commit-âncora.",False,exists,expected_absence,False
+H043,58543,caseyWebb/yet-another-meal-planner,openspec/changes/archive/2026-07-01-admin-ui-fidelity-pass/tasks.md,StatusScreen.jsx,,https://github.com/caseyWebb/yet-another-meal-planner/blob/e2c26a3748277d3fb103b12dfd55f838644df56b/openspec/changes/archive/2026-07-01-admin-ui-fidelity-pass/tasks.md,https://github.com/caseyWebb/yet-another-meal-planner/blob/e2c26a3748277d3fb103b12dfd55f838644df56b/StatusScreen.jsx,"[Context around occurrence 1]
+- [x] 9.2 Surface those per-member match scores on the Discovery area's candidate card when a candidate halted at the match stage, per the `operator-admin` spec delta.
+- [x] 9.3 Make the candidate card's expand/collapse (""Details"") affordance consistent in both directions: show the toggle's current-state label before first expansion (not only after), and make a second click on ""Details"" collapse the card back — mirror the mock's `DiscoveryScreen.jsx` toggle behavior.
+
+## 10. Logs
+
+- [x] 10.1 Remove the left sidebar/submenu from the Logs area (`src/admin/pages/logs.tsx`) — render the all-jobs run log as the area's sole, full-width content, per the `operator-admin` spec delta.
+
+## 11. Config
+
+- [x] 11.1 Bring the Discovery-feeds editor's layout/styling in line with the mock's `CorpusEditor` (`ConfigScreen.jsx`'s `GroupDiscovery`).
+- [x] 11.2 Bring the flyer-terms editor's layout/styling in line with the mock's `CorpusEditor` (`GroupFlyer`).
+- [x] 11.3 Bring the aliases editor's layout/styling in line with the mock's `CorpusEditor` (`GroupAliases`).
+- [x] 11.4 Replace every corpus-editor row's text ""remove"" button with the shared trash-icon button (1.2) — feeds, flyer terms, aliases, and the Email Sources (always-import) editor.
+- [x] 11.5 Verify the slider-fill fix (1.6) resolves the reported ""fixed amount for all sliders"" bug across every knob console (Discovery calibration, Kroger Flyer, Ranking).
+
+## 12. Overall fidelity pass
+
+- [x] 12.1 After the above land, do a side-by-side pass of every area against its mock file (`StatusScreen.jsx`, `MembersScreen.jsx`, `RecipesScreen.jsx`, `RecipeDetail.jsx`, `StoresScreen.jsx`, `GuidanceScreen.jsx`, `UsageScreen.jsx`, `DiscoveryScreen.jsx`, `LogsScreen.jsx`, `ConfigScreen.jsx`) and note/fix any remaining visual drift not already captured above. Fixed: the `Slider` primitive set `--slider-value` correctly but `styles.css` had no rule consuming it (Basecoat's Vega track is a flat `bg-muted`, no gradient) — every Config slider showed an unfilled bar; added a real cross-browser (WebKit gradient + Firefox `-moz-range-progress`) track-fill rule. Discovery's area-head was missing the ""Refresh · last sweep …"" affordance every other area has — added, sourced from the freshest candidate's `created_at` (candidates are already newest-first). `.job-item.fail`'s red-tinted card CSS existed but nothing wired the class — wired it on the Status `JobRow`. `.kv-leg-note` was an orphaned CSS rule — now renders a short static descriptor for each of the three known KV bindings. `.cfg-add`'s top margin was `.1rem` vs the mock's `.9rem` — fixed. Investigated the Email Sources per-row label/icon-swatch: `discovery_senders` has a `name` column but `discovery_members` does not (`migrations/d1/0006_shared_corpus.sql`), so an editable label is schema-supported for senders only, not members — adding it asymmetrically would be a half-feature; deferred as a follow-up rather than over-scoped here.
+- [x] 12.2 Run `aubr typecheck` and `aubr test` to confirm no regressions.
+- [x] 12.3 Ran `aubr build:admin` (clean) and confirmed the slider-fill CSS rule is present in the compiled `admin/dist/admin/styles.css`, reading `--slider-value`; `aubr dev` in this sandboxed session couldn't reach the remote AI binding it depends on for a full page render, so the live-dev smoke test itself is left to the operator/a future interactive session — the build output + full test suite are the verification actually performed here.",completed + missing,1,0,confirmed_missing_problematic,"O repositório e a tarefa estão acessíveis, mas o caminho no commit retornou HTTP 404. O contexto trata Literal path `StatusScreen.jsx` como arquivo existente a ser atualizado ou usado, portanto a ausência é problemática.",,ambiguous_reference,0.84,"do a side-by-side pass of every area against its mock file (`StatusScreen.jsx`, `MembersScreen.jsx`, `RecipesScreen.jsx`","StatusScreen.jsx é citado como mock, mas aparece sem diretório. O caminho literal não foi resolvido, e o contexto não permite confirmar se o arquivo existe em outro local.",False,problematic_missing,non_file_or_ambiguous,False
+H045,346384,Gianfranco05/ActiveTrace_GestionDesarrolloSoft_Canciani,openspec/changes/archive/2026-06-03-usuarios-y-asignaciones/tasks.md,test_usuarios_asignaciones_integration.py,backend/tests/test_usuarios_asignaciones_integration.py,https://github.com/Gianfranco05/ActiveTrace_GestionDesarrolloSoft_Canciani/blob/735816bf0db561629b1ad42b8bb7daa213cd6621/openspec/changes/archive/2026-06-03-usuarios-y-asignaciones/tasks.md,https://github.com/Gianfranco05/ActiveTrace_GestionDesarrolloSoft_Canciani/blob/735816bf0db561629b1ad42b8bb7daa213cd6621/backend/tests/test_usuarios_asignaciones_integration.py,"[Context around occurrence 1]
+- [x] 13.5 TRIANGULATE: Add `test_create_usuario_201`, `test_get_usuario_by_id_with_pii`, `test_list_usuarios_excludes_pii`, `test_update_usuario`, `test_soft_delete_usuario_204`, `test_403_without_permission`, `test_401_without_auth`
+- [x] 13.6 Execute tests: confirm all pass
+
+## 14. Asignacion Router — RED → GREEN → TRIANGULATE
+
+- [x] 14.1 RED: Write failing integration test `tests/test_asignaciones_router.py` — `test_list_asignaciones` GET /api/asignaciones returns paginated results for user with `equipos:asignar`
+- [x] 14.2 GREEN: Implement `backend/app/api/v1/routers/asignaciones.py` — `asignaciones_router` with CRUD, uses AsignacionService for business rules
+- [x] 14.3 Register router in `backend/app/main.py` under `/api/asignaciones`
+- [x] 14.4 Execute tests: confirm GREEN
+- [x] 14.5 TRIANGULATE: Add `test_create_asignacion_201`, `test_create_overlapping_vigencia_409`, `test_list_filter_by_usuario`, `test_get_asignacion_by_id`, `test_update_asignacion`, `test_soft_delete_asignacion_204`, `test_403_without_permission`
+- [x] 14.6 Execute tests: confirm all pass
+
+## 15. Alembic Migration 006 — Usuario y Asignacion Tables
+
+- [x] 15.1 Create migration: `006_usuarios_asignaciones.py` — creates usuario (with Text columns for encrypted PII), asignacion (with all FKs, self-referential, derived vigencia) tables per D10
+- [x] 15.2 Verify migration rolls forward and backward cleanly — verified; migration 006 exists in alembic/versions/
+- [x] 15.3 Update `alembic/env.py` — register Usuario, Asignacion models for autogenerate
+
+## 16. Integration and Verification
+
+- [x] 16.1 Write `test_usuarios_asignaciones_integration.py` — full flow: create usuario → create asignacion → verify auth includes role → verify PII encrypted in DB → verify safe response excludes PII
+- [x] 16.2 Execute full test suite: 343 passed, 2 skipped, 12 warnings
+- [x] 16.3 Run linting/type-checking on all new and modified files — ruff: all checks passed
+",completed + exists,1,1,confirmed_exists,"Literal path `test_usuarios_asignaciones_integration.py` foi verificado no commit indicado: o artefato da tarefa e o caminho no commit retornaram HTTP 200, e o conteúdo do arquivo foi recuperado.",,expected_absence_create,0.99,- [x] 16.1 Write `test_usuarios_asignaciones_integration.py` — full flow: create usuario → create asignacion,A tarefa pede explicitamente escrever o arquivo de teste; essa ação de criação tem precedência sobre a resolução automática no commit-âncora.,False,exists,expected_absence,False
+H046,173361,KanRule/docx-editor,openspec/changes/tracked-structural-changes/tasks.md,packages/core/src/layout-engine/toFlowBlocks*.ts,,https://github.com/KanRule/docx-editor/blob/42ea72d32c6af522861301732270e04b5a8c8cd0/openspec/changes/tracked-structural-changes/tasks.md,https://github.com/KanRule/docx-editor/blob/42ea72d32c6af522861301732270e04b5a8c8cd0/packages/core/src/layout-engine/toFlowBlocks%2A.ts,"[Context around occurrence 1]
+- [ ] `paragraphParser/properties.ts` — `parseParagraphMarkRevision(rPrEl)` for `<w:ins/>` / `<w:del/>` inside `<w:pPr><w:rPr>`, expose as `pPrIns` / `pPrDel`
+- [ ] `paragraphParser/properties.ts` — `parseParagraphMarkRPrChange(rPrEl)` for `CT_ParaRPrChange` (last child of `<w:pPr><w:rPr>`); NOT the run-rPrChange path
+- [ ] Confirm `pPrChange` parses to `Paragraph.propertyChanges[]` (existing — verify wiring through `toProseDoc`)
+- [ ] Locate section parsing site (likely `documentParser.ts` or `paragraphParser/properties.ts` — `sectionParser.ts` does not currently exist; do not create a file unless refactor is wanted) — read `<w:sectPrChange>` at both `pPr/sectPr` and body-level placements
+
+### Snapshot-and-restore infrastructure (shared across phases)
+
+- [ ] `packages/core/src/prosemirror/plugins/suggestionMode.ts` — add `withSuggestingSnapshot(commandImpl, snapshotter)` helper that wraps a property-edit command with snapshot-on-first-edit-per-(id,author,date) logic
+- [ ] After each property edit, compare snapshotted fields against current values; if all equal, clear the `*Change` attr (Word's ""no-op net change ⇒ no revision"")
+- [ ] `packages/core/src/prosemirror/utils/restorePriorProperties.ts` (new) — utility used by reject handlers to write `prior` back into node attrs / run rPr
+
+### Cache key
+
+- [ ] `packages/core/src/layout-bridge/measuring/cache.ts` — extend `hashParagraphBlock` to include `pPrIns`/`pPrDel`/`pPrChange`/`paraRPrChange`/`sectPrChange` presence flags and `revision_change` mark presence on runs
+- [ ] If `hashTableBlock` (or equivalent) exists, mirror
+
+### FlowBlock plumbing
+
+- [ ] `packages/core/src/layout-engine/toFlowBlocks*.ts` — pass the new revision attrs through into `ParagraphBlock.attrs` so measurement is consistent with the cache key
+
+### Conversion
+
+- [ ] `toProseDoc/paragraph.ts` — map model `pPrIns`/`pPrDel`/`pPrChange[]`/`paraRPrChange[]`/`sectPrChange` to PM node attrs
+- [ ] `fromProseDoc/paragraph.ts` — inverse, preserve array shapes
+- [ ] `packages/core/src/prosemirror/utils/extractTrackedChanges.ts` — walk node attrs in addition to text marks; emit one entry per `(id, author, date)` triple with multi-site sites collected under one entry
+
+### Serializer
+
+- [ ] `serializer/paragraphSerializer.ts` — emit `<w:pPr><w:rPr><w:ins/>` / `<w:del/>` from `pPrIns` / `pPrDel` in the **first** position inside `<w:rPr>` (per `EG_ParaRPrTrackChanges` ordering)
+- [ ] Emit `<w:rPrChange>` (from `paraRPrChange`) as the **last** child of `<w:pPr><w:rPr>` (per `EG_RPrContent` ordering)
+- [ ] Emit `<w:pPrChange>` as the **last** child of `<w:pPr>`
+- [ ] Section emission (in `documentSerializer.ts` or `paragraphSerializer.ts`, wherever section emission currently lives) — emit `<w:sectPrChange>` as the last child of `<w:sectPr>` in both pPr-level and body-level placements
+- [ ] `serializer/runSerializer.ts` (or wherever run rPr is emitted) — enforce `<w:rPrChange>` is the last child of `<w:rPr>`
+
+### Suggesting-mode plugin
+
+- [ ] `plugins/suggestionMode.ts` — Enter handler that **calls into** `splitBlockClearBorders` (in `BaseKeymapExtension.ts`), then sets `pPrIns` on the _first_ paragraph of the resulting split (normative)",open + missing,0,0,non_file_reference,"O repositório e a tarefa estão acessíveis, mas Literal path `packages/core/src/layout-engine/toFlowBlocks*.ts` denota um padrão, diretório, caminho externo/de usuário, biblioteca, identificador ou referência documental, não um arquivo único do repositório. O HTTP 404 não caracteriza problema de arquivo ausente.",,ambiguous_reference,0.94,`packages/core/src/layout-engine/toFlowBlocks*.ts` — pass the new revision attrs through into `ParagraphBlock.attrs`,"O caminho contém um padrão glob. O contexto pede uma alteração, mas não identifica um arquivo único nem confirma qual arquivo corresponde ao padrão.",False,non_file_or_ambiguous,non_file_or_ambiguous,True
+H050,173602,kazemim99/Booking,openspec/changes/archive/2025-10-21-rebuild-provider-dashboard/tasks.md,booksy-frontend/src/shared/components/ui/Card/Card.vue,,https://github.com/kazemim99/Booking/blob/eccbb13df5a54b616ca62a54cfcd84d2e2d519c9/openspec/changes/archive/2025-10-21-rebuild-provider-dashboard/tasks.md,https://github.com/kazemim99/Booking/blob/eccbb13df5a54b616ca62a54cfcd84d2e2d519c9/booksy-frontend/src/shared/components/ui/Card/Card.vue,"[Context around occurrence 1]
+# Implementation Tasks
+
+## 1. Design System Foundation
+
+- [ ] 1.1 Create `booksy-frontend/src/shared/styles/design-tokens.scss` with CSS custom properties
+  - [ ] Define color palette tokens (primary, success, warning, danger, neutrals)
+  - [ ] Define spacing scale tokens (xs, sm, md, lg, xl, 2xl)
+  - [ ] Define typography tokens (font sizes, weights, line heights)
+  - [ ] Define shadow tokens (sm, md, lg, xl)
+  - [ ] Define border radius tokens (sm, md, lg, xl)
+- [ ] 1.2 Import design tokens in main application stylesheet
+- [ ] 1.3 Create utility CSS classes for common patterns
+  - [ ] Flexbox utilities
+  - [ ] Grid utilities
+  - [ ] Spacing utilities (margin, padding with logical properties)
+- [ ] 1.4 Test design tokens in both RTL and LTR modes
+
+## 2. Charting Library Integration
+
+- [ ] 2.1 Install Apache ECharts and vue-echarts dependencies
+  ```bash
+  npm install echarts vue-echarts
+  ```
+- [ ] 2.2 Create base chart component wrapper at `booksy-frontend/src/shared/components/ui/Chart/BaseChart.vue`
+  - [ ] Configure RTL support
+  - [ ] Add responsive sizing
+  - [ ] Implement loading state
+  - [ ] Add empty state handling
+- [ ] 2.3 Create line chart component for trends
+- [ ] 2.4 Create bar chart component for comparisons
+- [ ] 2.5 Configure tree-shaking for minimal bundle size
+- [ ] 2.6 Test charts in RTL/LTR modes
+
+## 3. Shared Component Modernization
+
+- [ ] 3.1 Update Card component (`booksy-frontend/src/shared/components/ui/Card/Card.vue`)
+  - [ ] Apply design tokens for colors, shadows, and spacing
+  - [ ] Add glassmorphism variant option
+  - [ ] Add gradient border option
+  - [ ] Ensure RTL compatibility
+- [ ] 3.2 Update Button component (`booksy-frontend/src/shared/components/ui/Button/AppButton.vue`)
+  - [ ] Apply design tokens
+  - [ ] Add ripple effect on click
+  - [ ] Enhance loading state with spinner
+  - [ ] Add icon slot support
+  - [ ] Improve hover/focus states
+- [ ] 3.3 Update Badge component (`booksy-frontend/src/shared/components/ui/Badge/Badge.vue`)
+  - [ ] Apply design tokens
+  - [ ] Add modern color variants
+  - [ ] Add icon support
+- [ ] 3.4 Create Skeleton component (`booksy-frontend/src/shared/components/ui/Skeleton/Skeleton.vue`)
+  - [ ] Implement shimmer animation
+  - [ ] Support various shapes (text, circle, rectangle)
+  - [ ] Make responsive
+  - [ ] Respect prefers-reduced-motion
+
+## 4. Provider Layout and Navigation Rebuild
+
+- [ ] 4.1 Backup current layout to `layouts/legacy/ProviderLayout.legacy.vue`
+- [ ] 4.2 Rebuild ProviderLayout (`booksy-frontend/src/modules/provider/layouts/ProviderLayout.vue`)
+  - [ ] Apply modern design tokens
+  - [ ] Use CSS Grid or Flexbox for layout structure
+  - [ ] Implement smooth sidebar collapse/expand transition
+  - [ ] Use logical CSS properties for RTL/LTR
+  - [ ] Add responsive breakpoints
+  - [ ] Enhance profile completion alert styling
+  - [ ] Add smooth page transition animations
+  - [ ] Test sidebar state persistence
+- [ ] 4.3 Rebuild ProviderHeader (`booksy-frontend/src/modules/provider/components/navigation/ProviderHeader.vue`)",open + missing,0,0,inaccessible_or_invalid,"Não foi possível recuperar a tarefa necessária para a revisão no commit indicado: o artefato da tarefa retornou HTTP 404. Sem esse contexto, a semântica da referência não pode ser confirmada.",Task URL HTTP 404; Path-at-commit URL HTTP 404.,confirmed_missing_problematic,0.94,- [ ] 3.1 Update Card component (`booksy-frontend/src/shared/components/ui/Card/Card.vue`),"A tarefa exige atualizar o componente nesse caminho, mas a resolução no commit-âncora não localizou o arquivo literal.",False,inaccessible,problematic_missing,False
+H052,334964,zh-impact/openrouter-free-models,openspec/changes/archive/2026-03-02-openrouter-free-models-monitor/tasks.md,apps/backend/src/routes/models.ts,apps/backend/src/routes/models.ts,https://github.com/zh-impact/openrouter-free-models/blob/79f9cc0fd72163cd25b43bc952bbdafa34813815/openspec/changes/archive/2026-03-02-openrouter-free-models-monitor/tasks.md,https://github.com/zh-impact/openrouter-free-models/blob/79f9cc0fd72163cd25b43bc952bbdafa34813815/apps/backend/src/routes/models.ts,"[Context around occurrence 1]
+- [x] 5.1 Create database types (apps/backend/src/lib/db.ts)
+- [x] 5.2 Implement StorageService class (apps/backend/src/services/storage.ts)
+- [x] 5.3 Implement getActiveModels() query
+- [x] 5.4 Implement getModelById() query
+- [x] 5.5 Implement upsertModel() for insert/update
+- [x] 5.6 Implement deactivateModel() for removed models
+- [x] 5.7 Implement saveChanges() to write change records
+- [x] 5.8 Implement getChanges() with pagination
+- [x] 5.9 Implement getLastSync() timestamp
+
+## 6. Backend - Change Detection
+
+- [x] 6.1 Create DiffService class (apps/backend/src/lib/diff.ts)
+- [x] 6.2 Implement detectChanges() algorithm
+- [x] 6.3 Implement field-level comparison (name, description, pricing, etc.)
+- [x] 6.4 Handle added models detection
+- [x] 6.5 Handle removed models detection
+- [x] 6.6 Handle modified models detection
+- [x] 6.7 Ensure O(n) complexity with Map-based indexing
+
+## 7. Backend - Notification Service
+
+- [x] 7.1 Create NotificationService class (apps/backend/src/services/notification.ts)
+- [x] 7.2 Implement buildSummary() for change summaries
+- [x] 7.3 Implement sendEmail() placeholder (Resend integration)
+- [x] 7.4 Implement sendWebhook() for HTTP POST notifications
+- [x] 7.5 Add multi-channel support configuration
+
+## 8. Backend - API Routes
+
+- [x] 8.1 Create Hono app (apps/backend/src/index.ts)
+- [x] 8.2 Configure CORS middleware
+- [x] 8.3 Configure logger middleware
+- [x] 8.4 Implement error handling
+- [x] 8.5 Create 404 handler
+
+## 9. Backend - Models API
+
+- [x] 9.1 Create models router (apps/backend/src/routes/models.ts)
+- [x] 9.2 Implement GET /api/models (real-time from OpenRouter)
+- [x] 9.3 Implement GET /api/models/cached (from database)
+- [x] 9.4 Implement GET /api/models/:id (single model)
+- [x] 9.5 Implement GET /api/models/changes (with pagination)
+- [x] 9.6 Implement POST /api/models/refresh (manual sync)
+
+## 10. Backend - Health API
+
+- [x] 10.1 Create health router (apps/backend/src/routes/health.ts)
+- [x] 10.2 Implement GET /api/health endpoint
+- [x] 10.3 Implement GET /api/info endpoint
+
+## 11. Backend - Scheduled Sync
+
+- [x] 11.1 Create GET /cron/sync endpoint
+- [x] 11.2 Implement cron secret authentication
+- [x] 11.3 Wire up OpenRouterService, StorageService, DiffService
+- [x] 11.4 Configure cron trigger in wrangler.toml (0 * * * *)
+
+## 12. Backend - Tests
+
+- [x] 12.1 Create OpenRouterService tests (apps/backend/src/services/__tests__/openrouter.test.ts)
+- [x] 12.2 Test fetchAllModels() success case
+- [x] 12.3 Test fetchFreeModels() filtering
+- [x] 12.4 Test fetch error handling
+- [x] 12.5 Test retry with exponential backoff
+- [x] 12.6 Create DiffService tests (apps/backend/src/lib/__tests__/diff.test.ts)
+- [x] 12.7 Test change detection for added/removed/modified
+- [x] 12.8 Test empty list handling
+- [x] 12.9 Verify all tests pass with vitest
+
+## 13. Frontend - Project Structure
+
+- [x] 13.1 Create apps/frontend/package.json with dependencies
+- [x] 13.2 Create apps/frontend/tsconfig.json
+- [x] 13.3 Create apps/frontend/vite.config.ts
+- [x] 13.4 Create apps/frontend/index.html
+- [x] 13.5 Configure TailwindCSS (tailwind.config.js, postcss.config.js)",completed + exists,1,1,confirmed_exists,"Literal path `apps/backend/src/routes/models.ts` foi verificado no commit indicado: o artefato da tarefa e o caminho no commit retornaram HTTP 200, e o conteúdo do arquivo foi recuperado.",,expected_absence_create,0.99,- [x] 9.1 Create models router (apps/backend/src/routes/models.ts),"A tarefa pede explicitamente a criação do router nesse caminho; pela regra de precedência, a categoria é criação esperada.",False,exists,expected_absence,False
+H054,267053,tatargabor/set-core,openspec/changes/archive/2026-04-27-design-binding-completeness/tasks.md,search-palette.tsx,,https://github.com/tatargabor/set-core/blob/460657778e1de3d3cfb1d72e8c358d2d996e483c/openspec/changes/archive/2026-04-27-design-binding-completeness/tasks.md,https://github.com/tatargabor/set-core/blob/460657778e1de3d3cfb1d72e8c358d2d996e483c/search-palette.tsx,"[Context around occurrence 1]
+- [x] 13.1 Create `modules/web/set_project_web/spec_clean_cli.py` (LLM-based, Haiku) — extracts visual descriptions from spec.md, proposes diff [REQ: optional-spec-migration-via-set-spec-clean-design-cli]
+- [x] 13.2 Create `modules/web/bin/set-spec-clean-design` thin launcher [REQ: optional-spec-migration-via-set-spec-clean-design-cli]
+- [x] 13.3 Register console_script in `modules/web/pyproject.toml` [REQ: optional-spec-migration-via-set-spec-clean-design-cli]
+- [x] 13.4 Output: cleaned spec + `docs/design-references.md` archive [REQ: optional-spec-migration-via-set-spec-clean-design-cli]
+
+## 14. Phase 14 — Templates / rules
+
+- [x] 14.1 Update `templates/core/rules/design-bridge.md` — add component-mounting rule with bad/good example pair (search-bar.tsx vs search-palette.tsx) [REQ: component-mounting-rule]
+- [x] 14.2 Add entity-reference recognition note to `design-bridge.md` (`@component:`, `@route:` markers are mandatory references) [REQ: entity-reference-recognition]
+- [x] 14.3 Create `templates/core/rules/design-source-hygiene.md` (operator-facing rule about hygiene checklist workflow) [REQ: --with-hygiene-flag-triggers-post-import-scan]
+
+## 15. Phase 15 — Validation
+
+- [x] 15.1 Run full pytest on set-core; all phases green [REQ: per-change-design_components-binding]
+- [x] 15.2 Re-run `set-design-import --regenerate-manifest --with-hygiene` on craftbrew-run-20260423-2223; verify the manifest's `shared` list now contains `search-palette`, `product-filters`, `product-card`, `cart-item`, `cookie-consent` [REQ: shell-auto-detect-via-page-import-scan]
+- [x] 15.3 Verify the hygiene checklist for craftbrew-run lists the known issues: header inconsistency 14/24 pages CRITICAL, MOCK_PRODUCTS in search-palette CRITICAL [REQ: 9-hygiene-rules-detect-common-design-source-antipatterns]
+- [x] 15.4 Smoke E2E orchestration on micro-web template — verify `design_components` is populated in the plan AND appears in agent's `input.md` Focus files [REQ: dispatcher-injects-design_components-into-input.md]
+- [x] 15.5 Add a test that intentionally creates a `search-bar.tsx` parallel to a manifest shell `search-palette.tsx` — verify the fidelity gate emits `decomposition-shadow` WARN [REQ: shell-shadow-check-phase]
+
+## 16. Phase 16 — Documentation
+
+- [x] 16.1 Update `docs/design-pipeline.md` with the new flow: shell auto-detect → hygiene check → entity-reference markers → design_components binding [REQ: per-change-design_components-binding]
+- [x] 16.2 Add example workflow in operator guide: design re-import → hygiene check → fix in design source repo → re-run [REQ: markdown-checklist-output]
+
+## Acceptance Criteria (from spec scenarios)
+
+### design-component-binding
+
+- [x] AC-1: WHEN decompose generates plan AND change has `@component:search-palette` AND manifest has search-palette in shared THEN change's `design_components` contains `v0-export/components/search-palette.tsx` [REQ: per-change-design_components-binding, scenario: field-populated-from-manifest-+-entity-refs]
+- [x] AC-2: WHEN change has `design_routes: [/kereses]` AND manifest's `/kereses.component_deps` has `product-card.tsx` THEN `design_components` includes the path [REQ: per-change-design_components-binding, scenario: field-populated-from-route-component_deps]
+- [x] AC-3: WHEN older plan lacks `design_components` THEN dispatcher reads as `[]` and proceeds [REQ: per-change-design_components-binding, scenario: backward-compat-—-empty-field]
+- [x] AC-4: WHEN spec section contains `@component:search-palette` THEN parser yields `(""component"", ""search-palette"")` [REQ: spec-entity-reference-marker-syntax, scenario: marker-extraction-from-spec]
+
+[Context around occurrence 2]
+- [x] AC-15: WHEN `set-design-import --with-hygiene` runs on clean source THEN exit 0, INFO/WARN only in checklist [REQ: --with-hygiene-flag-triggers-post-import-scan, scenario: combined-import-+-hygiene-with-no-findings]
+- [x] AC-16: WHEN `--with-hygiene` finds CRITICAL THEN exit 1, checklist still written [REQ: --with-hygiene-flag-triggers-post-import-scan, scenario: hygiene-finds-critical-—-exit-non-zero]
+- [x] AC-17: WHEN `--with-hygiene --ignore-critical` AND CRITICAL exists THEN exit 0 [REQ: --with-hygiene-flag-triggers-post-import-scan, scenario: operator-force-bypass]
+- [x] AC-18: WHEN `set-design-import` runs without flag THEN no scan performed [REQ: --with-hygiene-flag-triggers-post-import-scan, scenario: default-omits-hygiene]
+
+### design-shell-shadow-detection
+
+- [x] AC-19: WHEN agent's search-bar.tsx imports CommandDialog/CommandInput AND manifest has search-palette.tsx with same imports THEN `decomposition-shadow` WARN emitted naming both files [REQ: shell-shadow-check-phase, scenario: shadow-detected-on-parallel-implementation]
+- [x] AC-20: WHEN agent's header.tsx imports Sheet primitives (no overlap with search-palette) THEN no violation [REQ: shell-shadow-check-phase, scenario: no-shadow-without-heuristic-match]
+- [x] AC-21: WHEN `manifest.shared_aliases: {search-mini.tsx: search-palette.tsx}` THEN no violation for `search-mini.tsx` [REQ: shell-shadow-check-phase, scenario: shared-aliases-whitelist-legitimate-variants]
+- [x] AC-22: WHEN gate emits `decomposition-shadow` WARN AND other phases pass THEN gate result ""PASSED with warnings"" AND merge proceeds [REQ: shell-shadow-severity-is-configurable, scenario: default-warn-does-not-block-merge]
+- [x] AC-23: WHEN `gate_overrides.design-fidelity.shell_shadow_severity: critical` is set AND shadow detected THEN merge blocked [REQ: shell-shadow-severity-is-configurable, scenario: override-to-critical-blocks-merge]
+
+### design-shell-autodetect
+
+- [x] AC-24: WHEN 5 pages import SearchPalette from `@/components/search-palette` THEN `manifest.shared` contains `search-palette.tsx` [REQ: shell-auto-detect-via-page-import-scan, scenario: search-palette-appears-in-5-pages]
+- [x] AC-25: WHEN only 1 page imports OrderSummary THEN `manifest.shared` does NOT contain it [REQ: shell-auto-detect-via-page-import-scan, scenario: single-importer-component-is-not-shared]
+- [x] AC-26: WHEN auto-detect runs THEN `app/layout.tsx` and `app/globals.css` remain in shared (baseline) [REQ: shell-auto-detect-via-page-import-scan, scenario: hardcoded-shared_globs-baseline-preserved]
+- [x] AC-27: WHEN component is dynamically imported via `next/dynamic` THEN NOT detected as imported (v1 limitation; INFO logged) [REQ: shell-auto-detect-via-page-import-scan, scenario: both-static-and-dynamic-only-patterns]
+
+[Context around occurrence 3]
+- [x] AC-38: WHEN `WebProjectType.get_shell_components(path)` called AND manifest has shared THEN returns paths [REQ: provider-exposes-get_shell_components-method, scenario: reads-shared-from-manifest]
+
+### v0-design-source (delta)
+
+- [x] AC-39: WHEN `V0DesignSourceProvider.scan_hygiene` called AND MOCK arrays present THEN finding rule `mock-arrays-inline` severity `critical` [REQ: v0designsourceprovider-implements-scan_hygiene, scenario: provider-returns-scanner-findings]
+- [x] AC-40: WHEN `V0DesignSourceProvider.get_shell_components` called THEN returns manifest's shared paths verbatim [REQ: v0designsourceprovider-implements-get_shell_components, scenario: provider-returns-shared-list]
+
+### design-bridge (delta)
+
+- [x] AC-41: WHEN agent reads design-bridge.md THEN finds the bad example ""agent creates search-bar.tsx while v0 has search-palette.tsx"" with explanation [REQ: component-mounting-rule, scenario: bad-pattern-named-in-rule]
+- [x] AC-42: WHEN agent reads design-bridge.md THEN finds the good example: import SearchPalette from @/components/search-palette + adapt with useQuery [REQ: component-mounting-rule, scenario: good-pattern-named-in-rule]
+- [x] AC-43: WHEN spec contains `@component:search-palette` THEN agent imports SearchPalette + does NOT create parallel [REQ: entity-reference-recognition, scenario: agent-encounters-@component-marker-in-spec]
+",completed + missing,1,0,non_file_reference,"O repositório e a tarefa estão acessíveis, mas Literal path `search-palette.tsx` denota um padrão, diretório, caminho externo/de usuário, biblioteca, identificador ou referência documental, não um arquivo único do repositório. O HTTP 404 não caracteriza problema de arquivo ausente.",,ambiguous_reference,0.78,bad/good example pair (search-bar.tsx vs search-palette.tsx),"O nome aparece em exemplos e cenários, e há um caminho mais específico em outro trecho. O registro não comprova que o nome isolado corresponde a um arquivo no commit-âncora.",False,non_file_or_ambiguous,non_file_or_ambiguous,True
+H056,220021,rgsamways/farpost,openspec/changes/archive/2026-06-23-s04-visual-design-language/tasks.md,farpost-web/components/TopoWatermark.tsx,farpost-web/components/TopoWatermark.tsx,https://github.com/rgsamways/farpost/blob/acc0a8beb368686bbbfffb567663d9b8c987a382/openspec/changes/archive/2026-06-23-s04-visual-design-language/tasks.md,https://github.com/rgsamways/farpost/blob/acc0a8beb368686bbbfffb567663d9b8c987a382/farpost-web/components/TopoWatermark.tsx,"## 1. CSS tokens
+
+- [x] 1.1 Add S04 custom properties to `:root` in `farpost-web/app/globals.css`: `--s04-radius: 12px`, `--s04-shadow-card`, `--s04-shadow-card-hover`, `--s04-gap: 1.75rem`, `--s04-watermark-opacity: 0.035` — exact values from `s04-tokens.css` (Drive specs subfolder). No new color values.
+
+## 2. Topo watermark component
+
+- [x] 2.1 Create `farpost-web/components/TopoWatermark.tsx` — inline SVG, three path elements matching `s04-tokens.css` exactly, className for absolute positioning (`absolute bottom-[-10px] right-[-10px] w-[140px] h-[100px] pointer-events-none z-0`), opacity via `style={{ opacity: 'var(--s04-watermark-opacity)' }}`
+
+## 3. Hub page — card treatment and sidebar
+
+- [x] 3.1 Update `farpost-web/app/(professionals)/hub/page.tsx` — wrap the feed content in an `s04-card` treatment (shadow via inline style or Tailwind arbitrary value, remove border if present, padding `px-7 py-6`); add `gap-[--s04-gap]` or equivalent spacing between sections
+- [x] 3.2 Update `farpost-web/app/(professionals)/hub/page.tsx` — populate the `aside` slot of `TwoColumnLayout` with sidebar cards: a ""Recently visited"" card (placeholder list for now, with `<TopoWatermark />` inside) and a ""Quick stats"" card matching `s04-hub.html`
+
+## 4. Building detail page — card treatment and inspection sidebar
+
+- [x] 4.1 Update `farpost-web/app/(public)/b/[slug]/page.tsx` — apply S04 card treatment to the building record section in the main column (States C/D); replace any hard border with shadow
+- [x] 4.2 Update `farpost-web/app/(public)/b/[slug]/page.tsx` — replace the `asideCol` content with an inspection-history feed: iterate `contributions` array; render each as a feed item with status dot (orange if flagged category, slate otherwise), title from `field`/`category`, meta from `visit_date` + `role`; render ""No inspection history yet."" when empty; include `<TopoWatermark />` in the sidebar card
+
+## 5. Verification
+
+- [x] 5.1 S04.01 — confirm `AppHeader` and tab components have zero diff vs pre-S04 in the browser; open DevTools → Elements and verify no class changes on either component
+- [x] 5.2 S04.02 — open `/hub`, inspect a feed card in DevTools → Computed → confirm `box-shadow` resolves to the two-layer value and no `border` is visible
+- [x] 5.3 S04.03 — inspect the topo watermark SVG element in DevTools → Computed → confirm `opacity: 0.035` (not 0.05 or any other value)
+- [x] 5.4 S04.04 — visually confirm generous spacing between sections on `/hub` and `/b/[slug]` vs the previous tight default
+- [x] 5.5 S04.05 — diff review: confirm zero new color hex values outside existing tokens (navy `#0F172A`, orange `#f97316`, slate scale, green-verified pair)
+- [x] 5.6 S04.06 — confirm zero backend/route/data-fetching files in the diff — `git diff --stat` shows only `farpost-web/` files
+",completed + exists,1,1,inaccessible_or_invalid,"Não foi possível recuperar a tarefa necessária para a revisão no commit indicado: o artefato da tarefa retornou HTTP 404. Sem esse contexto, a semântica da referência não pode ser confirmada.",Task URL HTTP 404; Path-at-commit URL HTTP 404.,expected_absence_create,0.99,- [x] 2.1 Create `farpost-web/components/TopoWatermark.tsx`,A tarefa pede explicitamente a criação desse arquivo. Essa ação tem precedência sobre a resolução automática do caminho no commit-âncora.,False,inaccessible,expected_absence,False
+H060,366184,JohanLi1990/alpaca-ml-crypto,openspec/changes/archive/2026-04-19-phase-2-ml-backtest/tasks.md,bot/backtest/metrics.py,bot/backtest/metrics.py,https://github.com/JohanLi1990/alpaca-ml-crypto/blob/91ee18745a787bc22b5047fc7c9c8d67a78da2b2/openspec/changes/archive/2026-04-19-phase-2-ml-backtest/tasks.md,https://github.com/JohanLi1990/alpaca-ml-crypto/blob/91ee18745a787bc22b5047fc7c9c8d67a78da2b2/bot/backtest/metrics.py,"## 1. Dependencies & Config
+
+- [x] 1.1 Add `scikit-learn` and `matplotlib` to `requirements.txt`
+- [x] 1.2 Add `LOGREG_CONFIDENCE_THRESHOLD`, `HISTORY_MONTHS`, `MIN_BARS_HISTORY`, and `TRANSACTION_FEE` constants to `bot/config.py`
+- [x] 1.3 Create `bot/models/` directory with a `.gitkeep` so the artifact directory exists but model files are not committed
+
+## 2. Historical Data Pipeline
+
+- [x] 2.1 Extend `fetch_bars()` in `bot/data/fetcher.py` to accept `timeframe` and optional `start`/`end` datetime parameters
+- [x] 2.2 Add a `fetch_bars_range()` convenience function that defaults to the past `HISTORY_MONTHS` at `TimeFrame.Hour`
+- [x] 2.3 Add minimum bar count validation for historical mode (500 bars) with a descriptive error message
+- [x] 2.4 Verify Phase 1 `fetch_bars()` call signature and behavior is unchanged (no breaking change)
+
+## 3. ML Feature Engineering
+
+- [x] 3.1 Add `extended=False` parameter to `compute_features()` in `bot/features/rolling.py`
+- [x] 3.2 Implement `return_lag1`, `return_lag2`, `return_lag3` columns when `extended=True`
+- [x] 3.3 Implement `momentum_12h` column (sum of last 12 bar returns) when `extended=True`
+- [x] 3.4 Implement `volume_zscore_20` column (20-bar z-score of volume) when `extended=True`
+- [x] 3.5 Verify all extended features use only data at or before bar `t` (no leakage)
+- [x] 3.6 Verify `compute_features(df)` with no `extended` argument still returns only the 4 Phase 1 columns
+
+## 4. Target Labeling
+
+- [x] 4.1 Create `bot/features/labeling.py` with a `make_labels(df, lower=None, upper=None, compute_thresholds=False)` function
+- [x] 4.2 Implement forward return computation (`close.shift(-1)`) internal to `make_labels`; ensure it is not included in the output
+- [x] 4.3 Implement quantile threshold computation from the input DataFrame's forward returns when `compute_thresholds=True`
+- [x] 4.4 Implement binary labeling: `1` above upper threshold, `0` below lower threshold; drop the middle band
+- [x] 4.5 Return `(X, y, lower_threshold, upper_threshold)` from `make_labels` when `compute_thresholds=True`, or `(X, y)` when thresholds are passed in
+- [x] 4.6 Verify `X.index == y.index` and `y.isna().sum() == 0` in the output
+
+## 5. Logistic Regression Model
+
+- [x] 5.1 Create `bot/strategies/logreg.py` with a `LogRegStrategy` class (or module-level `generate_signals` function matching the strategy interface)
+- [x] 5.2 Implement model loading from `bot/models/logreg.pkl` with a clear `FileNotFoundError` message if absent
+- [x] 5.3 Implement `generate_signals(df)` that computes `P(label=1)` and returns signal `1` if above `LOGREG_CONFIDENCE_THRESHOLD`, else `0`
+- [x] 5.4 Verify the signal column is present and contains no NaN values after `generate_signals` returns
+
+## 6. Vectorized Backtesting Engine
+
+- [x] 6.1 Create `bot/backtest/__init__.py` and `bot/backtest/engine.py`
+- [x] 6.2 Implement `run_backtest(df, fee=TRANSACTION_FEE)` that computes bar returns, applies lagged signals, deducts fees on position changes, and returns a results DataFrame
+- [x] 6.3 Include `strategy_return`, `strategy_equity`, `bnh_return`, and `bnh_equity` columns in the results DataFrame
+- [x] 6.4 Verify fee is deducted only on bars where `signal_t != signal_{t-1}`
+
+## 7. Performance Metrics
+
+- [x] 7.1 Create `bot/backtest/metrics.py` with a `compute_metrics(results_df)` function
+- [x] 7.2 Implement `total_return` as `equity_curve.iloc[-1] - 1.0`
+- [x] 7.3 Implement annualized `sharpe_ratio` with `sqrt(8760)` annualization factor; return `0.0` on zero volatility
+- [x] 7.4 Implement `max_drawdown` as `min((equity / equity.cummax()) - 1)`
+- [x] 7.5 Implement `num_trades` (count of signal `0→1` transitions) and `win_rate`
+- [x] 7.6 Return a `dict` with keys: `total_return`, `sharpe_ratio`, `max_drawdown`, `num_trades`, `win_rate`
+- [x] 7.7 Compute and return the same metric set for buy-and-hold in a second dict
+
+## 8. Strategy Selection in Live Bot
+
+- [x] 8.1 Add `--strategy {zscore,logreg}` argument to `argparse` in `bot/main.py` with default `zscore`
+- [x] 8.2 Route signal generation to `zscore.generate_signals` or `logreg.generate_signals` based on the flag
+- [x] 8.3 Display the active strategy name in the startup banner
+- [x] 8.4 Verify `--strategy zscore` produces identical output to current Phase 1 behavior
+
+## 9. Research Notebook
+
+- [x] 9.1 Create `notebooks/phase2_backtest.ipynb` with section headers: Data, Features, Labels, Train, Backtest, Metrics, Save Model
+- [x] 9.2 Section 1 (Data): call `fetch_bars_range()` and display DataFrame shape and head
+- [x] 9.3 Section 2 (Features): call `compute_features(df, extended=True)` and show feature summary stats
+- [x] 9.4 Section 3 (Labels): call `make_labels` on the training split with `compute_thresholds=True`; show class distribution
+- [x] 9.5 Section 4 (Train): run `GridSearchCV` with `TimeSeriesSplit`; print best C and CV F1 scores; evaluate on test split (classification report)
+- [x] 9.6 Section 5 (Backtest): call `run_backtest` on the test split signals; display results DataFrame head
+- [x] 9.7 Section 6 (Metrics): call `compute_metrics`; display strategy vs buy-and-hold comparison table
+- [x] 9.8 Section 7 (Equity Curve): plot `strategy_equity` and `bnh_equity` on the same axes using matplotlib
+- [x] 9.9 Section 8 (Save Model): `joblib.dump` the best estimator to `bot/models/logreg.pkl`; confirm file exists
+
+## 10. Acceptance Criteria Verification
+
+- [x] 10.1 Run the notebook end-to-end with real Alpaca credentials and confirm no errors
+- [x] 10.2 Confirm the equity curve plot displays correctly in the notebook
+- [x] 10.3 Confirm the metrics table shows Sharpe, max drawdown, total return, trade count, and win rate for both strategy and buy-and-hold
+- [x] 10.4 Confirm `bot/models/logreg.pkl` is created and loadable after the notebook run
+- [x] 10.5 Run `python -m bot --strategy logreg` and confirm it loads the model and generates signals without error
+- [x] 10.6 Run `python -m bot --strategy zscore` and confirm Phase 1 behavior is fully preserved
+",completed + exists,1,1,confirmed_exists,"Literal path `bot/backtest/metrics.py` foi verificado no commit indicado: o artefato da tarefa e o caminho no commit retornaram HTTP 200, e o conteúdo do arquivo foi recuperado.",,expected_absence_create,0.99,- [x] 7.1 Create `bot/backtest/metrics.py` with a `compute_metrics(results_df)` function,A tarefa pede explicitamente a criação desse arquivo; essa ação tem precedência sobre a resolução automática do caminho.,False,exists,expected_absence,False
+H061,344385,gatesOfHeaven/task-manager,openspec/changes/archive/2026-04-18-task-attachments/tasks.md,internal/endpoints/projects/sprints/tasks/attachments/list.go,internal/endpoints/projects/sprints/tasks/attachments/list.go,https://github.com/gatesOfHeaven/task-manager/blob/5609afa666c59de0936a4eac87087b81232454d2/openspec/changes/archive/2026-04-18-task-attachments/tasks.md,https://github.com/gatesOfHeaven/task-manager/blob/5609afa666c59de0936a4eac87087b81232454d2/internal/endpoints/projects/sprints/tasks/attachments/list.go,"## 1. Migration
+
+- [x] 1.1 Create `.sql/migrations/000011_task_attachments.up.sql` — create `task_attachments` table with columns `(id uuid pk, task_id uuid not null references tasks(id) on delete cascade, uploaded_by uuid not null references users(id), filename text not null, content_type text not null, minio_key text not null unique, status text not null default 'pending' check (status in ('pending','confirmed')), created_at timestamptz not null default now())`
+- [x] 1.2 Create `.sql/migrations/000011_task_attachments.down.sql` — drop `task_attachments` table
+
+## 2. SQL Queries
+
+- [x] 2.1 Create `.sql/queries/task_attachments.sql` with queries: `InsertAttachment` (:one, inserts pending row), `ConfirmAttachment` (:one, sets status='confirmed' where id=$1 and task_id=$2 and status='pending', returning *), `ListConfirmedAttachments` (:many, where task_id=$1 and status='confirmed' order by created_at asc), `DeleteStalePendingAttachments` (:many, delete where status='pending' and created_at < now() - interval '1 hour' returning minio_key)
+- [x] 2.2 Run `make sqlc` to regenerate `internal/db/`
+
+## 3. Storage Package
+
+- [x] 3.1 Add `github.com/minio/minio-go/v7` to `go.mod` via `go get github.com/minio/minio-go/v7`
+- [x] 3.2 Add MinIO env vars to `pkg/envlib/` config struct: `MINIO_ENDPOINT`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_BUCKET`, `MINIO_USE_SSL`
+- [x] 3.3 Create `pkg/storagelib/base.go` with `var Client *minio.Client` and `func Init()` that connects using env vars (same pattern as `pkg/redislib/base.go`)
+- [x] 3.4 Add MinIO env var examples to `.env.example`
+
+## 4. Presign Endpoints
+
+- [x] 4.1 Create `internal/endpoints/projects/sprints/tasks/attachments/presign.go` — POST `.../tasks/{taskId}/attachments/presign`, body `{filename, contentType}`, validate task belongs to sprint+project, generate `minio_key = tasks/{taskId}/{newUUID}/{filename}`, call `storagelib.Client.PresignedPutObject(bucket, key, 15min)`, insert pending row via `InsertAttachment`, return 201 `{fileId, uploadUrl}`
+- [x] 4.2 Create `internal/endpoints/users/tasks/attachments/presign.go` — POST `/api/v1/users/me/tasks/{taskId}/attachments/presign`, same logic scoped to personal task ownership
+
+## 5. Confirm Endpoints
+
+- [x] 5.1 Create `internal/endpoints/projects/sprints/tasks/attachments/confirm.go` — POST `.../tasks/{taskId}/attachments/{fileId}/confirm`, call `ConfirmAttachment(fileId, taskId)`, return 404 if no row updated, return 200 with attachment object `{id, filename, contentType, createdAt}`
+- [x] 5.2 Create `internal/endpoints/users/tasks/attachments/confirm.go` — same for personal tasks
+
+## 6. List Endpoints
+
+- [x] 6.1 Create `internal/endpoints/projects/sprints/tasks/attachments/list.go` — GET `.../tasks/{taskId}/attachments`, call `ListConfirmedAttachments(taskId)`, return 200 `[{id, filename, contentType, createdAt}]`
+- [x] 6.2 Create `internal/endpoints/users/tasks/attachments/list.go` — same for personal tasks
+
+## 7. Attachment Response Schema
+
+- [x] 7.1 Add `AttachmentResponse` struct to `internal/resources/schemas/` with fields `ID pgtype.UUID \`json:""id""\``, `Filename string \`json:""filename""\``, `ContentType string \`json:""contentType""\``, `CreatedAt pgtype.Timestamptz \`json:""createdAt""\``
+- [x] 7.2 Add `PresignResponse` struct with fields `FileID pgtype.UUID \`json:""fileId""\`` and `UploadURL string \`json:""uploadUrl""\``
+
+## 8. Background Worker
+
+- [x] 8.1 Add `StartAttachmentCleanup()` function in `pkg/workerlib/` (new file `attachments.go`) that runs every 30 minutes: calls `DeleteStalePendingAttachments`, then for each returned `minio_key` calls `storagelib.Client.RemoveObject(bucket, key)`
+
+## 9. Wiring
+
+- [x] 9.1 In `main.go`, add `storagelib.Init()` and `go workerlib.StartAttachmentCleanup()` alongside existing inits
+- [x] 9.2 In `internal/endpoints/base.go`, register all 6 new endpoints with appropriate middleware:
+  - Sprint task attachment endpoints: `ProjectTaskPermissionMiddleware(db.TaskPermissionTaskUpdate)` for presign+confirm, `ProjectTaskPermissionMiddleware(db.TaskPermissionTaskRead)` for list
+  - Personal task attachment endpoints: `AuthInDBMiddleware` for all three
+
+## 10. Verification
+
+- [x] 10.1 Run `go build ./...` and confirm no compilation errors
+",completed + exists,1,1,confirmed_exists,"Literal path `internal/endpoints/projects/sprints/tasks/attachments/list.go` foi verificado no commit indicado: o artefato da tarefa e o caminho no commit retornaram HTTP 200, e o conteúdo do arquivo foi recuperado.",,expected_absence_create,0.99,6.1 Create `internal/endpoints/projects/sprints/tasks/attachments/list.go` — GET `.../tasks/{taskId}/attachments`,A tarefa pede explicitamente a criação desse arquivo. A resolução no commit-âncora não altera a classificação da ação solicitada.,False,exists,expected_absence,False
+H067,382601,liverty-music/specification,openspec/changes/archive/2026-03-09-refactor-toast-to-event-driven/tasks.md,loading-sequence.ts,,https://github.com/liverty-music/specification/blob/4b3806453f9004efc991df1f33d205a605383a40/openspec/changes/archive/2026-03-09-refactor-toast-to-event-driven/tasks.md,https://github.com/liverty-music/specification/blob/4b3806453f9004efc991df1f33d205a605383a40/loading-sequence.ts,"## 1. Event class and custom element rewrite
+
+- [x] 1.1 Create `Toast` event class in `src/components/toast-notification/toast.ts` with `message`, `severity`, `durationMs` properties
+- [x] 1.2 Rewrite `ToastNotification` custom element to subscribe to `Toast` events via `IEventAggregator` in `attaching()`, dispose in `detaching()`, and manage its own `toasts[]` array and Popover API calls
+- [x] 1.3 Remove `IToastService` interface and DI registration exports from `toast-notification.ts`
+
+## 2. Move element to app shell
+
+- [x] 2.1 Add `<toast-notification>` to `my-app.html` as app-level overlay (alongside `<error-banner>`)
+- [x] 2.2 Remove `<toast-notification>` and its `<import>` from `discover-page.html`
+- [x] 2.3 Remove `toast-notification { position: absolute; }` from `discover-page.css`
+
+## 3. Migrate callers to EventAggregator
+
+- [x] 3.1 Update `discover-page.ts`: replace `resolve(IToastService)` with `resolve(IEventAggregator)`, change all `toastService.show(...)` to `ea.publish(new Toast(...))`
+- [x] 3.2 Update `settings-page.ts`: same migration
+- [x] 3.3 Update `my-artists-page.ts`: same migration
+- [x] 3.4 Update `welcome-page.ts`: same migration
+- [x] 3.5 Update `loading-sequence.ts`: same migration
+- [x] 3.6 Update `auth-hook.ts`: same migration
+- [x] 3.7 Update `error-banner.ts`: same migration
+
+## 4. Cleanup DI registration
+
+- [x] 4.1 Remove `IToastService` import and `.register(IToastService)` from `main.ts`
+
+## 5. Verification
+
+- [x] 5.1 Run `make check` (lint + typecheck + unit tests)
+",completed + missing,1,0,confirmed_missing_problematic,"O repositório e a tarefa estão acessíveis, mas o caminho no commit retornou HTTP 404. O contexto trata Literal path `loading-sequence.ts` como arquivo existente a ser atualizado ou usado, portanto a ausência é problemática.",,ambiguous_reference,0.91,- [x] 3.5 Update `loading-sequence.ts`: same migration,"A tarefa pede atualizar o arquivo, mas cita apenas o nome, sem diretório. A resolução literal falhou e o contexto não identifica seu caminho com segurança.",False,problematic_missing,non_file_or_ambiguous,False
+H071,427855,quaid-app/quaid,openspec/changes/archive/2026-05-11-extract-inline-tests-to-integration/tasks.md,vault_sync.rs,,https://github.com/quaid-app/quaid/blob/f366c092982b0bbf6c9198c5419dd01058d60e94/openspec/changes/archive/2026-05-11-extract-inline-tests-to-integration/tasks.md,https://github.com/quaid-app/quaid/blob/f366c092982b0bbf6c9198c5419dd01058d60e94/vault_sync.rs,"[Context around occurrence 1]
+  the new `tests/mcp_server_*.rs` files.**
+- [x] 5.4 Run `cargo test`; confirm pass count match-or-grow; commit
+  as a single atomic step with pass-count evidence.
+  **passed=1357 failed=0 (matches baseline of 1357).**
+
+## 6. Migration: `src/core/reconciler.rs`
+
+- [x] 6.1 Repeat scratch-file procedure for
+  [src/core/reconciler.rs](../../../src/core/reconciler.rs)'s
+  `mod tests` at line 3119.
+- [x] 6.2 Distribute moved tests across `tests/reconciler_*.rs` files,
+  per-feature, each ≤ 1,500 LOC.
+- [x] 6.3 Lift any newly-shared helpers to `tests/common/`.
+- [x] 6.4 Run `cargo test`; confirm pass count match-or-grow; commit
+  as a single atomic step with pass-count evidence.
+
+## 7. Migration: `src/core/vault_sync.rs` (largest, last)
+
+- [x] 7.1 Apply scratch-file procedure to
+  [src/core/vault_sync.rs](../../../src/core/vault_sync.rs)'s `mod
+  tests` at line 5909 (6,596-LOC block). Note: `vault_sync.rs` has
+  five additional `#[cfg(test)]` markers earlier in the file (lines
+  1001, 1026, 1250, 2568, 2572) — these are interleaved white-box
+  helpers, not the bottom block, and are out of scope for this
+  migration. Do not touch them. **69 white-box tests stay inline
+  (67 fail to compile against the public API + 3 use private helpers
+  `startup_recovery_sentinel_count` / `include_str!(""vault_sync.rs"")`),
+  documented via a single module-level annotation listing the private
+  items used.**
+- [x] 7.2 Distribute moved tests across 6–10 `tests/vault_sync_*.rs`
+  files (illustrative names from design.md §2: `vault_sync_ipc.rs`,
+  `vault_sync_restore.rs`, `vault_sync_watcher.rs`,
+  `vault_sync_session.rs`, `vault_sync_serialize.rs`,
+  `vault_sync_handshake.rs`). Each ≤ 1,500 LOC. **98 movable tests
+  across 8 files: `vault_sync_ipc.rs` (8), `vault_sync_runtime.rs`
+  (10), `vault_sync_handshake.rs` (13), `vault_sync_restore.rs` (24,
+  1003 LOC), `vault_sync_remap.rs` (23, 805 LOC), `vault_sync_watcher.rs`
+  (7), `vault_sync_audit.rs` (3), `vault_sync_misc.rs` (10). All ≤ 1500
+  LOC budget.**
+- [x] 7.3 Lift any newly-shared helpers to `tests/common/`.
+
+[Context around occurrence 2]
+  each ≤ 1,500 LOC. Move tests verbatim; only `use` paths and the
+  `mod common;` line are allowed to change. **10 per-command files
+  created (add, audit, info, list, migrate_uuids, quarantine, remap,
+  restore, slug_routing, sync), plus shared `tests/common/truth_fixtures.rs`.**
+- [x] 8.3 Delete the original `tests/collection_cli_truth.rs`.
+- [x] 8.4 Run `cargo test`; confirm pass count match-or-grow vs the
+  prior commit; commit as a single atomic step with pass-count
+  evidence. **passed=1357 failed=0 (matches baseline).**
+
+## 9. Verification across the series
+
+- [x] 9.1 Run `git log --oneline main..HEAD` and confirm exactly seven
+  migration commits (db.rs, put.rs, collection.rs, mcp/server.rs,
+  reconciler.rs, vault_sync.rs, collection_cli_truth.rs split). One
+  optional eighth commit is allowed for an upfront `tests/common/`
+  helper, scheduled before §2 if needed. **All 7 migration commits
+  present: `f4b6c0a` (db), `5424cb1` (collection), `ab64567`
+  (reconciler), `f0e623e` (collection_cli_truth split), `c61a3db`
+  (put), `98866b4` (mcp/server), `fdf6a3c` (vault_sync). One
+  additional docs-only commit (`2370144`) records §9 verification
+  results.**
+- [x] 9.2 For each migration commit, confirm the commit body contains
+  the before/after `passed=N` numbers per the test-organization spec.
+  **All 7 commits contain 2× `passed=` references each
+  (baseline + this-commit), as expected.**
+- [x] 9.3 Spot-check 3 random commits with `git checkout <sha> &&
+  cargo test`; each must build and pass independently (bisect
+  property). **Spot-checked `5424cb1` (collection), `ab64567`
+  (reconciler), and `c61a3db` (put) — all three pass `passed=1357
+  failed=0` independently.**
+- [x] 9.4 Confirm `wc -l src/core/vault_sync.rs src/core/reconciler.rs
+  src/mcp/server.rs src/commands/collection.rs src/commands/put.rs
+  src/core/db.rs` shows each file at least halved vs the baseline
+  numbers in the proposal's Impact section. **Reductions vs proposal
+  baselines: db.rs 2028→1479 (-27%), put.rs 3246→2718 (-16%),
+  collection.rs 4269→3368 (-21%), mcp/server.rs 5903→4022 (-32%),
+  reconciler.rs 7403→6220 (-16%), vault_sync.rs 12504→8818 (-29%).
+  None hit the literal ""halved"" target — the floor is set by the
+  white-box residue (per spec: tests that touch private items stay
+  inline, no visibility widening). The qualitative goal (production
+  files dominated by production code, not test mass) is met.**
+- [x] 9.5 Confirm no `tests/*.rs` file exceeds 1,500 LOC:
+  `wc -l tests/*.rs | awk '$1 > 1500'` returns nothing.
+  **`wc -l tests/*.rs | awk '$1 > 1500 && $2 != ""total""'` returns
+  empty — confirmed.**
+- [x] 9.6 Confirm every remaining inline `mod tests` block in the six
+  migrated source files is annotated per the test-organization spec
+  (either per-test `// reason: white-box; needs ...` comments or a
+  module-level annotation when ≥ 5 tests share the same reason).",open + missing,0,0,ambiguous_reference,"O repositório e a tarefa estão acessíveis, mas o caminho no commit retornou HTTP 404 e o contexto aponta para uma referência diferente ou insuficientemente específica. Não é seguro determinar a semântica da ausência.",,confirmed_exists,0.93,[src/core/vault_sync.rs](../../../src/core/vault_sync.rs)'s `mod tests` at line 5909,O contexto identifica inequivocamente o nome abreviado como src/core/vault_sync.rs e descreve testes existentes nesse arquivo. A falha de resolução do caminho literal não indica ausência.,False,non_file_or_ambiguous,exists,False
+H074,406384,narakuR/DID,openspec/changes/implement-eu-wallet-app/tasks.md,src/screens/wallet/WalletHomeScreen.tsx,,https://github.com/narakuR/DID/blob/0d5b5b96e40c7e0cd38ac1cb672dd7f9f2865062/openspec/changes/implement-eu-wallet-app/tasks.md,https://github.com/narakuR/DID/blob/0d5b5b96e40c7e0cd38ac1cb672dd7f9f2865062/src/screens/wallet/WalletHomeScreen.tsx,"[Context around occurrence 1]
+- [x] 8.1 Implement `src/screens/lock/LockScreen.tsx`: mode detection from authStore.user.authMethod, BIO mode (auto-trigger on mount, Fingerprint button, success/error handling with haptics), PIN mode (PinPad integration, 6-digit auto-verify, error animation), full-screen no-tab layout
+
+## 9. Onboarding Screen
+
+- [x] 9.1 Implement `src/screens/onboarding/OnboardingScreen.tsx` step WELCOME: logo (ShieldCheck), title, description, ""Get Started"" button
+- [x] 9.2 Implement step AUTH_SELECT: two option cards (Biometric with availability check, PIN Code), biometric unavailable fallback to PIN
+- [x] 9.3 Implement step BIO_SETUP: 1.5s fingerprint pulse animation then auto-advance to PHONE
+- [x] 9.4 Implement step PIN_SETUP: enter/confirm sub-states with PinPad, mismatch error + retry, savePin on success
+- [x] 9.5 Implement step PHONE: phone input (min 8 chars), send code, 30s countdown, OTP input, demo code '123456' validation, 1.5s loading overlay then advance to RESTORE_PASSWORD
+- [x] 9.6 Implement step RESTORE_PASSWORD: bouncing Cloud icon animation, password input, restore/skip buttons
+- [x] 9.7 Implement step RESTORE_PROGRESS: circular progress bar (0→100%), 4-stage status messages, call restoreWallet(MOCK_CREDENTIALS) + updateCloudSync on completion
+- [x] 9.8 Implement step SUCCESS: green CheckCircle, context-aware title (restored vs new), ""Enter Wallet"" button calling completeOnboarding
+- [x] 9.9 Implement step transition fade animation (150ms out, 300ms in)
+
+## 10. Wallet Home Screen
+
+- [x] 10.1 Implement `src/screens/wallet/WalletHomeScreen.tsx` header: large title, welcome subtitle with nickname, bell icon with red badge count (expired + near-expiry + revoked)
+- [x] 10.2 Implement SearchBar integration with real-time credential filtering
+- [x] 10.3 Implement FilterChips (ALL + 8 IssuerType values), credential filter logic, memoized
+- [x] 10.4 Implement grouped credential list: group by issuer.type, collapsible headers with LayoutAnimation, CredentialCard with showStatus=true, opacity for revoked/expired
+- [x] 10.5 Implement search mode: flat ungrouped list when searchQuery is non-empty
+- [x] 10.6 Implement AlphaIndex: extract first letters, scrollToIndex on press, 1.5s highlight animation
+- [x] 10.7 Implement FAB button (Plus icon, EU Blue, bottom-right absolute, navigates to Issuance)
+- [x] 10.8 Implement `src/screens/wallet/NotificationsScreen.tsx`: generate notifications from credential statuses (error > warning > success > info priority), NotificationItem list, Renew button navigates to Renewal, empty state
+
+## 11. Credential Detail Screen
+
+- [x] 11.1 Implement `src/screens/credential/CredentialDetailScreen.tsx` layout: custom header (back + title + info icon), ScrollView, CredentialCard (full width), verification status block
+- [x] 11.2 Implement 4-section ISO/IEC 23220 data view: Metadata (type/id/dates with expired highlight), Issuer (name/DID copiable), Subject (DID copiable), Claims (nested object/array rendering)
+- [x] 11.3 Implement AI explanation block: gradient card, on-demand trigger button, loading spinner, fade-in text result, no-key graceful degradation",completed + missing,1,0,expected_absence_create,"O repositório e a tarefa estão acessíveis, e o contexto instrui explicitamente criar ou implementar Literal path `src/screens/wallet/WalletHomeScreen.tsx`. O caminho no commit retorna HTTP 404, consistente com a ausência antes da implementação.",,confirmed_missing_problematic,0.86,"- [x] 10.1 Implement `src/screens/wallet/WalletHomeScreen.tsx` header: large title, welcome subtitle with nickname","A tarefa marcada como concluída exige implementação no caminho específico, mas a resolução automática não encontrou esse arquivo no commit-âncora.",False,expected_absence,problematic_missing,False
+H075,374682,kno/kInorA,openspec/changes/archive/2026-06-27-07-v1-plan-wizard/tasks.md,apps/web/src/components/wizard/EquipmentStep.tsx,apps/web/src/components/wizard/EquipmentStep.tsx,https://github.com/kno/kInorA/blob/3102fbc5344ebf82a08a51dbe3a4a47a0ffd7d50/openspec/changes/archive/2026-06-27-07-v1-plan-wizard/tasks.md,https://github.com/kno/kInorA/blob/3102fbc5344ebf82a08a51dbe3a4a47a0ffd7d50/apps/web/src/components/wizard/EquipmentStep.tsx,"[Context around occurrence 1]
+- [x] 9.2 **IMPLEMENT** — Create `apps/web/src/components/wizard/GoalStep.tsx`: props `{value?, onSelect}`, renders selectable cards for each `PlanGoal` value using `OrbitSelectableCard`, reuses design tokens from OD mobile-create-plan snapshot.
+- [x] 9.3 **TEST (RED)** — Create `apps/web/src/components/wizard/__tests__/LocationStep.test.tsx`: renders three options (home/gym/outdoor); selection calls handler; pre-selected reflects. Confirm RED.
+- [x] 9.4 **IMPLEMENT** — Create `apps/web/src/components/wizard/LocationStep.tsx`: props `{value?, onSelect}`, three `OrbitSelectableCard` options for `TrainingLocation`.
+- [x] 9.5 **TEST (RED)** — Create `apps/web/src/components/wizard/__tests__/FrequencyStep.test.tsx`: renders day-count options; selection updates; pre-selected reflects. Confirm RED.
+- [x] 9.6 **IMPLEMENT** — Create `apps/web/src/components/wizard/FrequencyStep.tsx`: props `{value?, onSelect}`, numeric card options for `daysPerWeek`.
+- [x] 9.7 **TEST (RED)** — Create `apps/web/src/components/wizard/__tests__/DurationStep.test.tsx`: renders duration options; selection updates. Confirm RED.
+- [x] 9.8 **IMPLEMENT** — Create `apps/web/src/components/wizard/DurationStep.tsx`: props `{value?, onSelect}`, options for `sessionDurationMinutes`.
+- [x] 9.9 **TEST (RED)** — Create `apps/web/src/components/wizard/__tests__/EquipmentStep.test.tsx`: options filtered by selected `location` (home ≠ gym options); empty selection is valid; submitting with empty array is accepted. Confirm RED.
+- [x] 9.10 **IMPLEMENT** — Create `apps/web/src/components/wizard/EquipmentStep.tsx`: props `{value?, location, onSelect}`, renders `OrbitSelectableCard` for each equipment option filtered by `location`; multi-select; empty array allowed.
+- [x] 9.11 **TEST (RED)** — Create `apps/web/src/components/wizard/__tests__/LimitationsStep.test.tsx`: renders text input; added limitation appears as `{text, isWarning:true}`; empty list is valid. Confirm RED.
+- [x] 9.12 **IMPLEMENT** — Create `apps/web/src/components/wizard/LimitationsStep.tsx`: props `{value?, onSelect}`, free-text input; each entry stored as `PlanLimitation{text, isWarning:true}`; no medical diagnosis logic.
+- [x] 9.13 **VERIFY** — Run `pnpm --filter web test`; confirm all 6 step component tests GREEN.
+
+### Phase 10 — RED: Stepper shell + server actions
+
+- [x] 10.1 **TEST (RED)** — Create `apps/web/src/app/(app)/create-plan/__tests__/stepper-shell.test.tsx`: renders current step component; Back preserves prior values; Continue is disabled when current step value is null (for required steps); Finish is disabled unless all required inputs present; `OrbitProgress` receives correct `value`/`max` props; resume: when `initialDraft` is provided shell starts at draft step with pre-filled values; overwrite: when existing draft, shows continue/overwrite option. Confirm RED.
+- [x] 10.2 **IMPLEMENT** — Create `apps/web/src/app/(app)/create-plan/StepperShell.tsx` (client component): state `{step:number; spec:Partial<PlanSpec>}`; steps array `[GoalStep, LocationStep, FrequencyStep, DurationStep, EquipmentStep, LimitationsStep]`; `<OrbitProgress value={step-1} max={5} size={64} aria-label={""Step ""+step+"" of 6""}>{step} / 6</OrbitProgress>`; Back is local (no server call), preserves spec slice; Continue calls `saveDraftAction`; Finish enabled only when `goal, location, daysPerWeek, sessionDurationMinutes` non-null and `equipment` visited; Finish calls `confirmPlanSpecAction` then redirect. Replaces the placeholder scaffold.",completed + exists,1,1,confirmed_exists,"Literal path `apps/web/src/components/wizard/EquipmentStep.tsx` foi verificado no commit indicado: o artefato da tarefa e o caminho no commit retornaram HTTP 200, e o conteúdo do arquivo foi recuperado.",,expected_absence_create,0.99,- [x] 9.10 **IMPLEMENT** — Create `apps/web/src/components/wizard/EquipmentStep.tsx`,A tarefa pede explicitamente a criação desse arquivo; essa ação tem precedência sobre a resolução automática no commit-âncora.,False,exists,expected_absence,False
+H083,22320,anil-unni/anil-unni.github.io,openspec/changes/archive/2026-06-29-editorial-portfolio-redesign/tasks.md,components/ui/FloatingLabelInput.tsx,components/ui/FloatingLabelInput.tsx,https://github.com/anil-unni/anil-unni.github.io/blob/0ec2ec1991a0acd574d27d5fd924d8aec2852bb9/openspec/changes/archive/2026-06-29-editorial-portfolio-redesign/tasks.md,https://github.com/anil-unni/anil-unni.github.io/blob/0ec2ec1991a0acd574d27d5fd924d8aec2852bb9/components/ui/FloatingLabelInput.tsx,"## 1. Foundation & Design System
+
+- [x] 1.1 Install and configure dependencies: `framer-motion`, `next-mdx-remote`, `resend`, `reading-time`
+- [x] 1.2 Update `tailwind.config.ts` with full design token set (color palette, typography scale, spacing, radius, dark-mode class strategy)
+- [x] 1.3 Configure `next/font` in `app/layout.tsx` for the primary sans-serif font and apply CSS variable to `<html>`
+- [x] 1.4 Create `lib/motionVariants.ts` exporting `fadeUp`, `fadeIn`, `slideInLeft`, `staggerContainer`, and `staggerItem` variant presets
+- [x] 1.5 Create `components/ui/FloatingLabelInput.tsx` with `label`, `name`, `type`, `value`, `onChange`, and `error` props using Tailwind `peer` classes for float animation
+- [x] 1.6 Apply `dark` class globally to `<html>` in `app/layout.tsx` and remove any existing light-mode logic
+
+## 2. SEO & Metadata Layer
+
+- [x] 2.1 Create `components/JsonLd.tsx` server component that renders a `<script type=""application/ld+json"">` tag from a `data` prop
+- [x] 2.2 Inject Person JSON-LD in `app/layout.tsx` via `JsonLd` component with `name`, `url`, `jobTitle`, `sameAs`, and `knowsAbout` fields
+- [x] 2.3 Define root `metadata` export in `app/layout.tsx` with site-wide `title` template, `description`, `openGraph`, `twitter`, and `alternates.canonical`
+- [x] 2.4 Create `app/robots.ts` exporting a `robots` function that allows all public routes, disallows `/api/` and `/admin/`, and sets the `sitemap` URL
+- [x] 2.5 Create `app/sitemap.ts` that reads `/content/blog/` at build time and returns entries for all static routes plus all published blog slugs
+
+## 3. App Router Structure
+
+- [x] 3.1 Set up route group `(portfolio)` with `app/(portfolio)/page.tsx` as the root portfolio page
+- [x] 3.2 Set up route group `(blog)` with `app/(blog)/layout.tsx`, `app/(blog)/blog/page.tsx`, and `app/(blog)/blog/[slug]/page.tsx`
+- [x] 3.3 Set up `app/(photography)/photography/page.tsx` route
+- [x] 3.4 Set up `app/(consulting)/consulting/page.tsx` route placeholder
+- [x] 3.5 Create `/content/blog/` directory and add one sample MDX post with full frontmatter (`title`, `date`, `description`, `tags`, `published`)
+- [x] 3.6 Create `lib/blog.ts` with `getAllPosts()` and `getPostBySlug(slug)` helper functions that read MDX frontmatter and compute reading time
+
+## 4. Hero — Solutions Architect
+
+- [x] 4.1 Create `components/sections/HeroSolutionsArchitect.tsx` as a `<motion.section>` with `aria-label=""Solutions Architect""`
+- [x] 4.2 Add name (""Anil Unni"") and tagline typography with `fadeUp` animation on mount
+- [x] 4.3 Build abstract SVG system-architecture geometry (node-edge graph) with idle loop animation using Framer Motion keyframes
+- [x] 4.4 Add project callout cards component (`components/ui/ProjectCallout.tsx`) for UAE-Mumbai server recovery and SOP implementation entries
+- [x] 4.5 Implement staggered entrance animation (120ms delay) for callout cards using `staggerContainer` and `staggerItem` variants
+
+## 5. ERP Systems Grid
+
+- [x] 5.1 Create `components/sections/ERPSystemsGrid.tsx` as a `<section>` with `aria-label=""Systems & ERP Engineering""`
+- [x] 5.2 Define grid data in `lib/data.ts` — minimum 6 ERP domain tiles (title, icon name, descriptor, optional metric)
+- [x] 5.3 Build CSS Grid layout with asymmetric tile areas using Tailwind `grid-cols` and `col-span` — responsive collapse to single column on `sm`
+- [x] 5.4 Create `components/ui/ERPTile.tsx` with icon, title, descriptor, and hover overlay using Framer Motion `AnimatePresence`
+- [x] 5.5 Wire `whileInView` scroll-reveal animation with 80ms stagger per tile
+
+## 6. Photography & Audio Gallery
+
+- [x] 6.1 Create `components/sections/PhotographyAudioGallery.tsx` as a `<section>` with `aria-label=""Photography""`
+- [x] 6.2 Configure Cloudinary as a `next/image` remote pattern in `next.config.mjs`
+- [x] 6.3 Build asymmetric masonry layout using CSS Grid with at least one full-bleed image group (100vw span) outside the content column
+- [x] 6.4 Create `components/ui/AudioPlayer.tsx` accepting a `tracks` array prop (`{ title, src, duration }[]`) using HTML5 `<audio>` ref
+- [x] 6.5 Implement play/pause toggle, progress bar (real-time update via `timeupdate` event), seek by click on progress bar, and volume slider in `AudioPlayer`
+- [x] 6.6 Ensure audio player mounts in paused state with no autoplay
+
+## 7. Enthusiast Bento Module
+
+- [x] 7.1 Create `components/sections/EnthusiastBento.tsx` as a `<section>` with `aria-label=""Enthusiast Pursuits""`
+- [x] 7.2 Define hobby module data in `lib/data.ts` — minimum 3 entries (automotive detailing, hardware modding, third pursuit)
+- [x] 7.3 Build compact bento grid capped at 600px height on desktop using Tailwind `grid` with fixed `max-h`
+- [x] 7.4 Implement `whileInView` stagger animation (100ms delay per module) using shared motion variants
+
+## 8. Technical Blog
+
+- [x] 8.1 Build `app/(blog)/blog/page.tsx` — list all published posts in reverse-chronological order with title, date, tags, reading time, and excerpt
+- [x] 8.2 Build `app/(blog)/blog/[slug]/page.tsx` — render MDX content inside `<article>` with `aria-label` set to post title
+- [x] 8.3 Create `components/blog/TableOfContents.tsx` — extract `h2`/`h3` headings from MDX, render as `<nav aria-label=""Table of contents"">`, sticky on desktop (`lg:sticky`)
+- [x] 8.4 Implement active heading highlight in ToC using `IntersectionObserver` to track which heading is in the viewport
+- [x] 8.5 Add author metadata block (name, date, reading time) above the MDX body
+- [x] 8.6 Inject Article JSON-LD in `generateMetadata` of `/blog/[slug]/page.tsx` using the `JsonLd` server component
+- [x] 8.7 Add `generateMetadata` to `/blog/[slug]/page.tsx` for per-post OG title, description, image, and canonical URL
+
+## 9. Contact Form
+
+- [x] 9.1 Create `components/sections/ContactForm.tsx` as a `<section>` with `aria-label=""Contact""` containing a `<form>` using `FloatingLabelInput` for Name, Email, Subject, and Message
+- [x] 9.2 Implement client-side validation: Name (non-empty), Email (RFC 5322 regex), Subject (non-empty), Message (min 10 chars) with inline error display
+- [x] 9.3 Disable the submit button when any field is invalid
+- [x] 9.4 Create `app/api/contact/route.ts` — POST handler that validates payload and sends email via Resend SDK
+- [x] 9.5 Handle success response: display confirmation message, reset form fields
+- [x] 9.6 Handle error response: display error below submit button while preserving all field values
+
+## 10. Root Page Assembly & Navigation
+
+- [x] 10.1 Assemble all six dimension sections in `app/(portfolio)/page.tsx` in order: Hero → ERP Grid → Photography & Audio → Enthusiast Bento → Technical Blog preview → Contact
+- [x] 10.2 Build `components/sections/Header.tsx` with semantic `<nav aria-label=""Primary navigation"">` linking to each section via anchor IDs
+- [x] 10.3 Build `components/sections/Footer.tsx` with social links (sameAs URLs) and copyright
+- [x] 10.4 Verify all section `<section>` and landmark elements have unique, descriptive `aria-label` attributes
+- [x] 10.5 Test sitemap output at `/sitemap.xml` and robots at `/robots.txt` — confirm all routes present
+- [ ] 10.6 Validate Person and Article JSON-LD using Google Rich Results Test schema (manual — requires deployed URL)
+",completed + exists,1,1,confirmed_exists,"Literal path `components/ui/FloatingLabelInput.tsx` foi verificado no commit indicado: o artefato da tarefa e o caminho no commit retornaram HTTP 200, e o conteúdo do arquivo foi recuperado.",,expected_absence_create,0.99,"- [x] 1.5 Create `components/ui/FloatingLabelInput.tsx` with `label`, `name`, `type`, `value`, `onChange`, and `error` props","A tarefa pede explicitamente a criação desse arquivo. Pela regra de precedência, a ação de criar determina a classificação.",False,exists,expected_absence,False
+H086,78505,cuong111103hd/legel_AI_assistant_v2,openspec/changes/archive/2026-05-15-implement-application-layer/tasks.md,src/llm/citation_verifier.py,src/llm/citation_verifier.py,https://github.com/cuong111103hd/legel_AI_assistant_v2/blob/f8205038827aeaee6314683de373d8ac6aa0950f/openspec/changes/archive/2026-05-15-implement-application-layer/tasks.md,https://github.com/cuong111103hd/legel_AI_assistant_v2/blob/f8205038827aeaee6314683de373d8ac6aa0950f/src/llm/citation_verifier.py,"# Implement Application Layer — Tasks
+
+## 1. Bug Fixes & Infrastructure
+
+- [x] 1.1 Fix prompt template syntax in `src/llm/prompts.py` — change `{var}` to `{{var}}` for clause_extraction, compliance_analysis, and answer_generation templates
+- [x] 1.2 Create `pytest.ini` with test configuration (testpaths, markers, asyncio_mode)
+- [x] 1.3 Create root `conftest.py` with shared fixtures (mock LLM, mock Neo4j, sample contracts, PII test texts)
+- [x] 1.4 Build `MockLLMProvider` in `src/llm/mock_provider.py` implementing LLMClient interface with predefined responses for intent_analysis, clause_extraction, compliance_analysis, answer_generation
+- [x] 1.5 Update `src/config.py` to support `LLM_PROVIDER=mock` configuration
+- [x] 1.6 Create `src/contract/mock_bridge.py` with MockEmbeddingService, MockGraphTraversal, MockEffectiveTextService — config-driven switching via src/config.py
+- [x] 1.7 Create sample contract mock data in `data/sample_contracts/` — sample_hop_dong_thue.md, sample_hop_dong_lao_dong.md, sample_hop_dong_mua_ban.md with known clauses for testing
+
+## 2. Contract Review Pipeline (HIGH PRIORITY — Demo Focus)
+
+- [x] 2.1 Add `ContractClause` dataclass and `ClauseType` enum to `src/contract/models.py`
+- [x] 2.2 Create `src/contract/clause_extractor.py` with `ClauseExtractor` class — LLM-based extraction from Contract.redacted_text
+- [x] 2.3 Integrate embedding generation for extracted clauses using vietlegal-harrier-0.6b (1024-dim)
+- [x] 2.4 Add `ComplianceResult`, `ComplianceViolation`, `RiskLevel` dataclasses to `src/contract/models.py`
+- [x] 2.5 Create `src/contract/matcher.py` with `LegalMatcher` class — vector search + fulltext fallback + graph traversal + reranking
+- [x] 2.6 Implement hybrid search: combine vector similarity (article_embeddings) + fulltext (article_fulltext) results
+- [x] 2.7 Implement authority-weighted reranking: combined_score = semantic × authority (Luật 3.0, ND 2.0, TT 1.5) × graph_boost (1.5×)
+- [x] 2.8 Create `src/contract/compliance_analyzer.py` with `ComplianceAnalyzer` class — LLM prompt with clause + provisions + effective text + amendment history
+- [x] 2.9 Create `src/llm/citation_verifier.py` with `CitationVerifier` class — parse Vietnamese legal citations, verify against Neo4j
+- [x] 2.10 Add `PolicyClassification` dataclass and create `src/contract/policy_review.py` — compliant_and_efficient, compliant_but_restrictive, non_compliant
+- [x] 2.11 Write tests for all contract review components with sample contracts
+
+## 3. Retrieval Engine (T5.2)
+
+- [x] 3.1 Add `RetrievedProvision`, `RetrievalResult` dataclasses to `src/llm/models.py`
+- [x] 3.2 Create `src/llm/retriever.py` with `RetrievalEngine` class and `RetrievalStrategy` ABC — routes by SubQuery.retrieval_strategy
+- [x] 3.3 Implement `DirectLookupStrategy` — resolve so_ky_hieu → doc_id, MATCH Article by uid
+- [x] 3.4 Implement `VectorSearchStrategy` — embed query, call db.index.vector.queryNodes, filter by is_current + loai_van_ban
+- [x] 3.5 Implement `GraphTraversalStrategy` — traverse REFERENCES_INTERNAL, REFERENCES_EXTERNAL, MODIFIES, DETAILS
+- [x] 3.6 Implement `HybridSearchStrategy` — combine fulltext + vector results with deduplication
+- [x] 3.7 Implement `ValidityCheckStrategy` — check is_current, SUPERSEDED_BY relationships
+- [x] 3.8 Implement `ComparisonStrategy` — parallel lookups, return side-by-side with diff
+- [x] 3.9 Create `src/llm/reranker.py` — combined scoring, return top-5 per query
+- [x] 3.10 Write tests for RetrievalEngine with mock Neo4j
+
+## 4. QA Pipeline (T5.3 / T5.4)
+
+- [x] 4.1 Add `AnswerResult` dataclass to `src/llm/models.py`
+- [x] 4.2 Create `src/llm/answer_generator.py` with `AnswerGenerator` class — prompt assembly + LLM call + JSON parsing
+- [x] 4.3 Write tests for AnswerGenerator with mock provisions
+- [x] 4.4 Reuse CitationVerifier (T4.5) for QA citation verification (T5.4) — no new code needed, just integration
+
+## 5. Embedding Service Deployment
+
+- [x] 5.1 Verify `infra/embedding_service/app.py` is functional — check model loading, /embed endpoint, /health endpoint
+- [x] 5.2 Fix port inconsistency — align config.py (8001), Dockerfile (8080), app.py __main__ (8080) to single port
+- [x] 5.3 Deploy embedding service — docker-compose up or direct uvicorn, verify /health returns status=ok
+- [x] 5.4 Run `ArticleEmbedder.embed_all()` on ingested data — batch 512 articles per API call, verify embeddings stored
+- [x] 5.5 Verify vector index `article_embeddings` is ONLINE in Neo4j — test with sample query vector
+
+## 6. FastAPI Backend
+
+- [x] 6.1 Create `infra/api/` directory structure with `__init__.py`
+- [x] 6.2 Create `infra/api/app.py` with FastAPI app, CORS middleware (allow localhost:3000), health check endpoint
+- [x] 6.3 Create `infra/api/models.py` with Pydantic schemas: ChatRequest, ChatChunk, ConversationSummary, JobStatusResponse, UploadResponse
+- [x] 6.4 Create `infra/api/sse.py` with SSE streaming utilities — format_sse, event_stream generator
+- [x] 6.5 Create `infra/api/job_store.py` — in-memory job store for async contract review (job_id → status, progress, results)
+- [x] 6.6 Create `infra/api/contract_routes.py` — POST /api/contracts/upload (async job), GET /api/contracts/{jobId}/status (polling), GET /api/contracts/history
+- [x] 6.7 Create `infra/api/qa_routes.py` — POST /api/qa/chat (SSE streaming), POST/GET/DELETE /api/qa/conversations (in-memory via ConversationManager)
+- [x] 6.8 Create `infra/api/middleware.py` — error handling, structured logging, request timing
+- [x] 6.9 Add requirements to `requirements.txt` — fastapi, uvicorn, python-multipart
+- [x] 6.10 Write tests for all API endpoints
+
+## 7. Frontend Integration
+
+- [x] 7.1 Fix `frontend/src/app/(app)/contract-review/page.tsx` — call uploadContract(), poll getJobStatus(), display results from real API
+- [x] 7.2 Fix `frontend/src/app/(app)/legal-qa/page.tsx` — import from `@/lib/api` switcher instead of direct mock import
+- [x] 7.3 Fix `frontend/src/lib/api-contract.ts` — use `apiRequest()` instead of raw fetch for uploadContract() (adds auth, retry, timeout)
+- [x] 7.4 Set `NEXT_PUBLIC_USE_MOCK_API=false` in `.env.local` to activate real API
+- [x] 7.5 Test end-to-end: Contract upload → job polling → clause cards → compliance report → verified citations
+- [x] 7.6 Test end-to-end: QA chat → SSE streaming → provision cards → citation badges
+
+## 8. Polish & Demo Prep
+
+- [x] 8.1 Add structured logging to all pipeline components (contract review, QA, retrieval)
+- [x] 8.2 Add retry logic with exponential backoff for LLM calls and embedding service calls
+- [x] 8.3 Add timeout handling for Neo4j queries (30s default)
+- [x] 8.4 Add error boundaries and user-friendly error messages in FastAPI
+- [x] 8.5 Run full test suite, fix any failures
+- [x] 8.6 Prepare demo scripts — sample contract upload + sample QA questions with expected outputs
+",completed + exists,1,1,confirmed_exists,"Literal path `src/llm/citation_verifier.py` foi verificado no commit indicado: o artefato da tarefa e o caminho no commit retornaram HTTP 200, e o conteúdo do arquivo foi recuperado.",,expected_absence_create,0.99,"- [x] 2.9 Create `src/llm/citation_verifier.py` with `CitationVerifier` class — parse Vietnamese legal citations, verify against Neo4j",A tarefa pede explicitamente a criação do arquivo. Essa ação tem precedência sobre a resolução automática no commit-âncora.,False,exists,expected_absence,False
+H087,73911,conejo64/CreditAdnDebit,openspec/changes/real-notification-channels/tasks.md,CardVault.Tests/Features/Notifications/Dispatcher/ProviderFallbackAccountingTests.cs,,https://github.com/conejo64/CreditAdnDebit/blob/7a4b1f5da4fe56e74434fc4a101a6b16aa0db745/openspec/changes/real-notification-channels/tasks.md,https://github.com/conejo64/CreditAdnDebit/blob/7a4b1f5da4fe56e74434fc4a101a6b16aa0db745/CardVault.Tests/Features/Notifications/Dispatcher/ProviderFallbackAccountingTests.cs,"[Context around occurrence 1]
+- [x] Write failing test: worker creates scope per tick, calls `INotificationDispatcher.DispatchBatchAsync(50, ct)`, NOT `NotificationService.DispatchPendingDeliveriesAsync`
+  - File: `CardVault.Tests/Features/Notifications/Dispatcher/NotificationDispatcherWorkerTests.cs`
+- [x] Modify `CardVault.Api/Background/NotificationDispatcherWorker.cs`:
+  - Resolve `INotificationDispatcher` from scope (not `NotificationService`)
+  - Call `dispatcher.DispatchBatchAsync(50, stoppingToken)`
+  - Worker loop and 5s delay unchanged
+- [x] Modify `CardVault.Api/Services/NotificationService.cs`:
+  - Remove simulator body from `DispatchPendingDeliveriesAsync` (lines 92-158 simulator logic)
+  - The method can become a thin wrapper or be removed entirely (prefer removal; adjust any remaining callers)
+- [x] Register `INotificationDispatcher` as scoped in Program.cs
+- [x] Tests pass; `dotnet build` clean
+- **Spec ref**: Design §4 (""Worker is a 5s Task.Delay loop...rewrite moves real dispatch into INotificationDispatcher""), Spec ""Simulator references are rejected in production""
+
+### Task 1d.4 — Fallback chain accounting unit tests
+- [x] Write failing tests (shared-budget, not per-provider):
+  - Movistar fail (Attempts: 1→2→3) → chain advances to Twilio with budget spent → Twilio gets ONE attempt → if Twilio fails → DeadLetter
+  - Twilio succeeds after Movistar fail → Sent, `ProviderId = ""twilio""`
+  - Use `FakeNotificationProvider` with outcome queues: [Transient, Transient, Transient] for Movistar, [Accepted] for Twilio
+  - File: `CardVault.Tests/Features/Notifications/Dispatcher/ProviderFallbackAccountingTests.cs`
+- [x] Ensure `NotificationDispatcher` correctly advances through provider chain on Transient failures using the shared `Attempts` counter (no per-provider reset)
+- [x] Tests pass
+- **Spec ref**: Design §7 (Fallback Accounting — ""MaxAttempts=3 SHARED across entire chain""), §6 (Dispatcher precedence)
+
+---
+
+## Slice 1e — Inbound Webhooks + Signature Validation + Rate-Limit
+
+**Goal**: `POST /api/notifications/delivery-callback/{providerId}`. HMAC (Twilio), ECDSA (SendGrid), HMAC-SHA256 (Movistar EC). Depends on 1b and 1d.
+
+### Task 1e.1 — IWebhookSignatureValidator + per-provider implementations
+- [x] Write failing unit tests (known secrets + pre-computed signatures — NEVER call real providers):
+  - **Twilio**: HMAC-SHA1(AuthToken, fullUrl + sorted params); positive, missing header → fail, tampered → fail, replay (timestamp > 5 min old) → fail
+  - **SendGrid**: ECDSA public-key over `timestamp + rawBody` (`X-Twilio-Email-Event-Webhook-Signature` + Timestamp header); positive, invalid sig → fail, replay → fail
+  - **Movistar EC**: HMAC-SHA256(WebhookSecret, rawBody), header `X-Movistar-Signature`; same positive/negative/replay coverage
+  - All validators: constant-time comparison (verify no timing leak assertion in test description)
+  - File: `CardVault.Tests/Features/Notifications/Webhooks/WebhookSignatureValidatorTests.cs`
+- [x] Create `CardVault.Api/Services/Notifications/Webhooks/IWebhookSignatureValidator.cs` (already defined in `INotificationProvider.cs` from Slice 1a)
+- [x] Create `TwilioWebhookSignatureValidator.cs`, `SendGridWebhookSignatureValidator.cs`, `MovistarWebhookSignatureValidator.cs`",open + missing,0,0,inaccessible_or_invalid,"Não foi possível recuperar a tarefa necessária para a revisão no commit indicado: o artefato da tarefa retornou HTTP 404. Sem esse contexto, a semântica da referência não pode ser confirmada.",Task URL HTTP 404; Path-at-commit URL HTTP 404.,confirmed_missing_problematic,0.93,"- [x] Write failing tests (shared-budget, not per-provider):
+  - Movistar fail (Attempts: 1→2→3) → chain advances to Twilio with budget spent","A tarefa marca como concluída a escrita dos testes e aponta um caminho específico para o arquivo. O caminho não foi localizado no commit-âncora, embora o teste devesse estar presente.",False,inaccessible,problematic_missing,False

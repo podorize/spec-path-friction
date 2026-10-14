@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a135b7-3c18-7073-98cc-061ad5ab01a9"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"{\"decision\":\"classify\",\"classification\":\"non_file_reference\",\"confidence\":0.99,\"evidence_quote\":\"Add controls for public domain imports, domain-relative imports, source lookalikes, `.tsx`, other mods, recipes, source strings, and dynamic import lookalikes.\",\"rationale\":\"`.tsx` is listed as a control category alongside other import and source cases; it denotes a file extension, not one unique file. The 404 for the literal path does not establish a missing-file defect.\",\"missing_evidence\":[]}"}}
+{"type":"turn.completed","usage":{"input_tokens":16701,"cached_input_tokens":0,"cache_write_input_tokens":0,"output_tokens":190,"reasoning_output_tokens":72}}

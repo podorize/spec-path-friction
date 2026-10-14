@@ -1,0 +1,181 @@
+{
+  "reference_standard": "independent single-reviewer blinded human labels",
+  "reviewed_cases": 90,
+  "human_label_counts": {
+    "ambiguous_reference": 9,
+    "confirmed_missing_problematic": 21,
+    "expected_absence_create": 31,
+    "expected_absence_move_or_delete": 11,
+    "external_repository_reference": 2,
+    "inaccessible_or_invalid": 8,
+    "non_file_reference": 8
+  },
+  "observed_by_prediction_stratum": {
+    "predicted_problematic": {
+      "reviewed": 5,
+      "human_problematic": 5,
+      "human_non_problematic": 0
+    },
+    "pipeline_abstention": {
+      "reviewed": 30,
+      "human_problematic": 6,
+      "human_non_problematic": 24
+    },
+    "predicted_non_problematic": {
+      "reviewed": 55,
+      "human_problematic": 10,
+      "human_non_problematic": 45
+    }
+  },
+  "known_pipeline_operating_characteristics": {
+    "screening_cases": 240,
+    "classification_coverage": 0.8,
+    "abstention_rate": 0.2,
+    "llm_review_rate": 0.21666666666666667,
+    "maximum_human_workload_reduction_if_only_abstentions_are_reviewed": 0.8
+  },
+  "screening_sample_240_design_weighted": {
+    "estimated_cells": {
+      "predicted_non_problematic:non_problematic": 153.0000000000001,
+      "pipeline_abstention:non_problematic": 38.40000000000001,
+      "predicted_problematic:problematic": 5.0,
+      "predicted_non_problematic:problematic": 33.99999999999999,
+      "pipeline_abstention:problematic": 9.6
+    },
+    "metrics": {
+      "true_positive": 5.0,
+      "false_positive": 0.0,
+      "false_negative": 33.99999999999999,
+      "true_negative": 153.0000000000001,
+      "abstained_problematic": 9.6,
+      "abstained_non_problematic": 38.40000000000001,
+      "precision": 1.0,
+      "end_to_end_recall": 0.10288065843621401,
+      "covered_case_recall": 0.12820512820512822,
+      "negative_predictive_value": 0.8181818181818183,
+      "covered_case_accuracy": 0.8229166666666667,
+      "problematic_prevalence": 0.20249999999999987
+    },
+    "bootstrap_95_percentile": {
+      "end_to_end_recall": [
+        0.07122507122507124,
+        0.16778523489932887
+      ],
+      "covered_case_recall": [
+        0.0841750841750842,
+        0.22727272727272727
+      ],
+      "negative_predictive_value": [
+        0.7090909090909093,
+        0.9090909090909092
+      ],
+      "problematic_prevalence": [
+        0.12416666666666658,
+        0.29249999999999987
+      ]
+    }
+  },
+  "eligible_population_design_weighted_exploratory": {
+    "estimated_cells": {
+      "predicted_non_problematic:non_problematic": 24588.68666666669,
+      "pipeline_abstention:non_problematic": 6213.28000000001,
+      "predicted_problematic:problematic": 661.3583333333345,
+      "predicted_non_problematic:problematic": 6170.745000000012,
+      "pipeline_abstention:problematic": 1553.3200000000027
+    },
+    "estimated_total_from_weights": 39187.39000000005,
+    "known_eligible_frame_total": 38833,
+    "metrics": {
+      "true_positive": 661.3583333333345,
+      "false_positive": 0.0,
+      "false_negative": 6170.745000000012,
+      "true_negative": 24588.68666666669,
+      "abstained_problematic": 1553.3200000000027,
+      "abstained_non_problematic": 6213.28000000001,
+      "precision": 1.0,
+      "end_to_end_recall": 0.07886999940770233,
+      "covered_case_recall": 0.09680157062417576,
+      "negative_predictive_value": 0.7993868980782532,
+      "covered_case_accuracy": 0.8036094891312406,
+      "problematic_prevalence": 0.21398269528369554
+    },
+    "bootstrap_95_percentile": {
+      "end_to_end_recall": [
+        0.0535138291248655,
+        0.13728230844195907
+      ],
+      "covered_case_recall": [
+        0.06258544525035534,
+        0.18476896371252377
+      ],
+      "negative_predictive_value": [
+        0.6811952908319339,
+        0.9056708144986002
+      ],
+      "problematic_prevalence": [
+        0.12466847055460326,
+        0.31160778372373876
+      ]
+    }
+  },
+  "direct_stratum_intervals": {
+    "predicted_positive_precision_wilson_95": [
+      0.5655175352168251,
+      1.0
+    ],
+    "predicted_negative_problematic_rate_wilson_95": [
+      0.10187670434449676,
+      0.3033045963663764
+    ],
+    "abstention_problematic_rate_wilson_95": [
+      0.0950510717728987,
+      0.3730569641314825
+    ]
+  },
+  "false_negative_origins_in_reviewed_cases": [
+    {
+      "pipeline_stage": "deterministic_rule",
+      "pipeline_classification": "expected_absence_move_or_delete",
+      "count": 9
+    },
+    {
+      "pipeline_stage": "llm_semantic_review",
+      "pipeline_classification": "expected_absence_create",
+      "count": 1
+    }
+  ],
+  "stage_diagnostics": [
+    {
+      "pipeline_stage": "deterministic_abstention",
+      "reviewed_n": 26,
+      "reviewed_problematic_n": 4,
+      "reviewed_problematic_rate": 0.15384615384615385,
+      "phase2_weighted_problematic_total_in_240": 6.4
+    },
+    {
+      "pipeline_stage": "deterministic_rule",
+      "reviewed_n": 46,
+      "reviewed_problematic_n": 9,
+      "reviewed_problematic_rate": 0.1956521739130435,
+      "phase2_weighted_problematic_total_in_240": 30.599999999999998
+    },
+    {
+      "pipeline_stage": "llm_semantic_review",
+      "reviewed_n": 18,
+      "reviewed_problematic_n": 8,
+      "reviewed_problematic_rate": 0.4444444444444444,
+      "phase2_weighted_problematic_total_in_240": 11.6
+    }
+  ],
+  "bootstrap": {
+    "method": "stratified nonparametric bootstrap within phase-2 prediction strata; predicted-positive census held fixed",
+    "seed": 20261014,
+    "replicates": 20000,
+    "population_intervals_are_approximate": true
+  },
+  "preregistered_gate": {
+    "precision_threshold": 0.8,
+    "recall_threshold": 0.8,
+    "point_estimate_gate_passed": false
+  }
+}

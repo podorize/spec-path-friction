@@ -1,0 +1,7 @@
+2026-10-13T14:27:48.319715Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for zsh: Snapshot command timed out for zsh
+2026-10-13T14:27:52.904608Z  WARN codex_http_client::custom_ca: encountered errors while loading native root certificates native_root_error_count=1
+2026-10-13T14:28:07.861109Z  WARN codex_http_client::custom_ca: encountered errors while loading native root certificates native_root_error_count=1
+2026-10-13T14:28:10.715846Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: invalid peer certificate: UnknownIssuer, url: wss://chatgpt.com/backend-api/codex/responses
+2026-10-13T14:28:10.748247Z  WARN codex_core::responses_retry: stream disconnected - retrying sampling request (1/5 in 198ms)... turn_id=01a135a9-774b-7d11-ae20-0b29ef9595da retries=1 max_retries=5 sampling_error=stream disconnected before completion: invalid peer certificate: UnknownIssuer
+2026-10-13T14:28:27.124543Z  WARN codex_http_client::custom_ca: encountered errors while loading native root certificates native_root_error_count=3
+2026-10-13T14:28:27.246847Z  WARN codex_core::responses_retry: stream disconnected - retrying sampling request (2/5 in 387ms)... turn_id=01a135a9-774b-7d11-ae20-0b29ef9595da retries=2 max_retries=5 sampling_error=request timed out

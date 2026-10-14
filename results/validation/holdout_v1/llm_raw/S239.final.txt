@@ -1,0 +1,1 @@
+{"decision":"classify","classification":"expected_absence_create","confidence":0.98,"evidence_quote":"From a scratch directory outside the monorepo, ... author a toy `src/hello.ts` workflow","rationale":"The task explicitly calls for creating this example file later in a scratch directory. Its absence from the repository at the anchor commit is expected.","missing_evidence":[]}

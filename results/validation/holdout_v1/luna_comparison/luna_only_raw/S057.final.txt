@@ -1,0 +1,1 @@
+{"decision":"classify","classification":"expected_absence_move_or_delete","confidence":0.99,"evidence_quote":"test_keyboard_shortcuts.py: Development test file no longer needed","rationale":"The anchor commit explicitly says this test file is no longer needed, and the task says to move it or remove it. Its absence at the anchor is expected.","missing_evidence":[]}

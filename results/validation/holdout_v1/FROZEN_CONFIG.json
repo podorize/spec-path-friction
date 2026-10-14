@@ -1,0 +1,22 @@
+{
+  "frozen_at_utc": "2026-10-12T14:31:51.145138+00:00",
+  "sample_manifest": "data/interim/holdout_screening_v1_240_manifest.json",
+  "sample_manifest_sha256": "07b83fc9c74176bec382e97f341bc5601a94f5dc9443b49843a5293de9223ebc",
+  "configuration_files": {
+    "src/create_longitudinal_holdout_screening.py": "3ebc754d2559da1024cf4c90404ff337ce7c9705c3b211e2156c6fa539097731",
+    "src/create_holdout_human_sample.py": "24a06def298d3d1da4db28e67558a323ef3713eebe7cf82baf2f1d224b20516d",
+    "src/build_longitudinal_evidence.py": "4a49f5cfcb2f1900c3b1ccf93a7902bf3e380d63c12d3571d8e3d24021fa791c",
+    "src/classify_reference_rules.py": "0053bb8254d67f409a96aae1549e4cb0212591b84dd84f73ae3e02fb5b636f0a",
+    "src/prepare_hybrid_judge_batch.py": "2f8c71154a94a29af6e29f0b1a1f0366c0537649c6e83a1f81662aa29a1e842d",
+    "validation/LLM_JUDGE_PROMPT_LONGITUDINAL_V2.md": "ddf267fbe0706549d564d1c3c2de6d54b5fec13d4f62aca146693af98aac0862",
+    "validation/llm_judge_output_schema_v2.json": "4a821ca617324fa965e227f81908c2cfaa9c51448563be78927a8ca059ed9c92",
+    "validation/PROTOCOL_V2_LONGITUDINAL.md": "20fc241cac3c11c36c5ad696c5f16a6e302d6cf67d6252d1fdf754233dc39d8a",
+    "validation/HOLDOUT_V1_DESIGN.md": "549513ba5b80154e30c0badd6026a5984f0b59921c1cb6a1c4d3b55582183759",
+    "src/run_holdout_llm_judge_v2.py": "84e1e591e1ae04f3636d35574685307a13b540fd5428430072104ed396ce356e"
+  },
+  "development_cases_excluded": true,
+  "human_labels_observed": false,
+  "warning": "Any change to a listed hash creates a new pipeline version and cannot be evaluated as holdout_v1.",
+  "screening_file_sha256": "8b2d0c50aeacd29110e4a6997b994cda73d0880174fbb2c84fcb09285a53e089",
+  "private_key_sha256": "d313e0c387563f4a617157858b1ea85cfff7bbb001dc21ea5e9f735c9e381d11"
+}

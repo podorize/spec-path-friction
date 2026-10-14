@@ -1,0 +1,38 @@
+{
+  "purpose": "Paired comparison of frozen deterministic-plus-Luna and Luna-only architectures",
+  "created_at_utc": "2026-10-13T14:23:07.820308+00:00",
+  "human_labels_used_to_select_or_route_cases": false,
+  "records": 90,
+  "counts": {
+    "deterministic_classifications": 46,
+    "deterministic_abstentions": 26,
+    "hybrid_luna_calls": 18,
+    "luna_only_calls": 90
+  },
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "evidence_file": "data/interim/holdout_longitudinal_evidence_v1_240.jsonl",
+  "evidence_sha256": "e00f6106f92c12c8476043b40895d5ba44fad4c618cba7031076d0ff9f7251d9",
+  "human_sample_key_sha256": "940bc5691fe1e8772bb56c736ae34bf3c097691f87a84c19a885ebc41e11829a",
+  "rules_sha256": "0053bb8254d67f409a96aae1549e4cb0212591b84dd84f73ae3e02fb5b636f0a",
+  "prompt_sha256": "ddf267fbe0706549d564d1c3c2de6d54b5fec13d4f62aca146693af98aac0862",
+  "schema_sha256": "4a821ca617324fa965e227f81908c2cfaa9c51448563be78927a8ca059ed9c92",
+  "outputs": {
+    "all_luna_input": {
+      "path": "results/validation/holdout_v1/luna_comparison/luna_only_input_90.jsonl",
+      "sha256": "9abdf076e616e57aa702753c28b3cbd772918df3cd776f29f07b64acf7be54e3"
+    },
+    "hybrid_luna_input": {
+      "path": "results/validation/holdout_v1/luna_comparison/hybrid_luna_input.jsonl",
+      "sha256": "06fa61a84cf7b61ca63a9da1454b661b57f64a64dbe1ccae6e460e7a4624bf0c"
+    },
+    "rule_decisions": {
+      "path": "results/validation/holdout_v1/luna_comparison/rule_decisions.jsonl",
+      "sha256": "2fc1021598456ee8526fdfd46a8776be4ba07a43a24035342b34d970efe4849f"
+    },
+    "deterministic_abstentions": {
+      "path": "results/validation/holdout_v1/luna_comparison/deterministic_abstentions.jsonl",
+      "sha256": "2af3033bef576457b8c11115912989d65340222185a551e39fb76339a9205af6"
+    }
+  }
+}

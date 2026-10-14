@@ -1,0 +1,14 @@
+{
+  "status": "post_hoc_secondary_audit",
+  "human_stable_positive_n": 6,
+  "audit_problematic_n": 1,
+  "audit_nonproblematic_n": 5,
+  "human_positive_retained_fraction": 0.16666666666666666,
+  "hybrid_exact_label_matches": 2,
+  "luna_only_exact_label_matches": 4,
+  "hybrid_three_state_matches": 4,
+  "luna_only_three_state_matches": 4,
+  "hybrid_abstentions": 2,
+  "luna_only_abstentions": 2,
+  "important_limit": "This audit was performed after model outputs were observed and only among human-stable positives. It must not replace the primary held-out analysis or be interpreted as a recall estimate."
+}

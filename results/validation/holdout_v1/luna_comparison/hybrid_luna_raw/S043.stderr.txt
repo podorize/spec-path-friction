@@ -1,0 +1,5 @@
+2026-10-13T14:28:27.123649Z  WARN codex_core_plugins::manager: failed to load recommended plugins error=failed to send remote plugin catalog request to https://chatgpt.com/backend-api/ps/plugins/suggested/codex?scope=GLOBAL: error sending request for url (https://chatgpt.com/backend-api/ps/plugins/suggested/codex?scope=GLOBAL)
+2026-10-13T14:28:27.173818Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out
+2026-10-13T14:28:28.314392Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out
+2026-10-13T14:28:40.416882Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for zsh: Snapshot command timed out for zsh
+2026-10-13T14:28:51.296536Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out

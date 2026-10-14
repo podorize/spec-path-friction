@@ -1,0 +1,2 @@
+codex(88833) MallocStackLogging: can't turn off malloc stack logging because it was not enabled.
+2026-10-13T14:26:08.149074Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for zsh: Snapshot command timed out for zsh

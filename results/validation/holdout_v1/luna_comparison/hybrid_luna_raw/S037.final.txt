@@ -1,0 +1,1 @@
+{"decision":"classify","classification":"expected_absence_create","confidence":0.99,"evidence_quote":"[ ] 1.2 Create `supabase/migrations/003_grammar_seed.sql`","rationale":"At the anchor commit, the task marks this file as planned creation. The path is absent from the anchor tree; the later checked task text does not override the anchor state.","missing_evidence":[]}

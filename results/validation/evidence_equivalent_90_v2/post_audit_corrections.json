@@ -1,0 +1,15 @@
+{
+  "created_at_utc": "2026-10-12T14:08:44.274866+00:00",
+  "source_file": "/Users/pedroodorize/.codex/.chatgpt-projects/g-p-6abaf5bf87e481919dc29fec1c4d1433/msr2027-specmine/data/interim/validation_human_90_R1_adjudicated.csv",
+  "output_file": "/Users/pedroodorize/.codex/.chatgpt-projects/g-p-6abaf5bf87e481919dc29fec1c4d1433/msr2027-specmine/data/interim/validation_human_90_R1_adjudicated_v2.csv",
+  "corrections": [
+    {
+      "review_id": "H025",
+      "old_label": "expected_absence_create",
+      "new_label": "expected_absence_move_or_delete",
+      "evidence_url": "https://github.com/tduretz/MDOODZ7.0/blob/24a5afc64cf79cbdada5e2342d0363a3aeb75203/openspec/changes/archive/2026-04-21-remove-gmg-stokes-solver/tasks.md",
+      "rationale": "Post-audit historical evidence at the anchor commit shows an archived remove-gmg-stokes-solver change whose task 2.1 explicitly deletes `TESTS/DisabledBenchmarks/*Gmg*` sources and fixtures. The referenced TopoRelaxGmgEquivalence.cpp is therefore absent because the GMG fixtures were retired, not because a completed implementation is missing."
+    }
+  ],
+  "binary_effect": "No change: H025 remains non-problematic in the binary outcome; the evidence-equivalent matrix remains [[46, 6], [0, 5]]."
+}

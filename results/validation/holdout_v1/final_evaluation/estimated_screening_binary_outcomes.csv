@@ -1,0 +1,4 @@
+pipeline_outcome,human_problematic_estimated,human_non_problematic_estimated
+predicted_problematic,5.0,0.0
+pipeline_abstention,9.6,38.40000000000001
+predicted_non_problematic,33.99999999999999,153.0000000000001

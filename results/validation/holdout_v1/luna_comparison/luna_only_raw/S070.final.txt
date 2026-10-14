@@ -1,0 +1,1 @@
+{"decision":"classify","classification":"non_file_reference","confidence":0.99,"evidence_quote":"File groups: `app/lib/screens/catalogos/*.dart`","rationale":"The reference contains a wildcard and denotes a group of Dart files, not one unique file. The 404 for the literal wildcard path does not establish that any specific file is missing.","missing_evidence":[]}

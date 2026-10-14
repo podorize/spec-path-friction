@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision",
+    "classification",
+    "confidence",
+    "evidence_quote",
+    "rationale",
+    "missing_evidence"
+  ],
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["classify", "abstain"]
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "confirmed_exists",
+        "confirmed_missing_problematic",
+        "expected_absence_create",
+        "expected_absence_move_or_delete",
+        "external_repository_reference",
+        "non_file_reference",
+        "ambiguous_reference",
+        "inaccessible_or_invalid"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "evidence_quote": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "rationale": {
+      "type": "string",
+      "maxLength": 600
+    },
+    "missing_evidence": {
+      "type": "array",
+      "items": {"type": "string"},
+      "maxItems": 6
+    }
+  }
+}

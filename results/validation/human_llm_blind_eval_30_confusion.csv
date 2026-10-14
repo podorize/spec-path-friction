@@ -1,0 +1,8 @@
+human_label,confirmed_exists,confirmed_missing_problematic,expected_absence_create,expected_absence_move_or_delete,non_file_reference,ambiguous_reference,inaccessible_or_invalid
+confirmed_exists,6,0,2,0,0,0,0
+confirmed_missing_problematic,0,1,0,0,0,0,0
+expected_absence_create,0,0,4,0,0,0,0
+expected_absence_move_or_delete,0,0,0,3,0,1,0
+non_file_reference,0,1,1,0,3,1,0
+ambiguous_reference,1,0,2,0,1,2,0
+inaccessible_or_invalid,1,0,0,0,0,0,0

@@ -1,0 +1,128 @@
+{
+  "n": 30,
+  "matches": 19,
+  "accuracy": 0.6333333333333333,
+  "expected_agreement": 0.18,
+  "cohen_kappa": 0.5528455284552845,
+  "macro_f1": 0.5555991627420199,
+  "per_class": [
+    {
+      "label": "confirmed_exists",
+      "human_support": 8,
+      "llm_support": 8,
+      "true_positive": 6,
+      "false_positive": 2,
+      "false_negative": 2,
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75
+    },
+    {
+      "label": "confirmed_missing_problematic",
+      "human_support": 1,
+      "llm_support": 2,
+      "true_positive": 1,
+      "false_positive": 1,
+      "false_negative": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6666666666666666
+    },
+    {
+      "label": "expected_absence_create",
+      "human_support": 4,
+      "llm_support": 9,
+      "true_positive": 4,
+      "false_positive": 5,
+      "false_negative": 0,
+      "precision": 0.4444444444444444,
+      "recall": 1.0,
+      "f1": 0.6153846153846153
+    },
+    {
+      "label": "expected_absence_move_or_delete",
+      "human_support": 4,
+      "llm_support": 3,
+      "true_positive": 3,
+      "false_positive": 0,
+      "false_negative": 1,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571
+    },
+    {
+      "label": "non_file_reference",
+      "human_support": 6,
+      "llm_support": 4,
+      "true_positive": 3,
+      "false_positive": 1,
+      "false_negative": 3,
+      "precision": 0.75,
+      "recall": 0.5,
+      "f1": 0.6
+    },
+    {
+      "label": "ambiguous_reference",
+      "human_support": 6,
+      "llm_support": 4,
+      "true_positive": 2,
+      "false_positive": 2,
+      "false_negative": 4,
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4
+    },
+    {
+      "label": "inaccessible_or_invalid",
+      "human_support": 1,
+      "llm_support": 0,
+      "true_positive": 0,
+      "false_positive": 0,
+      "false_negative": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  ],
+  "bootstrap": {
+    "seed": 20261001,
+    "replicates": 10000,
+    "accuracy_95_percentile": [
+      0.4666666666666667,
+      0.8
+    ],
+    "cohen_kappa_95_percentile": [
+      0.34107462305136726,
+      0.7468354430379748
+    ],
+    "macro_f1_95_percentile": [
+      0.3402251747380875,
+      0.6829931972789115
+    ]
+  },
+  "accuracy_wilson_95": [
+    0.4551356365479487,
+    0.7812607919389929
+  ],
+  "problematic_binary": {
+    "positive_label": "confirmed_missing_problematic",
+    "true_positive": 1,
+    "true_negative": 28,
+    "false_positive": 1,
+    "false_negative": 0,
+    "accuracy": 0.9666666666666667,
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.6666666666666666,
+    "warning": "Only one human-positive case; binary performance is unstable and must not be generalized."
+  },
+  "human_semantic_audit": {
+    "literal_absence_cases": 20,
+    "confirmed_problematic_among_literal_absence": 1,
+    "confirmed_problematic_rate": 0.05,
+    "confirmed_problematic_rate_wilson_95": [
+      0.008881448800795402,
+      0.23613119344674205
+    ]
+  }
+}

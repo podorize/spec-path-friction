@@ -1,0 +1,356 @@
+{
+  "reference": "R1 adjudicated final labels",
+  "adjudicated_cases": 24,
+  "human_label_changes": 5,
+  "full_90": {
+    "n": 90,
+    "matches": 64,
+    "accuracy": 0.7111111111111111,
+    "expected_agreement": 0.22592592592592592,
+    "cohen_kappa": 0.6267942583732057,
+    "macro_f1": 0.5787890913941334,
+    "per_class": [
+      {
+        "label": "confirmed_exists",
+        "human_support": 30,
+        "llm_support": 21,
+        "true_positive": 20,
+        "false_positive": 1,
+        "false_negative": 10,
+        "precision": 0.9523809523809523,
+        "recall": 0.6666666666666666,
+        "f1": 0.7843137254901961
+      },
+      {
+        "label": "confirmed_missing_problematic",
+        "human_support": 5,
+        "llm_support": 6,
+        "true_positive": 3,
+        "false_positive": 3,
+        "false_negative": 2,
+        "precision": 0.5,
+        "recall": 0.6,
+        "f1": 0.5454545454545454
+      },
+      {
+        "label": "expected_absence_create",
+        "human_support": 28,
+        "llm_support": 35,
+        "true_positive": 23,
+        "false_positive": 12,
+        "false_negative": 5,
+        "precision": 0.6571428571428571,
+        "recall": 0.8214285714285714,
+        "f1": 0.73015873015873
+      },
+      {
+        "label": "expected_absence_move_or_delete",
+        "human_support": 10,
+        "llm_support": 10,
+        "true_positive": 10,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      {
+        "label": "non_file_reference",
+        "human_support": 11,
+        "llm_support": 6,
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 5,
+        "precision": 1.0,
+        "recall": 0.5454545454545454,
+        "f1": 0.7058823529411764
+      },
+      {
+        "label": "ambiguous_reference",
+        "human_support": 2,
+        "llm_support": 12,
+        "true_positive": 2,
+        "false_positive": 10,
+        "false_negative": 0,
+        "precision": 0.16666666666666666,
+        "recall": 1.0,
+        "f1": 0.2857142857142857
+      },
+      {
+        "label": "inaccessible_or_invalid",
+        "human_support": 4,
+        "llm_support": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    ],
+    "bootstrap": {
+      "seed": 20261020,
+      "replicates": 5000,
+      "accuracy_95_percentile": [
+        0.6111111111111112,
+        0.8
+      ],
+      "cohen_kappa_95_percentile": [
+        0.5044522374217483,
+        0.7356644323381587
+      ],
+      "macro_f1_95_percentile": [
+        0.47394542985074933,
+        0.6580652318398623
+      ]
+    }
+  },
+  "primary_semantic_subset": {
+    "n": 86,
+    "matches": 64,
+    "accuracy": 0.7441860465116279,
+    "expected_agreement": 0.23891292590589508,
+    "cohen_kappa": 0.6638834606502043,
+    "macro_f1": 0.691997791129903,
+    "per_class": [
+      {
+        "label": "confirmed_exists",
+        "human_support": 30,
+        "llm_support": 21,
+        "true_positive": 20,
+        "false_positive": 1,
+        "false_negative": 10,
+        "precision": 0.9523809523809523,
+        "recall": 0.6666666666666666,
+        "f1": 0.7843137254901961
+      },
+      {
+        "label": "confirmed_missing_problematic",
+        "human_support": 5,
+        "llm_support": 5,
+        "true_positive": 3,
+        "false_positive": 2,
+        "false_negative": 2,
+        "precision": 0.6,
+        "recall": 0.6,
+        "f1": 0.6
+      },
+      {
+        "label": "expected_absence_create",
+        "human_support": 28,
+        "llm_support": 33,
+        "true_positive": 23,
+        "false_positive": 10,
+        "false_negative": 5,
+        "precision": 0.696969696969697,
+        "recall": 0.8214285714285714,
+        "f1": 0.7540983606557378
+      },
+      {
+        "label": "expected_absence_move_or_delete",
+        "human_support": 10,
+        "llm_support": 10,
+        "true_positive": 10,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      {
+        "label": "non_file_reference",
+        "human_support": 11,
+        "llm_support": 6,
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 5,
+        "precision": 1.0,
+        "recall": 0.5454545454545454,
+        "f1": 0.7058823529411764
+      },
+      {
+        "label": "ambiguous_reference",
+        "human_support": 2,
+        "llm_support": 11,
+        "true_positive": 2,
+        "false_positive": 9,
+        "false_negative": 0,
+        "precision": 0.18181818181818182,
+        "recall": 1.0,
+        "f1": 0.3076923076923077
+      }
+    ],
+    "bootstrap": {
+      "seed": 20261021,
+      "replicates": 5000,
+      "accuracy_95_percentile": [
+        0.6511627906976745,
+        0.8372093023255814
+      ],
+      "cohen_kappa_95_percentile": [
+        0.5435549782194318,
+        0.7784329095888518
+      ],
+      "macro_f1_95_percentile": [
+        0.566235273862067,
+        0.7887622692223742
+      ]
+    }
+  },
+  "collapsed_full_90": {
+    "n": 90,
+    "matches": 68,
+    "accuracy": 0.7555555555555555,
+    "expected_agreement": 0.3214814814814815,
+    "cohen_kappa": 0.6397379912663755,
+    "macro_f1": 0.5798285084446808,
+    "per_class": [
+      {
+        "label": "exists",
+        "human_support": 30,
+        "llm_support": 21,
+        "true_positive": 20,
+        "false_positive": 1,
+        "false_negative": 10,
+        "precision": 0.9523809523809523,
+        "recall": 0.6666666666666666,
+        "f1": 0.7843137254901961
+      },
+      {
+        "label": "problematic_missing",
+        "human_support": 5,
+        "llm_support": 6,
+        "true_positive": 3,
+        "false_positive": 3,
+        "false_negative": 2,
+        "precision": 0.5,
+        "recall": 0.6,
+        "f1": 0.5454545454545454
+      },
+      {
+        "label": "expected_absence",
+        "human_support": 38,
+        "llm_support": 45,
+        "true_positive": 33,
+        "false_positive": 12,
+        "false_negative": 5,
+        "precision": 0.7333333333333333,
+        "recall": 0.868421052631579,
+        "f1": 0.7951807228915663
+      },
+      {
+        "label": "non_file_or_ambiguous",
+        "human_support": 13,
+        "llm_support": 18,
+        "true_positive": 12,
+        "false_positive": 6,
+        "false_negative": 1,
+        "precision": 0.6666666666666666,
+        "recall": 0.9230769230769231,
+        "f1": 0.7741935483870968
+      },
+      {
+        "label": "inaccessible",
+        "human_support": 4,
+        "llm_support": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    ],
+    "bootstrap": {
+      "seed": 20261022,
+      "replicates": 5000,
+      "accuracy_95_percentile": [
+        0.6666666666666666,
+        0.8444444444444444
+      ],
+      "cohen_kappa_95_percentile": [
+        0.5029297787576023,
+        0.7594526091775883
+      ],
+      "macro_f1_95_percentile": [
+        0.46369401614538514,
+        0.6671288205820427
+      ]
+    }
+  },
+  "collapsed_primary_semantic_subset": {
+    "n": 86,
+    "matches": 68,
+    "accuracy": 0.7906976744186046,
+    "expected_agreement": 0.3393726338561385,
+    "cohen_kappa": 0.6831764224314367,
+    "macro_f1": 0.7497821350762528,
+    "per_class": [
+      {
+        "label": "exists",
+        "human_support": 30,
+        "llm_support": 21,
+        "true_positive": 20,
+        "false_positive": 1,
+        "false_negative": 10,
+        "precision": 0.9523809523809523,
+        "recall": 0.6666666666666666,
+        "f1": 0.7843137254901961
+      },
+      {
+        "label": "problematic_missing",
+        "human_support": 5,
+        "llm_support": 5,
+        "true_positive": 3,
+        "false_positive": 2,
+        "false_negative": 2,
+        "precision": 0.6,
+        "recall": 0.6,
+        "f1": 0.6
+      },
+      {
+        "label": "expected_absence",
+        "human_support": 38,
+        "llm_support": 43,
+        "true_positive": 33,
+        "false_positive": 10,
+        "false_negative": 5,
+        "precision": 0.7674418604651163,
+        "recall": 0.868421052631579,
+        "f1": 0.8148148148148148
+      },
+      {
+        "label": "non_file_or_ambiguous",
+        "human_support": 13,
+        "llm_support": 17,
+        "true_positive": 12,
+        "false_positive": 5,
+        "false_negative": 1,
+        "precision": 0.7058823529411765,
+        "recall": 0.9230769230769231,
+        "f1": 0.8000000000000002
+      }
+    ],
+    "bootstrap": {
+      "seed": 20261023,
+      "replicates": 5000,
+      "accuracy_95_percentile": [
+        0.6976744186046512,
+        0.872093023255814
+      ],
+      "cohen_kappa_95_percentile": [
+        0.5497359527161334,
+        0.8047068538398018
+      ],
+      "macro_f1_95_percentile": [
+        0.6002645266387253,
+        0.8597098621675574
+      ]
+    }
+  },
+  "exact_disagreements_full_90": 26,
+  "exact_disagreements_primary_semantic_subset": 22,
+  "model": "gpt-6-astra",
+  "llm_results_file": "data/interim/llm_human_90_astra_results.csv",
+  "pre_adjudication_summary": "/Users/pedroodorize/.codex/.chatgpt-projects/g-p-6abaf5bf87e481919dc29fec1c4d1433/msr2027-specmine/results/validation/human_90/summary.json"
+}

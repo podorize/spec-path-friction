@@ -11,3 +11,5 @@ data/interim/*
 !data/interim/.gitkeep
 
 *.duckdb
+node_modules/
+results/**/cache_*/

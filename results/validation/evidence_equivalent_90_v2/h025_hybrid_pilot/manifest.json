@@ -1,0 +1,19 @@
+{
+  "created_at_utc": "2026-10-12T14:11:28.456007+00:00",
+  "development_data": true,
+  "input": "data/interim/longitudinal_evidence_h025.jsonl",
+  "input_sha256": "e87db01182b91fa36e7a63f4801653386b124d8b18496d1a71fd34b4735bc714",
+  "prompt": "/Users/pedroodorize/.codex/.chatgpt-projects/g-p-6abaf5bf87e481919dc29fec1c4d1433/msr2027-specmine/validation/LLM_JUDGE_PROMPT_LONGITUDINAL_V2.md",
+  "prompt_sha256": "ddf267fbe0706549d564d1c3c2de6d54b5fec13d4f62aca146693af98aac0862",
+  "schema": "/Users/pedroodorize/.codex/.chatgpt-projects/g-p-6abaf5bf87e481919dc29fec1c4d1433/msr2027-specmine/validation/llm_judge_output_schema_v2.json",
+  "schema_sha256": "4a821ca617324fa965e227f81908c2cfaa9c51448563be78927a8ca059ed9c92",
+  "counts": {
+    "rule_decisions": 1,
+    "abstentions": 0,
+    "llm_queue": 0
+  },
+  "automatic_rule_coverage": 1.0,
+  "abstention_rate_before_llm": 0.0,
+  "llm_queue_rate": 0.0,
+  "note": "No model calls are made by this script; the queue is frozen for a separately configured run."
+}

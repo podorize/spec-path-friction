@@ -1,0 +1,8 @@
+label,human_support,llm_support,true_positive,false_positive,false_negative,precision,recall,f1
+confirmed_exists,8,8,6,2,2,0.75,0.75,0.75
+confirmed_missing_problematic,1,2,1,1,0,0.5,1.0,0.6666666666666666
+expected_absence_create,4,9,4,5,0,0.4444444444444444,1.0,0.6153846153846153
+expected_absence_move_or_delete,4,3,3,0,1,1.0,0.75,0.8571428571428571
+non_file_reference,6,4,3,1,3,0.75,0.5,0.6
+ambiguous_reference,6,4,2,2,4,0.5,0.3333333333333333,0.4
+inaccessible_or_invalid,1,0,0,0,1,0.0,0.0,0.0

@@ -1,0 +1,2 @@
+2026-10-12T15:01:31.048252Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out
+2026-10-12T15:01:41.072006Z  WARN codex_analytics::client: failed to send events request: error sending request for url (https://chatgpt.com/backend-api/codex/analytics-events/events)

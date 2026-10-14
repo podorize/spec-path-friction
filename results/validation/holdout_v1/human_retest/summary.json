@@ -1,0 +1,59 @@
+{
+  "created_at_utc": "2026-10-13T14:21:53.397467+00:00",
+  "workbook": "/Users/pedroodorize/.codex/.chatgpt-projects/g-p-6abaf5bf87e481919dc29fec1c4d1433/msr2027-specmine/data/interim/holdout_human_v1_90_r2_reviews_completed.xlsx",
+  "workbook_sha256": "8bb285345f2d16282ab86898ecfb6b9621baee3266d3f9392a6851ec23f36798",
+  "n_cases": 90,
+  "round1_label_counts": {
+    "ambiguous_reference": 9,
+    "confirmed_missing_problematic": 21,
+    "expected_absence_create": 31,
+    "expected_absence_move_or_delete": 11,
+    "external_repository_reference": 2,
+    "inaccessible_or_invalid": 8,
+    "non_file_reference": 8
+  },
+  "round2_label_counts": {
+    "ambiguous_reference": 29,
+    "confirmed_missing_problematic": 8,
+    "expected_absence_create": 18,
+    "expected_absence_move_or_delete": 9,
+    "external_repository_reference": 3,
+    "inaccessible_or_invalid": 13,
+    "non_file_reference": 10
+  },
+  "round1_state_counts": {
+    "nonproblematic": 52,
+    "problematic": 21,
+    "unknown": 17
+  },
+  "round2_state_counts": {
+    "nonproblematic": 40,
+    "problematic": 8,
+    "unknown": 42
+  },
+  "exact_eight_class": {
+    "n": 90,
+    "observed_agreement": 0.5666666666666667,
+    "cohen_kappa": 0.4856389214536928,
+    "gwet_ac1": 0.5092771974674948
+  },
+  "three_state": {
+    "n": 90,
+    "observed_agreement": 0.6333333333333333,
+    "cohen_kappa": 0.42195406773063454,
+    "gwet_ac1": 0.47417341654494755
+  },
+  "three_state_excluding_round2_temporary_access_failures": {
+    "n": 79,
+    "observed_agreement": 0.6708860759493671,
+    "cohen_kappa": 0.45574986751457336,
+    "gwet_ac1": 0.5347678369195924
+  },
+  "stable_decisive_cases": 42,
+  "stable_problematic_cases": 6,
+  "stable_nonproblematic_cases": 36,
+  "stable_unknown_cases": 15,
+  "unstable_cases": 33,
+  "round2_access_issue_cases": 13,
+  "round2_temporary_access_failure_cases": 11
+}

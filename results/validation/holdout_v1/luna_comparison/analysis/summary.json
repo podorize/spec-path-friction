@@ -1,0 +1,342 @@
+{
+  "reference": {
+    "stable_decisive_n": 42,
+    "stable_problematic_n": 6,
+    "stable_nonproblematic_n": 36,
+    "exact_stable_n": 51,
+    "three_state_stable_n": 57
+  },
+  "primary": {
+    "hybrid_unweighted": {
+      "n": 42,
+      "weighted_n": 42.0,
+      "tp": 1.0,
+      "fp": 0.0,
+      "tn": 23.0,
+      "fn": 3.0,
+      "abstain_positive": 2.0,
+      "abstain_negative": 13.0,
+      "coverage": 0.6428571428571429,
+      "precision": 1.0,
+      "recall_end_to_end": 0.16666666666666666,
+      "specificity_end_to_end": 0.6388888888888888,
+      "npv": 0.8846153846153846,
+      "f1_end_to_end": 0.2857142857142857,
+      "accuracy_end_to_end": 0.5714285714285714,
+      "balanced_accuracy_end_to_end": 0.40277777777777773,
+      "selective_accuracy": 0.8888888888888888
+    },
+    "luna_only_unweighted": {
+      "n": 42,
+      "weighted_n": 42.0,
+      "tp": 1.0,
+      "fp": 0.0,
+      "tn": 34.0,
+      "fn": 3.0,
+      "abstain_positive": 2.0,
+      "abstain_negative": 2.0,
+      "coverage": 0.9047619047619048,
+      "precision": 1.0,
+      "recall_end_to_end": 0.16666666666666666,
+      "specificity_end_to_end": 0.9444444444444444,
+      "npv": 0.918918918918919,
+      "f1_end_to_end": 0.2857142857142857,
+      "accuracy_end_to_end": 0.8333333333333334,
+      "balanced_accuracy_end_to_end": 0.5555555555555556,
+      "selective_accuracy": 0.9210526315789473
+    },
+    "hybrid_design_weighted": {
+      "n": 42,
+      "weighted_n": 20206.751666666707,
+      "tp": 112.58333333333354,
+      "fp": 0.0,
+      "tn": 13824.54166666669,
+      "fn": 1483.0516666666695,
+      "abstain_positive": 897.618333333335,
+      "abstain_negative": 3888.956666666674,
+      "coverage": 0.7631200165687193,
+      "precision": 1.0,
+      "recall_end_to_end": 0.04515519214520252,
+      "specificity_end_to_end": 0.7804523649996108,
+      "npv": 0.903116601390421,
+      "f1_end_to_end": 0.08640858790075101,
+      "accuracy_end_to_end": 0.6897261484630837,
+      "balanced_accuracy_end_to_end": 0.41280377857240663,
+      "selective_accuracy": 0.9038239510009937
+    },
+    "luna_only_design_weighted": {
+      "n": 42,
+      "weighted_n": 20206.751666666707,
+      "tp": 112.58333333333354,
+      "fp": 0.0,
+      "tn": 16613.230000000032,
+      "fn": 1483.0516666666695,
+      "abstain_positive": 897.618333333335,
+      "abstain_negative": 1100.2683333333352,
+      "coverage": 0.9011277666185996,
+      "precision": 1.0,
+      "recall_end_to_end": 0.04515519214520252,
+      "specificity_end_to_end": 0.9378853170261211,
+      "npv": 0.9180466079173355,
+      "f1_end_to_end": 0.08640858790075101,
+      "accuracy_end_to_end": 0.8277338985129639,
+      "balanced_accuracy_end_to_end": 0.4915202545856618,
+      "selective_accuracy": 0.9185533163837138
+    }
+  },
+  "sensitivities": {
+    "round1": {
+      "hybrid": {
+        "n": 73,
+        "weighted_n": 73.0,
+        "tp": 5.0,
+        "fp": 0.0,
+        "tn": 34.0,
+        "fn": 9.0,
+        "abstain_positive": 7.0,
+        "abstain_negative": 18.0,
+        "coverage": 0.6575342465753424,
+        "precision": 1.0,
+        "recall_end_to_end": 0.23809523809523808,
+        "specificity_end_to_end": 0.6538461538461539,
+        "npv": 0.7906976744186046,
+        "f1_end_to_end": 0.3846153846153846,
+        "accuracy_end_to_end": 0.5342465753424658,
+        "balanced_accuracy_end_to_end": 0.44597069597069594,
+        "selective_accuracy": 0.8125
+      },
+      "luna_only": {
+        "n": 73,
+        "weighted_n": 73.0,
+        "tp": 4.0,
+        "fp": 0.0,
+        "tn": 46.0,
+        "fn": 7.0,
+        "abstain_positive": 10.0,
+        "abstain_negative": 6.0,
+        "coverage": 0.7808219178082192,
+        "precision": 1.0,
+        "recall_end_to_end": 0.19047619047619047,
+        "specificity_end_to_end": 0.8846153846153846,
+        "npv": 0.8679245283018868,
+        "f1_end_to_end": 0.32,
+        "accuracy_end_to_end": 0.684931506849315,
+        "balanced_accuracy_end_to_end": 0.5375457875457875,
+        "selective_accuracy": 0.8771929824561403
+      }
+    },
+    "round2": {
+      "hybrid": {
+        "n": 48,
+        "weighted_n": 48.0,
+        "tp": 1.0,
+        "fp": 0.0,
+        "tn": 26.0,
+        "fn": 5.0,
+        "abstain_positive": 2.0,
+        "abstain_negative": 14.0,
+        "coverage": 0.6666666666666666,
+        "precision": 1.0,
+        "recall_end_to_end": 0.125,
+        "specificity_end_to_end": 0.65,
+        "npv": 0.8387096774193549,
+        "f1_end_to_end": 0.2222222222222222,
+        "accuracy_end_to_end": 0.5625,
+        "balanced_accuracy_end_to_end": 0.3875,
+        "selective_accuracy": 0.84375
+      },
+      "luna_only": {
+        "n": 48,
+        "weighted_n": 48.0,
+        "tp": 1.0,
+        "fp": 0.0,
+        "tn": 36.0,
+        "fn": 5.0,
+        "abstain_positive": 2.0,
+        "abstain_negative": 4.0,
+        "coverage": 0.875,
+        "precision": 1.0,
+        "recall_end_to_end": 0.125,
+        "specificity_end_to_end": 0.9,
+        "npv": 0.8780487804878049,
+        "f1_end_to_end": 0.2222222222222222,
+        "accuracy_end_to_end": 0.7708333333333334,
+        "balanced_accuracy_end_to_end": 0.5125,
+        "selective_accuracy": 0.8809523809523809
+      }
+    }
+  },
+  "exact_semantic": {
+    "hybrid": {
+      "n": 51,
+      "exact_accuracy": 0.43137254901960786,
+      "macro_f1_observed_classes": 0.4343835177168511,
+      "per_class_f1": {
+        "confirmed_missing_problematic": 0.2857142857142857,
+        "expected_absence_create": 0.3,
+        "expected_absence_move_or_delete": 0.5333333333333333,
+        "non_file_reference": 0.5454545454545454,
+        "ambiguous_reference": 0.37037037037037035,
+        "inaccessible_or_invalid": 0.5714285714285715
+      }
+    },
+    "luna_only": {
+      "n": 51,
+      "exact_accuracy": 0.7843137254901961,
+      "macro_f1_observed_classes": 0.7527975836799367,
+      "per_class_f1": {
+        "confirmed_missing_problematic": 0.25,
+        "expected_absence_create": 0.8484848484848485,
+        "expected_absence_move_or_delete": 0.9411764705882353,
+        "non_file_reference": 1.0,
+        "ambiguous_reference": 0.5882352941176471,
+        "inaccessible_or_invalid": 0.888888888888889
+      }
+    }
+  },
+  "stable_three_state": {
+    "hybrid_accuracy": 0.543859649122807,
+    "luna_only_accuracy": 0.8070175438596491,
+    "n": 57
+  },
+  "paired_comparison": {
+    "both_correct": 22,
+    "both_incorrect": 5,
+    "hybrid_only_correct": 2,
+    "luna_only_correct": 13,
+    "discordant": 15,
+    "exact_two_sided_p": 0.00738525390625,
+    "bootstrap_accuracy_difference": {
+      "hybrid_minus_luna_point": -0.261904761904762,
+      "ci_low": -0.42857142857142855,
+      "ci_high": -0.09523809523809523
+    },
+    "bootstrap_recall_difference": {
+      "hybrid_minus_luna_point": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    }
+  },
+  "hybrid_stage_breakdown": {
+    "deterministic_abstention": {
+      "n": 11,
+      "problematic_n": 0,
+      "nonproblematic_n": 11,
+      "classified_n": 0,
+      "unknown_n": 11,
+      "correct_n": 0,
+      "end_to_end_accuracy": 0.0,
+      "selective_accuracy": null,
+      "true_positive_n": 0,
+      "false_negative_n": 0,
+      "positive_abstention_n": 0
+    },
+    "deterministic_rule": {
+      "n": 23,
+      "problematic_n": 3,
+      "nonproblematic_n": 20,
+      "classified_n": 23,
+      "unknown_n": 0,
+      "correct_n": 20,
+      "end_to_end_accuracy": 0.8695652173913043,
+      "selective_accuracy": 0.8695652173913043,
+      "true_positive_n": 0,
+      "false_negative_n": 3,
+      "positive_abstention_n": 0
+    },
+    "luna_semantic_review": {
+      "n": 8,
+      "problematic_n": 3,
+      "nonproblematic_n": 5,
+      "classified_n": 4,
+      "unknown_n": 4,
+      "correct_n": 4,
+      "end_to_end_accuracy": 0.5,
+      "selective_accuracy": 1.0,
+      "true_positive_n": 1,
+      "false_negative_n": 0,
+      "positive_abstention_n": 2
+    }
+  },
+  "uncertainty": {
+    "hybrid": {
+      "coverage_wilson_95": {
+        "estimate": 0.6428571428571429,
+        "ci_low": 0.4916636571945582,
+        "ci_high": 0.7701081168438123
+      },
+      "precision_wilson_95": {
+        "estimate": 1.0,
+        "ci_low": 0.20654931437723745,
+        "ci_high": 1.0
+      },
+      "recall_wilson_95": {
+        "estimate": 0.16666666666666666,
+        "ci_low": 0.030053369748306635,
+        "ci_high": 0.5635028221864702
+      },
+      "accuracy_wilson_95": {
+        "estimate": 0.5714285714285714,
+        "ci_low": 0.4220623987810458,
+        "ci_high": 0.7088234882381393
+      }
+    },
+    "luna_only": {
+      "coverage_wilson_95": {
+        "estimate": 0.9047619047619048,
+        "ci_low": 0.7793489419142897,
+        "ci_high": 0.9623377511944261
+      },
+      "precision_wilson_95": {
+        "estimate": 1.0,
+        "ci_low": 0.20654931437723745,
+        "ci_high": 1.0
+      },
+      "recall_wilson_95": {
+        "estimate": 0.16666666666666666,
+        "ci_low": 0.030053369748306635,
+        "ci_high": 0.5635028221864702
+      },
+      "accuracy_wilson_95": {
+        "estimate": 0.8333333333333334,
+        "ci_low": 0.6939599725535115,
+        "ci_high": 0.9168408335360192
+      }
+    }
+  },
+  "resources": {
+    "hybrid": {
+      "attempts": 18,
+      "input_tokens": 312707,
+      "cached_input_tokens": 44032,
+      "output_tokens": 9914,
+      "reasoning_output_tokens": 7459,
+      "estimated_usd": 0.03226482
+    },
+    "luna_only": {
+      "attempts": 92,
+      "input_tokens": 1646415,
+      "cached_input_tokens": 847616,
+      "output_tokens": 41773,
+      "reasoning_output_tokens": 29802,
+      "estimated_usd": 0.10924256
+    }
+  },
+  "prediction_counts": {
+    "hybrid_state": {
+      "nonproblematic": 52,
+      "unknown": 33,
+      "problematic": 5
+    },
+    "luna_only_state": {
+      "nonproblematic": 57,
+      "unknown": 28,
+      "problematic": 5
+    },
+    "hybrid_stage": {
+      "deterministic_rule": 46,
+      "deterministic_abstention": 26,
+      "luna_semantic_review": 18
+    }
+  }
+}

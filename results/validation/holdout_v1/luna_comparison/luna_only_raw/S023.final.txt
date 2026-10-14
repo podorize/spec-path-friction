@@ -1,0 +1,1 @@
+{"decision":"classify","classification":"expected_absence_create","confidence":0.83,"evidence_quote":"- [x] Add docker/init/mongodb/init.js","rationale":"The task explicitly describes adding this path, so its absence is consistent with a planned new file. The anchor tree confirms the path is absent; the checked box alone does not establish that it exists.","missing_evidence":[]}

@@ -1,0 +1,1 @@
+{"decision":"classify","classification":"expected_absence_create","confidence":0.99,"evidence_quote":"- [ ] 1.1 Create `src/strategies/AdaptiveExplorer.ts`","rationale":"The task at the anchor commit explicitly calls for creating this file. The path is absent at that commit, consistent with a planned new file.","missing_evidence":[]}

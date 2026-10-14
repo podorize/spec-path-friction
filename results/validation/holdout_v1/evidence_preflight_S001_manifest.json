@@ -1,0 +1,26 @@
+{
+  "purpose": "Label-free longitudinal evidence packets for development of the hybrid reference classifier",
+  "created_at_utc": "2026-10-12T14:33:32.909228+00:00",
+  "development_data": true,
+  "records": 1,
+  "review_ids": [
+    "S001"
+  ],
+  "source_file": "data/interim/holdout_screening_v1_240.csv",
+  "source_sha256": "8b2d0c50aeacd29110e4a6997b994cda73d0880174fbb2c84fcb09285a53e089",
+  "output_file": "results/validation/holdout_v1/evidence_preflight_S001.jsonl",
+  "output_sha256": "f8bf71f99d51bb38deffdc4c0af12d5faa95aad3d677fa239f6040572ddc80f9",
+  "excluded_from_packet": [
+    "validation_group",
+    "task_done",
+    "exists_at_anchor",
+    "manual_classification",
+    "human labels",
+    "LLM labels",
+    "adjudication fields"
+  ],
+  "max_history": 10,
+  "max_compare": 5,
+  "github_requests": 6,
+  "cache_hits": 0
+}

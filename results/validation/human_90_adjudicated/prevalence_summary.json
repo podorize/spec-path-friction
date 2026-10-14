@@ -1,0 +1,71 @@
+{
+  "estimand": "confirmed_missing_problematic among literal unresolved references",
+  "population_source": "openspec_code_refs.parquet, task_done in {0,1}, exists_at_anchor in {0,1}",
+  "population_strata": {
+    "completed + exists": 297822,
+    "completed + missing": 34227,
+    "open + exists": 63261,
+    "open + missing": 17752
+  },
+  "validation_sample": "90 English cases, 30 per private stratum; only the two unresolved strata enter this prevalence estimate",
+  "strata": [
+    {
+      "validation_group": "completed + missing",
+      "sample_n": 30,
+      "population_n": 34227,
+      "problematic_n": 3,
+      "inaccessible_n": 0,
+      "problematic_rate_conservative": 0.1,
+      "problematic_rate_known_only": 0.1,
+      "conservative_wilson_95_low": 0.03459988874733419,
+      "conservative_wilson_95_high": 0.25621082579184085,
+      "known_only_wilson_95_low": 0.03459988874733419,
+      "known_only_wilson_95_high": 0.25621082579184085,
+      "label_counts": {
+        "confirmed_exists": 1,
+        "confirmed_missing_problematic": 3,
+        "expected_absence_create": 9,
+        "expected_absence_move_or_delete": 9,
+        "non_file_reference": 8
+      }
+    },
+    {
+      "validation_group": "open + missing",
+      "sample_n": 30,
+      "population_n": 17752,
+      "problematic_n": 2,
+      "inaccessible_n": 3,
+      "problematic_rate_conservative": 0.06666666666666667,
+      "problematic_rate_known_only": 0.07407407407407407,
+      "conservative_wilson_95_low": 0.018477023791270378,
+      "conservative_wilson_95_high": 0.2132345836261692,
+      "known_only_wilson_95_low": 0.020554654060988622,
+      "known_only_wilson_95_high": 0.23369592683023144,
+      "label_counts": {
+        "ambiguous_reference": 2,
+        "confirmed_missing_problematic": 2,
+        "expected_absence_create": 19,
+        "expected_absence_move_or_delete": 1,
+        "inaccessible_or_invalid": 3,
+        "non_file_reference": 3
+      }
+    }
+  ],
+  "conservative_treat_inaccessible_as_non_problematic": {
+    "weighted_rate": 0.08861591540173276,
+    "bootstrap_95_percentile": [
+      0.021949248735066085,
+      0.17641291034199708
+    ]
+  },
+  "known_only_exclude_inaccessible_from_stratum_denominators": {
+    "weighted_rate": 0.09114571197912548,
+    "bootstrap_95_percentile": [
+      0.021949248735066085,
+      0.17803920814174953
+    ]
+  },
+  "bootstrap_seed": 20261010,
+  "bootstrap_replicates": 10000,
+  "interpretation": "Exploratory stratified estimate, not a population gold standard; one human reviewer and 30 cases per stratum limit precision."
+}

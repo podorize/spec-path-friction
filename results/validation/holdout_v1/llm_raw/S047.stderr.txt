@@ -1,0 +1,2 @@
+2026-10-12T14:58:08.903953Z  WARN codex_core_plugins::manager: failed to load recommended plugins error=failed to send remote plugin catalog request to https://chatgpt.com/backend-api/ps/plugins/suggested/codex?scope=GLOBAL: error sending request for url (https://chatgpt.com/backend-api/ps/plugins/suggested/codex?scope=GLOBAL)
+2026-10-12T14:58:08.903988Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out

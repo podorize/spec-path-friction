@@ -1,0 +1,1 @@
+{"decision":"classify","classification":"non_file_reference","confidence":0.99,"evidence_quote":"Optimize Next.js config for production builds","rationale":"“Next.js” names the framework in this task text; it does not identify a unique file path. The missing-path observations do not change that interpretation.","missing_evidence":[]}

@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a130a3-0c09-76d2-868b-47752607501f"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"{\"decision\":\"classify\",\"classification\":\"non_file_reference\",\"confidence\":0.99,\"evidence_quote\":\"Manual Swagger-UI check: start app, visit `/swagger-ui.html`, verify `PATCH /api/v1/test-suites/{testSuiteId}/test-cases:bulk` is documented with examples.\",\"rationale\":\"The path is an application URL visited in a browser for a manual Swagger UI check, not a reference to a repository file. Its absence from the repository tree is expected.\",\"missing_evidence\":[]}"}}
+{"type":"turn.completed","usage":{"input_tokens":16949,"cached_input_tokens":11904,"cache_write_input_tokens":0,"output_tokens":128,"reasoning_output_tokens":11}}

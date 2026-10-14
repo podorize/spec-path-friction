@@ -1,0 +1,9 @@
+Round 1,confirmed_exists,confirmed_missing_problematic,expected_absence_create,expected_absence_move_or_delete,external_repository_reference,non_file_reference,ambiguous_reference,inaccessible_or_invalid
+confirmed_exists,0,0,0,0,0,0,0,0
+confirmed_missing_problematic,0,6,1,1,0,0,10,3
+expected_absence_create,0,0,16,0,3,0,10,2
+expected_absence_move_or_delete,0,2,0,8,0,0,0,1
+external_repository_reference,0,0,0,0,0,1,0,1
+non_file_reference,0,0,0,0,0,8,0,0
+ambiguous_reference,0,0,0,0,0,0,8,1
+inaccessible_or_invalid,0,0,1,0,0,1,1,5

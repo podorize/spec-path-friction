@@ -1,0 +1,1 @@
+2026-10-13T14:28:53.299416Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for zsh: Snapshot command timed out for zsh

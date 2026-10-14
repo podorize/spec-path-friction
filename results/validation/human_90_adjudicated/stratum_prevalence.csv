@@ -1,0 +1,3 @@
+validation_group,sample_n,population_n,problematic_n,inaccessible_n,problematic_rate_conservative,problematic_rate_known_only,conservative_wilson_95_low,conservative_wilson_95_high,known_only_wilson_95_low,known_only_wilson_95_high
+completed + missing,30,34227,3,0,0.1,0.1,0.03459988874733419,0.25621082579184085,0.03459988874733419,0.25621082579184085
+open + missing,30,17752,2,3,0.06666666666666667,0.07407407407407407,0.018477023791270378,0.2132345836261692,0.020554654060988622,0.23369592683023144

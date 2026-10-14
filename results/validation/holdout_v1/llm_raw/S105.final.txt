@@ -1,0 +1,1 @@
+{"decision":"classify","classification":"expected_absence_create","confidence":0.98,"evidence_quote":"- [ ] 16.3 Write `test/integration/phase-7-reset-after-invalidations.test.ts`","rationale":"The anchor task explicitly calls for writing this test file. The path is absent at the anchor commit, and the repository tree contains no matching filename.","missing_evidence":[]}

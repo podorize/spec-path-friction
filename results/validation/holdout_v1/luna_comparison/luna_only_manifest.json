@@ -1,0 +1,29 @@
+{
+  "purpose": "GPT-6 Luna-only arm for the paired 90-case architecture comparison",
+  "started_at_utc": "2026-10-13T14:42:05.360374+00:00",
+  "finished_at_utc": "2026-10-13T14:48:17.100847+00:00",
+  "duration_seconds": 371.74,
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "temperature": "not exposed by Codex CLI",
+  "codex_cli_version": "codex-cli 0.157.1",
+  "records_requested": 90,
+  "valid_responses": 88,
+  "valid_response_rate": 0.9777777777777777,
+  "token_usage": {
+    "input_tokens": 1611517,
+    "cached_input_tokens": 825600,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 40530,
+    "reasoning_output_tokens": 28889
+  },
+  "input_file": "results/validation/holdout_v1/luna_comparison/luna_only_input_90.jsonl",
+  "input_sha256": "9abdf076e616e57aa702753c28b3cbd772918df3cd776f29f07b64acf7be54e3",
+  "prompt_file": "validation/LLM_JUDGE_PROMPT_LONGITUDINAL_V2.md",
+  "prompt_sha256": "ddf267fbe0706549d564d1c3c2de6d54b5fec13d4f62aca146693af98aac0862",
+  "schema_file": "validation/llm_judge_output_schema_v2.json",
+  "schema_sha256": "4a821ca617324fa965e227f81908c2cfaa9c51448563be78927a8ca059ed9c92",
+  "results_file": "results/validation/holdout_v1/luna_comparison/luna_only_results.csv",
+  "results_sha256": "72668f35f54fd7d52d5a188aea0167f0f5059ee652e992fb6950d777e33fdff8",
+  "raw_directory": "results/validation/holdout_v1/luna_comparison/luna_only_raw"
+}

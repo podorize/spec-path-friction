@@ -1,0 +1,1 @@
+{"review_id": "S001", "decision": "classified", "classification": "expected_absence_move_or_delete", "rule_id": "R5_LIFECYCLE_RETIRE", "rationale": "Task or anchor-commit evidence explicitly describes deletion, retirement, replacement, move, or rename near the reference.", "missing_evidence": []}
