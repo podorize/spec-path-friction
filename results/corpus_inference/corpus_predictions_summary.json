@@ -1,0 +1,42 @@
+{
+  "total_missing_references": 51979,
+  "completed_missing": 34227,
+  "open_missing": 17752,
+  "unique_repositories": 4444,
+  "predicted_lifecycle_breakdown": {
+    "count": {
+      "create": 16945,
+      "exists": 15381,
+      "move_delete": 7088,
+      "non_file": 6870,
+      "ambiguous": 2860,
+      "external_repo": 1569,
+      "problematic": 1266
+    },
+    "percentage": {
+      "create": 32.6,
+      "exists": 29.59,
+      "move_delete": 13.64,
+      "non_file": 13.22,
+      "ambiguous": 5.5,
+      "external_repo": 3.02,
+      "problematic": 2.44
+    }
+  },
+  "friction_metrics": {
+    "calibrated_threshold": 0.2,
+    "calibrated_friction_total": 20445,
+    "calibrated_friction_pct": 39.33,
+    "completed_calibrated_friction": 4006,
+    "completed_calibrated_friction_pct": 11.7,
+    "conservative_threshold": 0.5,
+    "conservative_friction_total": 2241,
+    "conservative_friction_pct": 4.31,
+    "completed_conservative_friction": 143,
+    "completed_conservative_friction_pct": 0.42
+  },
+  "domain_friction_rates": {
+    "test_files_friction_rate_pct": 50.94,
+    "source_files_friction_rate_pct": 35.93
+  }
+}

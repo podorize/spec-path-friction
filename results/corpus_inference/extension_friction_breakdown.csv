@@ -1,0 +1,15 @@
+extension,total_references,pct_of_missing,calibrated_friction_count,friction_rate_pct,top_lifecycle_stage
+.ts,14724,28.33,5954,40.44,create
+.py,7175,13.8,3423,47.71,create
+.tsx,6057,11.65,2557,42.22,create
+.js,5454,10.49,1408,25.82,non_file
+.go,3228,6.21,913,28.28,exists
+.rs,1913,3.68,804,42.03,create
+.html,1261,2.43,497,39.41,exists
+.sh,1179,2.27,517,43.85,create
+.sql,1132,2.18,440,38.87,create
+.cs,1113,2.14,346,31.09,create
+.java,962,1.85,340,35.34,create
+.css,908,1.75,450,49.56,exists
+.vue,729,1.4,378,51.85,exists
+.swift,651,1.25,255,39.17,create
