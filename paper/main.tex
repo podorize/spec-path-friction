@@ -93,7 +93,7 @@ Examining raw task lines in OpenSpec (e.g., \texttt{- [ ] Create src/auth/token.
 \end{tabular}
 \end{table}
 
-\subsection{Human Gold Standard ($N=90$)}
+\subsection{Human Gold Standard (N=90)}
 We constructed an unassailable baseline by sampling $N=90$ unresolved references across 90 distinct repositories in SpecMine. Two independent human annotators manually inspected each repository's full git tree, active commit, parent history, and surrounding Markdown context in \texttt{tasks.md}. Disagreements were adjudicated via consensus review. True specification friction accounted for only 2.22\% ($N=2$) of the sample.
 
 \subsection{Calibrated LLM-as-a-Judge}
@@ -115,14 +115,14 @@ To scale annotations to a training corpus without incurring high API latency, we
 \end{itemize}
 Sampling weights ($w_i = P_{\text{population}} / P_{\text{sample}}$) were assigned to each stratum to guarantee asymptotically unbiased population estimators. The calibrated LLM judge labeled these 450 instances, forming our Silver Standard training set.
 
-\subsection{Feature Extraction & Supervised Modeling}
-For each task reference, we extracted 26 tabular features across path morphology, lexical action verbs, document structure, and artifact metadata. Using scikit-learn~\cite{scikitlearn}, we trained supervised classifiers on the weighted Silver Standard ($N=450$) and evaluated them strictly on the **held-out Human Gold Standard ($N=90$)**. 
+\subsection{Feature Extraction \& Supervised Modeling}
+For each task reference, we extracted 26 tabular features across path morphology, lexical action verbs, document structure, and artifact metadata. Using scikit-learn~\cite{scikitlearn}, we trained supervised classifiers on the weighted Silver Standard ($N=450$) and evaluated them strictly on the \textbf{held-out Human Gold Standard ($N=90$)}. 
 
 \begin{table}[t]
 \caption{Model Performance on Held-Out Human Gold Test Set ($N=90$)}
 \label{tab:models}
 \centering
-\scriptsize
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Model} & \textbf{ROC-AUC} & \textbf{PR-AUC} & \textbf{Recall ($\tau \le 0.20$)} & \textbf{Specificity} \\
@@ -131,7 +131,8 @@ Random Forest & \textbf{0.8182} & \textbf{0.0833} & \textbf{100.0\%} & \textbf{9
 Logistic Regression & 0.7670 & 0.0526 & 100.0\% & 96.6\% \\
 HistGradientBoosting & 0.7386 & 0.0455 & 100.0\% & 95.5\% \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 \begin{figure}[t]
@@ -152,7 +153,7 @@ We applied our calibrated model to execute inference across all \textbf{51,979 u
 \caption{Corpus-Wide Lifecycle Distribution in SpecMine ($N=51,979$)}
 \label{tab:corpus_dist}
 \centering
-\scriptsize
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrr}
 \toprule
 \textbf{Lifecycle Stage} & \textbf{Corpus Count} & \textbf{Corpus Share} & \textbf{Open Tasks ($N=17,752$)} \\
@@ -165,7 +166,8 @@ We applied our calibrated model to execute inference across all \textbf{51,979 u
 \texttt{external\_repo} & 1,569 & 3.02\% & 8.4\% \\
 \textbf{\texttt{problematic} (Friction)} & \textbf{1,266} & \textbf{2.44\%} & \textbf{4.2\%} \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 \begin{figure}[t]
@@ -201,12 +203,12 @@ To address RQ2, we examine which structural, lexical, and contextual attributes 
 \end{figure}
 
 \subsection{Path Morphology and Complexity}
-Path character length (\texttt{path\_length}, 11.1\%) and basename character length (\texttt{path\_basename\_length}, 11.0\%) are the two most informative features in the model, together accounting for **22.1\% of total Gini importance**. Directory slash depth (\texttt{path\_depth}, 6.2\%) also ranks among the top predictors. 
+Path character length (\texttt{path\_length}, 11.1\%) and basename character length (\texttt{path\_basename\_length}, 11.0\%) are the two most informative features in the model, together accounting for \textbf{22.1\% of total Gini importance}. Directory slash depth (\texttt{path\_depth}, 6.2\%) also ranks among the top predictors. 
 
 \textit{Insight:} Problematic references are characterized by either excessively long, deeply nested paths (where agents over-specify directory hierarchies that do not match project conventions) or overly generic basenames lacking directory context. When agents construct specifications for unfamiliar codebases, path hallucination increases with structural nesting.
 
-\subsection{Document Structure & Task Position Depth}
-Task position ratio within the document (\texttt{task\_pos\_ratio}, 9.8\%) and total task line word count (\texttt{task\_line\_word_count}, 9.6\%) represent decisive contextual predictors:
+\subsection{Document Structure \& Task Position Depth}
+Task position ratio within the document (\texttt{task\_pos\_ratio}, 9.8\%) and total task line word count (\texttt{task\_line\_word\_count}, 9.6\%) represent decisive contextual predictors:
 \begin{itemize}
     \item \textbf{Position Depth:} Tasks located near the end of long \texttt{tasks.md} files exhibit significantly higher friction rates than initial tasks. This empirical finding provides quantitative support for observations in recent literature~\cite{meske2025} that agent attention degrades across extended specification contexts.
     \item \textbf{Reference Density:} Artifact code reference density (\texttt{artifact\_code\_ref\_density}, 10.8\%) reveals that specifications containing a high concentration of file references per line suffer increased friction, reflecting over-ambitious changesets.
