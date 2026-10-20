@@ -1,0 +1,20 @@
+{
+  "sample_size": 90,
+  "exact_agreement_count": 84,
+  "exact_agreement_rate": 0.9333,
+  "cohen_kappa_8class": 0.9069,
+  "gwet_ac1_8class": 0.9257,
+  "macro_f1_8class": 0.7224,
+  "three_state_agreement_rate": 0.9556,
+  "three_state_kappa": 0.5833,
+  "binary_problematic": {
+    "true_positives": 2,
+    "false_positives": 2,
+    "false_negatives": 0,
+    "true_negatives": 86,
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.6667
+  },
+  "disagreements_count": 6
+}
