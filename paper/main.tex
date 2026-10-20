@@ -94,7 +94,7 @@ To establish an unassailable baseline, we sampled $N=90$ unresolved references a
 \subsection{Calibrated LLM-as-a-Judge}
 Because human inspection does not scale to 51,979 instances, we evaluated whether modern LLMs could act as reliable surrogate evaluators. We framed a 5-step deterministic decision tree in prompt engineering: (1) Anchor verification, (2) Lexical intent extraction, (3) Syntax validation, (4) Inaccessibility isolation, and (5) Path existence adjudication.
 
-We tested Gemini 3.8 Flash against the 90 blinded human Gold Standard cases. As illustrated in Fig.~\ref{fig:fig1_matrix}, the judge achieved \textbf{93.3\% exact overall agreement} (84/90), yielding Cohen's $\kappa = 0.9069$ (``Almost Perfect'' agreement) and Gwet's $\text{AC}_1 = 0.9257$. Crucially for safety-critical linters, the model achieved \textbf{100.0\% Recall} on the minority friction class (\texttt{confirmed\_missing\_problematic}), perfectly identifying both subtle real-world defects without false negatives.
+We tested Gemini 3.8 Flash against the 90 blinded human Gold Standard cases. As illustrated in Fig.~\ref{fig:fig1_matrix}, the judge achieved \textbf{93.3\% exact overall agreement} (84/90), yielding Cohen's $\kappa = 0.9069$~\cite{cohen1960} (``Almost Perfect'' agreement) and Gwet's $\text{AC}_1 = 0.9257$~\cite{gwet2008}. Crucially for safety-critical linters, the model achieved \textbf{100.0\% Recall} on the minority friction class (\texttt{confirmed\_missing\_problematic}), perfectly identifying both subtle real-world defects without false negatives.
 
 \begin{figure}[t]
 \centering
@@ -124,7 +124,7 @@ For each reference, we extracted 26 tabular features across four orthogonal dime
 \end{enumerate}
 
 \subsection{Supervised Predictive Performance}
-Using the weighted Silver Standard ($N=450$) for training, we evaluated three supervised classifiers strictly on the held-out Human Gold Standard ($N=90$): Random Forest (RF), Logistic Regression (LR), and Histogram-based Gradient Boosting (HGB).
+Using the weighted Silver Standard ($N=450$) for training, we evaluated three supervised classifiers implemented in scikit-learn~\cite{scikitlearn} strictly on the held-out Human Gold Standard ($N=90$): Random Forest (RF), Logistic Regression (LR), and Histogram-based Gradient Boosting (HGB).
 
 \begin{table}[t]
 \caption{Model Performance on Held-Out Human Gold Test Set ($N=90$)}
