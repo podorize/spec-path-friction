@@ -1,4 +1,4 @@
-# SpecPathFriction
+# SpecPath
 
 **Investigating Code Path Traceability and Implementation Friction in Spec-Driven Development**
 
@@ -81,8 +81,8 @@ spec-path-friction/
 
 ```bash
 # Clone the repository
-git clone https://github.com/podorize/spec-path-friction.git
-cd spec-path-friction
+git clone https://github.com/podorize/specpath.git
+cd specpath
 
 # Install dependencies using uv
 uv sync
