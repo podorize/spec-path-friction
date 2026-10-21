@@ -71,7 +71,7 @@ This paper makes the following contributions:
 Studying 51,979 references requires automated evaluation, but relying directly on unvalidated LLMs risks introducing severe cascading bias (pseudo-labeling hallucination). To prevent model circularity, we designed a multi-tier measurement instrument anchored in human ground truth.
 
 \subsection{Reference Lifecycle Taxonomy}
-Examining raw task lines in OpenSpec (e.g., \texttt{- [ ] Create src/auth/token.ts}) reveals that literal absence at the anchoring commit encompasses heterogeneous phenomena. We define a 7-class taxonomy (Table~\ref{tab:taxonomy}).
+Examining raw task lines in OpenSpec (e.g., \texttt{- [ ] Create src/auth/token.ts}) reveals that literal absence at the anchoring commit encompasses heterogeneous phenomena. Crucially, our taxonomy distinguishes between \textit{active code friction} (attempting to consume or mutate non-existent dependencies) and \textit{intent lifecycle} (files specified to be newly introduced). We define a 7-class taxonomy (Table~\ref{tab:taxonomy}).
 
 \begin{table}[t]
 \caption{The \textsc{SpecPath} Reference Lifecycle Taxonomy}
@@ -186,7 +186,7 @@ Across the entire SpecMine corpus, only \textbf{2.44\%} of unresolved references
 Disaggregating references by task completion state (\texttt{task\_done}) uncovers a striking temporal transition:
 \begin{itemize}
     \item \textbf{In Open Tasks (\texttt{task\_done = 0}, $N=17,752$):} \textbf{63.1\%} of unresolved references are anticipatory file creations (\texttt{create}). Agents and developers name files that do not yet exist because the task has not yet been executed.
-    \item \textbf{In Completed Tasks (\texttt{task\_done = 1}, $N=34,227$):} Anticipatory creations drop to 16.8\%, while resolved references surge to \textbf{43.8\%}. Crucially, residual friction drops to a negligible \textbf{1.5\%}.
+    \item \textbf{In Completed Tasks (\texttt{task\_done = 1}, $N=34,227$):} Anticipatory creations drop to 16.8\%, while resolved references surge to \textbf{43.8\%}. Crucially, residual friction drops to a negligible \textbf{1.5\%}. The remaining creations in completed tasks predominantly reflect consolidated files, partial deliveries, or module-path displacements rather than active code breakage.
 \end{itemize}
 This temporal transition demonstrates that as tasks move from proposal to execution, the codebase catches up with the specification, resolving the vast majority of temporary ghost references.
 
@@ -253,7 +253,7 @@ Our study analyzes public open-source repositories from the SpecMine corpus (arc
 
 \section{Threats to Validity}
 \textbf{Internal Validity:} Human annotation of Gold Standard cases carries potential subjectivity. We mitigated this by requiring two independent raters and validating every decision against the repository's git commit graph ($\kappa = 0.907$).
-\textbf{Construct Validity:} Tabular features rely on regex extraction of action verbs and path tokens. While lexical variations exist across natural languages, over 99\% of OpenSpec artifacts in SpecMine are written in English.
+\textbf{Construct Validity:} Tabular features rely on regex extraction of action verbs and path tokens. While lexical variations exist across natural languages, over 99\% of OpenSpec artifacts in SpecMine are written in English. Furthermore, one could argue that an unresolved creation path in a completed task (\texttt{task\_done = 1}) represents an unfulfilled promise. We deliberately operationalize \texttt{problematic} as active code and dependency friction (consuming or mutating non-existent files) rather than task-conformance debt: such paths do not break existing builds or mutate phantom files, and in 43.8\% of cases are merely displaced or path-normalized in subsequent commits.
 \textbf{External Validity:} Our corpus analysis focused on OpenSpec due to its explicit \texttt{tasks.md} resolution layer. While specific tool syntax varies, the anticipatory creation lifecycle is intrinsic to all spec-driven development methodologies.
 
 \section{Conclusion \& Data Availability}
