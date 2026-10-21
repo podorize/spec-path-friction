@@ -1,4 +1,4 @@
-# When Specs Name Ghosts: Disentangling Anticipatory Creation from Implementation Friction in Spec-Driven Development
+# When Specs Name Ghosts: What Task Attributes Predict Code Friction in Spec-Driven Development?
 
 **Track:** MSR 2027 Mining Challenge Track  
 **Submission Type:** Short Paper (IEEE Conference Format, 4 pages + 1 page references)  
